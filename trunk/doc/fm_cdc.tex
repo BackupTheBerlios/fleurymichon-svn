@@ -1,0 +1,80 @@
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[french]{babel}
+\usepackage{a4}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+
+%\title{FleuryMichon}
+%\author{\emph{Les TouTouYouTou}}
+%\date{\today}
+
+\begin{document}
+
+%\maketitle
+
+\begin{minipage}{\textwidth}
+\flushright{
+\textbf{\Huge{\bsc{FleuryMichon}}}
+\rule[+1.5ex]{\textwidth}{4pt} \\
+\emph{\Large{Cahier des charges}}
+}
+\end{minipage}
+\begin{figure}[b]
+\begin{center}
+\large{Sergueï Milechine \\
+Benoit Menet \\
+Lionel Herbin \\
+Nicolas Vernot} \\
+\end{center}
+\flushleft{
+\emph{Les TouTouYouTou}
+\rule[+1.5ex]{\textwidth}{2pt}
+}
+\end{figure}
+
+\newpage
+
+\pagestyle{fancy}
+\lhead{\scriptsize{\textbf{FleuryMichon} \\ \bsc{Cahier des charges}}}
+\rhead{\scriptsize{\bsc{Info-Spé} \\ \bsc{Epita}}}
+
+\tableofcontents
+
+\newpage
+
+\chapter*{Introduction}
+
+\input{fm_cdc_intro.tex}
+
+\newpage
+
+\chapter{Origine et nature du projet}
+
+\newpage
+
+\input{fm_cdc_1.tex}
+
+\newpage
+
+\chapter{Objet de l'étude}
+
+\newpage
+
+\input{fm_cdc_2.tex}
+
+\newpage
+
+\chapter{Découpage du projet}
+
+\newpage
+
+\input{fm_cdc_3.tex}
+
+\newpage
+
+\chapter*{Conclusion}
+
+\input{fm_cdc_ccl.tex}
+
+\end{document}
