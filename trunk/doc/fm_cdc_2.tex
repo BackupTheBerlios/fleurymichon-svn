@@ -2,25 +2,25 @@
 
 \subsection{Plate-forme}
 
-L'application serveur, ainsi que l'application client munie d'une interface graphique, seront developpees sous et optimisees pour Linux. Nous allons nous efforcer de garder le code aussi portable que possible afin de pouvoir fournir une version Windows du projet pour la soutenance finale dans la mesure du realisable.
+L'application serveur, ainsi que l'application client munie d'une interface graphique, seront developpées sous et optimisées pour Linux. Nous allons nous efforcer de garder le code aussi portable que possible afin de pouvoir fournir une version Windows du projet pour la soutenance finale dans la mesure du réalisable.
 
 \subsection{Langage}
 
-L'application serveur sera implementee en langage C. Le compilateur employe sera \emph{gcc}, le celebre compilateur C du projet GNU. \\
-L'application client necessitant une interface graphique ergonomique, nous avons decide de l'implementer en langage C++. Pour ce faire, nous ferons appel a une bibliotheque de classes et de fonctions adaptee, telle que Qt ou wxWidgets.
+L'application serveur sera implémentée en langage C. Le compilateur employé sera \emph{gcc}, le célèbre compilateur C du projet GNU. \\
+L'application client necéssitant une interface graphique ergonomique, nous avons décidé de l'implémenter en langage C++. Pour ce faire, nous ferons appel a une bibliothèque de classes et de fonctions adaptée, telle que Qt ou wxWidgets.
 
 \subsection{Application orientée réseau}
 
-Puisque notre projet est totalement oriente vers la communication en reseau, nous travaillerons avec des bibliotheques standardisees. Nous devrons donc utiliser principalement les fonctions de traitement de connexions (\emph{sys/socket.h}) de la bibliotheque GNU, fournie avec presque toutes les distributions Linux. \\
-La version Windows devra utiliser la bibliotheque \emph{Winsock} pour gerer les connexions reseau.
+Puisque notre projet est totalement orienté vers la communication en réseau, nous travaillerons avec des bibliothèques standardisées. Nous devrons donc utiliser principalement les fonctions de traitement de connexions (\emph{sys/socket.h}) de la bibliothèque GNU, fournie avec presque toutes les distributions Linux. \\
+La version Windows devra utiliser la bibliothèque \emph{Winsock} pour gérer les connexions réseau.
 
 \subsection{Application évolutive}
 
-L'application serveur disposera d'un systeme flexible de gestion de modules. Il s'agit de bibliotheques qui s'integrent dans l'application et qui permettent d'elargir le champ des fonctionnalites disponibles. Nous en avons envisage plusieurs qui seront developpes dans le cadre du projet.
+L'application serveur disposera d'un système flexible de gestion de modules. Il s'agit de bibliothéques qui s'integrent dans l'application et qui permettent d'élargir le champ des fonctionnalités disponibles. Nous en avons envisagé plusieurs qui seront developpés dans le cadre du projet.
 
 \subsubsection{Robots de gestion}
 
-Ce module emulera sur le serveur deux robots dedies a la gestion des comptes utilisateurs. Ainsi, un utilisateur qui se connecte au serveur peut creer un compte identifie par son surnom et ainsi proteger son utilisation. De plus, le serveur memorisera les permissions de l'utilisateur sur un canal de discussion dont il ferait partie des membres privilegies.
+Ce module émulera sur le serveur deux robots dédiés à la gestion des comptes utilisateurs. Ainsi, un utilisateur qui se connecte au serveur peut créer un compte identifié par son surnom et ainsi protéger son utilisation. De plus, le serveur mémorisera les permissions de l'utilisateur sur un canal de discussion dont il ferait partie des membres privilegiés.
 
 \subsubsection{Pont NetSoul}
 
