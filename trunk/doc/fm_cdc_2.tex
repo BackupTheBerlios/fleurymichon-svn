@@ -2,15 +2,17 @@
 
 \subsection{Plate-forme}
 
-Bla bla bla...
+L'application serveur, ainsi que l'application client munie d'une interface graphique, seront developpees sous et optimisees pour Linux. Nous allons nous efforcer de garder le code aussi portable que possible afin de pouvoir fournir une version Windows du projet pour la soutenance finale dans la mesure du realisable.
 
 \subsection{Langage}
 
-Bla bla bla...
+L'application serveur sera implementee en langage C. Le compilateur employe sera \emph{gcc}, le celebre compilateur C du projet GNU. \\
+L'application client necessitant une interface graphique ergonomique, nous avons decide de l'implementer en langage C++. Pour ce faire, nous ferons appel a une bibliotheque de classes et de fonctions adaptee, telle que Qt ou wxWidgets.
 
 \subsection{Application orientée réseau}
 
-Bla bla bla...
+Puisque notre projet est totalement oriente vers la communication en reseau, nous travaillerons avec des bibliotheques standardisees. Nous devrons donc utiliser principalement les fonctions de traitement de connexions (\emph{sys/socket.h}) de la bibliotheque GNU, fournie avec presque toutes les distributions Linux. \\
+La version Windows devra utiliser la bibliotheque \emph{Winsock} pour gerer les connexions reseau.
 
 \subsection{Application évolutive}
 
@@ -21,10 +23,6 @@ Bla bla bla...
 Bla bla bla...
 
 \subsubsection{Pont NetSoul}
-
-Bla bla bla...
-
-\subsection{Client graphique}
 
 Bla bla bla...
 
