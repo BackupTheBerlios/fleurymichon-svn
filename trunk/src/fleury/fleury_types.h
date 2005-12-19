@@ -20,7 +20,7 @@ struct s_cl
   char pass[FLEURY_SZ_PASS];
   char nick[FLEURY_SZ_NICK];
   char user[FLEURY_SZ_USER];
-  char name[FLEURY_SZ_USER];
+  char name[FLEURY_SZ_NAME];
 };
 
 struct s_task

@@ -101,6 +101,20 @@ int fleury_server_wait(int fd)
   return cl_fd;
 }
 
+void *fleury_server_listen(void *data)
+{
+  int cl_fd;
+
+  while ((cl_fd = accept(*(int *)data, NULL, NULL)) < 0)
+    {
+      if (errno != EINTR)
+	{
+	  FATALBUG("Fleury: Socket accept error");
+	}
+    }
+  return NULL;
+}
+
 void fleury_server_end(int sig)
 {
   shutdown(fleury_fd, 2);

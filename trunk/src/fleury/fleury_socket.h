@@ -9,4 +9,5 @@
 void fleury_server_start(int);
 int fleury_server_tcp(int);
 int fleury_server_wait(int);
+void *fleury_server_listen(void *);
 void fleury_server_end(int);

@@ -10,3 +10,7 @@ struct s_list
 };
 
 t_list list_new(void *, unsigned int);
+t_list list_add_head(t_list, void *, unsigned int);
+t_list list_add_tail(t_list, void *, unsigned int);
+
+int list_length(t_list);
