@@ -81,7 +81,7 @@ t_list list_del_default(t_list l, int (*pf) (void *))
   
   p = l;
   q = l;
-  while (q && !(*pf(&q->elt)))
+  while (q && !(pf(&q->elt)))
     {
       p = q;
       q = q->next;
@@ -101,7 +101,7 @@ t_list list_del(t_list l, int (*pf) (void *))
     }
   else
     {
-      if (*pf(&q->elt))
+      if (pf(&p->elt))
 	{
 	  p = l->next;
 	  free(l);
@@ -109,7 +109,7 @@ t_list list_del(t_list l, int (*pf) (void *))
 	}
       else
 	{
-	  return list_del_default(l,pf);
+	  return list_del_default(l, pf);
 	}
     }
 }
