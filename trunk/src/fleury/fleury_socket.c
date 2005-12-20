@@ -15,10 +15,16 @@ void fleury_server_start(int port)
   sigemptyset(&end_action.sa_mask);
   end_action.sa_flags = 0;
   sigaction(SIGINT, &end_action, NULL);
+  sigaction(SIGKILL, &end_action, NULL);
+  sigaction(SIGQUIT, &end_action, NULL);
+  sigaction(SIGABRT, &end_action, NULL);
 
+  over = 0;
   list_cl = NULL;
   fleury_fd = fleury_server_tcp(port);
-  printf("Fleury: Server listening on port %d\n", port);
+#ifdef FLEURY_DEBUG
+  fprintf(dbgout, "Fleury: Server listening on port %d\n", port);
+#endif
   pthread_create(&lt, NULL, fleury_server_listen, NULL);
 #ifdef FLEURY_DEBUG
   fprintf(dbgout, "Fleury: Listening on thread %lu\n", lt);
@@ -85,7 +91,9 @@ int fleury_server_tcp(int port)
 
   if (bind(fd, (struct sockaddr *)&server_addr, sz_server_addr) < 0)
     {
-      FATALBUG("Fleury: Socket bind error");
+#ifdef FLEURY_DEBUG
+      fprintf(dbgout, "Fleury: Socket bind error\n");
+#endif
     }
 
   listen(fd, 4);
@@ -115,11 +123,13 @@ void *fleury_server_listen(void *data)
   
   while (1)
     {
-      while ((cl_fd = accept(fleury_fd, NULL, NULL)) < 0)
+      while (!over && (cl_fd = accept(fleury_fd, NULL, NULL)) < 0)
 	{
 	  if (errno != EINTR)
 	    {
-	      FATALBUG("Fleury: Socket accept error");
+#ifdef FLEURY_DEBUG
+	      fprintf(dbgout, "Fleury: Socket accept error\n");
+#endif
 	    }
 	}
       fleury_thread_init(cl_fd);
@@ -129,11 +139,14 @@ void *fleury_server_listen(void *data)
 
 void fleury_server_end(int sig)
 {
+  over = 1;
   shutdown(fleury_fd, 2);
   close(fleury_fd);
 #ifdef FLEURY_DEBUG
+  fprintf(dbgout, "Fleury: Server ending\n");
+  fprintf(dbgout, "Fleury: Server terminated (%s)\n", sys_siglist[sig]);
+  fflush(dbgout);
   fclose(dbgout);
 #endif
-  printf("Fleury: Server terminated (%s)\n", sys_siglist[sig]);
   exit(EXIT_SUCCESS);
 }

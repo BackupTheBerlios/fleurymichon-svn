@@ -37,6 +37,7 @@ struct s_cl
 FILE *dbgout;
 #endif
 
+int over;
 int fleury_fd;
 t_list list_cl;
 
