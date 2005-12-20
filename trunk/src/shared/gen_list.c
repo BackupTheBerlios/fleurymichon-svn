@@ -72,3 +72,45 @@ int list_length(t_list l)
 
   return n;
 }
+
+
+t_list list_del_default(t_list l, int (*pf) (void *))
+{
+  t_list p;
+  t_list q;
+  
+  p = l;
+  q = l;
+  while (q && !(*pf(&q->elt)))
+    {
+      p = q;
+      q = q->next;
+    }
+  p->next = q->next;
+  free(q);
+  return l;
+}
+
+t_list list_del(t_list l, int (*pf) (void *))
+{
+  t_list p;
+  
+  if (!l)
+    {
+      return NULL;
+    }
+  else
+    {
+      if (*pf(&q->elt))
+	{
+	  p = l->next;
+	  free(l);
+	  return p;
+	}
+      else
+	{
+	  return list_del_default(l,pf);
+	}
+    }
+}
+      
