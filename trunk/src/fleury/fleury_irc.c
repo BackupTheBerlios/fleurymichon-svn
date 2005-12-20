@@ -1,71 +1,76 @@
 #include "fleury_irc.h"
 
-void fleury_irc_process(int fd, struct s_cl *pcl)
+void fleury_irc_process(struct s_cl *pcl)
 {
-  FILE *in;
-  FILE *out;
-  int fd2;
   char fleury_irc_cmd[64];
-  char fleury_irc_param[256];
+  /* char fleury_irc_param[256]; */
 
-  in = fdopen(fd, "r");
-  fd2 = dup(fd);
-  out = fdopen(fd2, "w");
+  /* fscanf(in, "%64s %256s\n", fleury_irc_cmd, fleury_irc_param); */
 
-  fscanf(in, "%64s %256s\n", fleury_irc_cmd, fleury_irc_param);
+  pcl->buffer[0] = 0;
+  fleury_irc_cmd[0] = 0;
 
-  fclose(in);
+  fgets(pcl->buffer, FLEURY_SZ_BUFFER, pcl->in);
 
-  if (!strcmp(fleury_irc_cmd, "PASS"))
+  sscanf(pcl->buffer, "%64s\n", fleury_irc_cmd);
+
+  if (pcl->buffer[0] && fleury_irc_cmd[0])
     {
-      sscanf(fleury_irc_param, ":%128s", pcl->pass);
-#ifdef FLEURY_DEBUG
-      fprintf(dbgout, "Fleury: PASS %s\n", pcl->pass);
-#endif
-    }
-  else
-    {
-      if (!strcmp(fleury_irc_cmd, "NICK"))
+      fprintf(pcl->out, "%s\r\n", fleury_irc_cmd);
+      if (!strcmp(fleury_irc_cmd, "PASS"))
 	{
+	  /* sscanf(fleury_irc_param, ":%128s", pcl->pass); */
 #ifdef FLEURY_DEBUG
-	  fprintf(dbgout, "Fleury: NICK\n");
+	  fprintf(dbgout, "Fleury: PASS\n");
 #endif
 	}
       else
 	{
-	  if (!strcmp(fleury_irc_cmd, "USER"))
+	  if (!strcmp(fleury_irc_cmd, "NICK"))
 	    {
 #ifdef FLEURY_DEBUG
-	      fprintf(dbgout, "Fleury: USER\n");
+	      fprintf(dbgout, "Fleury: NICK\n");
 #endif
 	    }
 	  else
 	    {
-	      if (!strcmp(fleury_irc_cmd, "PONG"))
+	      if (!strcmp(fleury_irc_cmd, "USER"))
 		{
 #ifdef FLEURY_DEBUG
-		  fprintf(dbgout, "Fleury: PONG\n");
+		  fprintf(dbgout, "Fleury: USER\n");
 #endif
 		}
 	      else
 		{
-		  if (!strcmp(fleury_irc_cmd, "QUIT"))
+		  if (!strcmp(fleury_irc_cmd, "PONG"))
 		    {
 #ifdef FLEURY_DEBUG
-		      fprintf(dbgout, "Fleury: QUIT\n");
+		      fprintf(dbgout, "Fleury: PONG\n");
 #endif
 		    }
 		  else
 		    {
+		      if (!strcmp(fleury_irc_cmd, "QUIT"))
+			{
 #ifdef FLEURY_DEBUG
-		      fprintf(dbgout, "Fleury: Unmatched command");
+			  fprintf(dbgout, "Fleury: QUIT\n");
 #endif
+			}
+		      else
+			{
+#ifdef FLEURY_DEBUG
+			  fprintf(dbgout, "Fleury: Unmatched command\n");
+#endif
+			}
 		    }
 		}
 	    }
 	}
     }
 
-  fflush(out);
-  fclose(out);
+#ifdef FLEURY_DEBUG
+  fflush(dbgout);
+#endif
+
+  fflush(pcl->out);
 }

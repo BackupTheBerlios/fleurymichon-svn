@@ -5,8 +5,9 @@
 void fleury_server_start(int port)
 {
   int cl_id;
-  int cl_fd;
   struct sigaction end_action;
+  pthread_t lt;
+  void *ret;
 
   cl_id = 0;
 
@@ -15,11 +16,16 @@ void fleury_server_start(int port)
   end_action.sa_flags = 0;
   sigaction(SIGINT, &end_action, NULL);
 
+  list_cl = NULL;
   fleury_fd = fleury_server_tcp(port);
-  fleury_tasks();
   printf("Fleury: Server listening on port %d\n", port);
-
-  while (1)
+  pthread_create(&lt, NULL, fleury_server_listen, NULL);
+#ifdef FLEURY_DEBUG
+  fprintf(dbgout, "Fleury: Listening on thread %lu\n", lt);
+#endif
+  pthread_join(lt, &ret);
+	
+  /* while (1)
     {
       struct sockaddr_in addr;
       size_t sz_addr;
@@ -29,7 +35,7 @@ void fleury_server_start(int port)
 
       printf("Fleury: Before wait\n");
 
-      /* cl_fd = fleury_server_wait(fleury_fd); */
+      cl_fd = fleury_server_wait(fleury_fd);
 
       cl_fd = accept(fleury_fd, NULL, NULL);
 
@@ -55,7 +61,7 @@ void fleury_server_start(int port)
 	      printf("Fleury: Client %d [%s] processed by task %d\n", cl_id, inet_ntoa(addr.sin_addr), k);
 	    }
 	}
-    }
+    } */
 
 }
 
@@ -87,7 +93,7 @@ int fleury_server_tcp(int port)
   return fd;
 }
 
-int fleury_server_wait(int fd)
+/* int fleury_server_wait(int fd)
 {
   int cl_fd;
 
@@ -99,18 +105,24 @@ int fleury_server_wait(int fd)
 	}
     }
   return cl_fd;
-}
+} */
 
 void *fleury_server_listen(void *data)
 {
   int cl_fd;
 
-  while ((cl_fd = accept(*(int *)data, NULL, NULL)) < 0)
+  data = NULL;
+  
+  while (1)
     {
-      if (errno != EINTR)
+      while ((cl_fd = accept(fleury_fd, NULL, NULL)) < 0)
 	{
-	  FATALBUG("Fleury: Socket accept error");
+	  if (errno != EINTR)
+	    {
+	      FATALBUG("Fleury: Socket accept error");
+	    }
 	}
+      fleury_thread_init(cl_fd);
     }
   return NULL;
 }

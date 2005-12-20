@@ -3,4 +3,4 @@
 #include <unistd.h>
 #include "fleury_types.h"
 
-void fleury_irc_process(int, struct s_cl *);
+void fleury_irc_process(struct s_cl *);

@@ -7,6 +7,7 @@ int main()
 
 #ifdef FLEURY_DEBUG
   dbgout = fopen("fleury_debug.log", "a");
+  fprintf(dbgout, "Fleury: Logging on\n");
 #endif
 
   let_fleury_be_daemon();
@@ -14,6 +15,8 @@ int main()
   fleury_server_start(6667);
 
 #ifdef FLEURY_DEBUG
+  fprintf(dbgout, "Fleury: Logging off\n");
+  fflush(dbgout);
   fclose(dbgout);
 #endif
 
