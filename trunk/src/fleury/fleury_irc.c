@@ -3,7 +3,7 @@
 void fleury_irc_process(struct s_cl *pcl)
 {
   char fleury_irc_cmd[64];
-  /* char fleury_irc_param[256]; */
+  char *fleury_irc_param;
 
   /* fscanf(in, "%64s %256s\n", fleury_irc_cmd, fleury_irc_param); */
 
@@ -12,17 +12,34 @@ void fleury_irc_process(struct s_cl *pcl)
 
   fgets(pcl->buffer, FLEURY_SZ_BUFFER, pcl->in);
 
+  fleury_irc_param = pcl->buffer;
+  while(*fleury_irc_param && (*fleury_irc_param != '\r') && (*fleury_irc_param != '\n'))
+    {
+      fleury_irc_param++;
+    }
+  *fleury_irc_param = 0;
+
   sscanf(pcl->buffer, "%64s\n", fleury_irc_cmd);
 
   if (pcl->buffer[0] && fleury_irc_cmd[0])
     {
+      fleury_irc_param = pcl->buffer + 1;
+      while (*fleury_irc_param && (*fleury_irc_param != ' '))
+	{
+	  fleury_irc_param++;
+	}
+      if (*fleury_irc_param)
+	{
+	  fleury_irc_param++;
+	}
+   
       fprintf(pcl->out, "%s\r\n", fleury_irc_cmd);
       if (!strcmp(fleury_irc_cmd, "PASS"))
 	{
 	  /* sscanf(fleury_irc_param, ":%128s", pcl->pass); */
-#ifdef FLEURY_DEBUG
-	  fprintf(dbgout, "Fleury: PASS\n");	  
 	  sscanf(pcl->buffer, "%64s\n", pcl->pass);
+#ifdef FLEURY_DEBUG
+	  fprintf(dbgout, "Fleury: PASS (%s)\n", fleury_irc_param); 
 #endif
 	}
       else
@@ -30,7 +47,7 @@ void fleury_irc_process(struct s_cl *pcl)
 	  if (!strcmp(fleury_irc_cmd, "NICK"))
 	    {
 #ifdef FLEURY_DEBUG
-	      fprintf(dbgout, "Fleury: NICK\n");
+	      fprintf(dbgout, "Fleury: NICK (%s)\n", fleury_irc_param);
 	      sscanf(pcl->buffer, "%64s\n", pcl->nick);
 #endif
 	    }
@@ -39,7 +56,7 @@ void fleury_irc_process(struct s_cl *pcl)
 	      if (!strcmp(fleury_irc_cmd, "USER"))
 		{
 #ifdef FLEURY_DEBUG
-		  fprintf(dbgout, "Fleury: USER\n");
+		  fprintf(dbgout, "Fleury: USER (%s)\n", fleury_irc_param);
 		  sscanf(pcl->buffer, "%64s\n", pcl->user);
 #endif
 		}
@@ -48,7 +65,7 @@ void fleury_irc_process(struct s_cl *pcl)
 		  if (!strcmp(fleury_irc_cmd, "PONG"))
 		    {
 #ifdef FLEURY_DEBUG
-		      fprintf(dbgout, "Fleury: PONG\n");		      
+		      fprintf(dbgout, "Fleury: PONG (%s)\n", fleury_irc_param);		      
 #endif
 		    }
 		  else
@@ -56,14 +73,14 @@ void fleury_irc_process(struct s_cl *pcl)
 		      if (!strcmp(fleury_irc_cmd, "QUIT"))
 			{
 #ifdef FLEURY_DEBUG
-			  fprintf(dbgout, "Fleury: QUIT\n");
+			  fprintf(dbgout, "Fleury: QUIT (%s)\n", fleury_irc_param);
 			  
 #endif
 			}
 		      else
 			{
 #ifdef FLEURY_DEBUG
-			  fprintf(dbgout, "Fleury: Unmatched command\n");
+			  fprintf(dbgout, "Fleury: Unmatched command %s (%s)\n", fleury_irc_cmd, fleury_irc_param);
 #endif
 			}
 		    }
