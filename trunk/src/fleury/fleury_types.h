@@ -40,6 +40,7 @@ FILE *dbgout;
 int over;
 int fleury_fd;
 t_list list_cl;
+char hostname[128];
 
 /* struct s_task tasks[FLEURY_MAX_TASKS]; */
 

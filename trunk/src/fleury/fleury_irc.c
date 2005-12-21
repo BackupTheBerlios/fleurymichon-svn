@@ -5,8 +5,6 @@ void fleury_irc_process(struct s_cl *pcl)
   char fleury_irc_cmd[64];
   char *fleury_irc_param;
 
-  /* fscanf(in, "%64s %256s\n", fleury_irc_cmd, fleury_irc_param); */
-
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
 
@@ -36,8 +34,7 @@ void fleury_irc_process(struct s_cl *pcl)
       fprintf(pcl->out, "%s\r\n", fleury_irc_cmd);
       if (!strcmp(fleury_irc_cmd, "PASS"))
 	{
-	  /* sscanf(fleury_irc_param, ":%128s", pcl->pass); */
-	  sscanf(pcl->buffer, "%64s\n", pcl->pass);
+	  sscanf(fleury_irc_param, "%64s\n", pcl->pass);
 #ifdef FLEURY_DEBUG
 	  fprintf(dbgout, "Fleury: PASS (%s)\n", fleury_irc_param); 
 #endif
@@ -46,18 +43,18 @@ void fleury_irc_process(struct s_cl *pcl)
 	{
 	  if (!strcmp(fleury_irc_cmd, "NICK"))
 	    {
+	      sscanf(fleury_irc_param, "%64s\n", pcl->nick);
 #ifdef FLEURY_DEBUG
 	      fprintf(dbgout, "Fleury: NICK (%s)\n", fleury_irc_param);
-	      sscanf(pcl->buffer, "%64s\n", pcl->nick);
 #endif
 	    }
 	  else
 	    {
 	      if (!strcmp(fleury_irc_cmd, "USER"))
 		{
+		  sscanf(fleury_irc_param, "%64s\n", pcl->user);
 #ifdef FLEURY_DEBUG
 		  fprintf(dbgout, "Fleury: USER (%s)\n", fleury_irc_param);
-		  sscanf(pcl->buffer, "%64s\n", pcl->user);
 #endif
 		}
 	      else

@@ -22,8 +22,10 @@ void fleury_server_start(int port)
   over = 0;
   list_cl = NULL;
   fleury_fd = fleury_server_tcp(port);
+  gethostname(hostname, 128);
+
 #ifdef FLEURY_DEBUG
-  fprintf(dbgout, "Fleury: Server listening on port %d\n", port);
+  fprintf(dbgout, "Fleury: Server listening on %s:%d\n", hostname, port);
 #endif
   pthread_create(&lt, NULL, fleury_server_listen, NULL);
 #ifdef FLEURY_DEBUG
