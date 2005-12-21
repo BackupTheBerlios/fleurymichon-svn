@@ -86,8 +86,11 @@ t_list list_del_default(t_list l, int (*pf) (void *))
       p = q;
       q = q->next;
     }
-  p->next = q->next;
-  free(q);
+  if (q)
+    {
+      p->next = q->next;
+      free(q);
+    }
   return l;
 }
 
