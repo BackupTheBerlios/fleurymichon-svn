@@ -25,7 +25,16 @@ void fleury_server_start(int port)
   fleury_conf.over = 0;
   fleury_conf.list_cl = NULL;
   fleury_conf.fleury_fd = fleury_server_tcp(port);
-  gethostname(fleury_conf.hostname, 128);
+  gethostname(fleury_conf.hostname, FLEURY_SZ_HOSTNAME);
+  getdomainname(fleury_conf.domain, FLEURY_SZ_HOSTNAME);
+  if (strlen(fleury_conf.domain) && !strcmp(fleury_conf.domain, "(none)"))
+    {
+      sprintf(fleury_conf.host, "%s.%s", fleury_conf.hostname, fleury_conf.domain);
+    }
+  else
+    {
+      sprintf(fleury_conf.host, "%s", fleury_conf.hostname);
+    }
 
 #ifdef FLEURY_DEBUG
   fprintf(dbgout, "Fleury: Server listening on %s:%d\n", fleury_conf.hostname, port);

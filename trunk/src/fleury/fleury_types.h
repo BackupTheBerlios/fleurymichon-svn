@@ -19,6 +19,14 @@
 #define FLEURY_SZ_BUFFER 1024
 #define FLEURY_SZ_HOSTNAME 128
 
+struct s_mode_cl
+{
+  unsigned int i: 1;
+  unsigned int s: 1;
+  unsigned int w: 1;
+  unsigned int o: 1;
+};
+
 struct s_cl
 {
   pthread_t tid;
@@ -36,6 +44,7 @@ struct s_cl
   char name[FLEURY_SZ_NAME];
   char pingstr[FLEURY_SZ_HOSTNAME];
   char buffer[FLEURY_SZ_BUFFER];
+  struct s_mode_cl mode;
 };
 
 struct s_fleury_conf
@@ -44,6 +53,8 @@ struct s_fleury_conf
   int fleury_fd;
   t_list list_cl;
   char hostname[FLEURY_SZ_HOSTNAME];
+  char domain[FLEURY_SZ_HOSTNAME];
+  char host[FLEURY_SZ_HOSTNAME * 2];
   int pon;
   int pou;
   int pto;

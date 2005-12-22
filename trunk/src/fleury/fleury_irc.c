@@ -4,6 +4,9 @@ void fleury_irc_process(struct s_cl *pcl)
 {
   char fleury_irc_cmd[64];
   char *fleury_irc_param;
+  /* char *tmp; */
+
+  /* commandes a rajouter : JOIN PART PING OPER NAMES PRIVMSG */
 
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
@@ -49,7 +52,7 @@ void fleury_irc_process(struct s_cl *pcl)
 	  fleury_irc_param++;
 	}
    
-      fprintf(pcl->out, "%s\r\n", fleury_irc_cmd);
+      /* fprintf(pcl->out, "%s\r\n", fleury_irc_cmd); */
       if (!strcmp(fleury_irc_cmd, "PASS"))
 	{
 	  sscanf(fleury_irc_param, "%64s\n", pcl->pass);
@@ -77,7 +80,7 @@ void fleury_irc_process(struct s_cl *pcl)
 		  sscanf(fleury_irc_param, "%64s\n", pcl->user);
 		  if (pcl->nick[0] && pcl->user[0])
 		    {
-		      pcl->logged = 1;
+		      fleury_irc_logged(pcl);
 		    }
 		  if (fleury_conf.pou)
 		    {
@@ -111,9 +114,19 @@ void fleury_irc_process(struct s_cl *pcl)
 			}
 		      else
 			{
+			  if (!strcmp(fleury_irc_cmd, "MODE"))
+			    {
 #ifdef FLEURY_DEBUG
-			  fprintf(dbgout, "Fleury: Unmatched command %s (%s)\n", fleury_irc_cmd, fleury_irc_param);
+			      fprintf(dbgout, "Fleury: MODE (%s)\n", fleury_irc_param);
+			  
 #endif
+			    }
+			  else
+			    {
+#ifdef FLEURY_DEBUG
+			      fprintf(dbgout, "Fleury: Unmatched command %s (%s)\n", fleury_irc_cmd, fleury_irc_param);
+#endif
+			    }
 			}
 		    }
 		}
@@ -133,4 +146,15 @@ void fleury_irc_ping(struct s_cl *pcl, char *s)
   fprintf(pcl->out, "PING :%s\n", s);
   strcpy(pcl->pingstr, s);
   pcl->pingtime = time(NULL);
+}
+
+void fleury_irc_logged(struct s_cl *pcl)
+{
+  pcl->logged = 1;
+  fprintf(pcl->out, ":%s 001 %s :Welcome to SERVER_NAME_HERE\n", fleury_conf.host, pcl->nick);
+  fprintf(pcl->out, ":%s 002 %s :Your host is %s\n", fleury_conf.host, pcl->nick, fleury_conf.host);
+  fprintf(pcl->out, ":%s 003 %s :Bla bla bla\n", fleury_conf.host, pcl->nick);
+  fprintf(pcl->out, ":%s 004 %s :Bla bla bla\n", fleury_conf.host, pcl->nick);
+  fprintf(pcl->out, ":%s 005 %s :Bla bla bla\n", fleury_conf.host, pcl->nick);
+  fprintf(pcl->out, ":%s 005 %s :Bla bla bla\n", fleury_conf.host, pcl->nick);
 }
