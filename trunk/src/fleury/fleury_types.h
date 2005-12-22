@@ -16,6 +16,8 @@
 #define FLEURY_SZ_NICK 128
 #define FLEURY_SZ_USER 128
 #define FLEURY_SZ_NAME 128
+#define FLEURY_SZ_CHAN 128
+#define FLEURY_SZ_TOPIC 1024
 #define FLEURY_SZ_BUFFER 1024
 #define FLEURY_SZ_HOSTNAME 128
 
@@ -44,20 +46,49 @@ struct s_cl
   char name[FLEURY_SZ_NAME];
   char pingstr[FLEURY_SZ_HOSTNAME];
   char buffer[FLEURY_SZ_BUFFER];
+  t_list list_chans;
   struct s_mode_cl mode;
+};
+
+struct s_mode_ch
+{
+  unsigned int r: 1;
+};
+
+struct s_ch
+{
+  char name[FLEURY_SZ_CHAN];
+  char topic[FLEURY_SZ_TOPIC];
+  char pass[FLEURY_SZ_PASS];
+  t_list list_users;
+  t_list list_ban;
+  struct s_mode_cl mode;
+};
+
+struct s_ch_user
+{
+  struct s_cl* pcl;
+  char status;
+};
+
+struct s_user_ch
+{
+  struct s_ch* pch;
+  char status;
 };
 
 struct s_fleury_conf
 {
   int over;
   int fleury_fd;
-  t_list list_cl;
   char hostname[FLEURY_SZ_HOSTNAME];
   char domain[FLEURY_SZ_HOSTNAME];
   char host[FLEURY_SZ_HOSTNAME * 2];
   int pon;
   int pou;
   int pto;
+  t_list list_cl;
+  t_list list_ch;
 } fleury_conf;
 
 #ifdef FLEURY_DEBUG

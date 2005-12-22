@@ -24,10 +24,11 @@ void fleury_server_start(int port)
   fleury_conf.pto = 10;
   fleury_conf.over = 0;
   fleury_conf.list_cl = NULL;
+  fleury_conf.list_ch = NULL;
   fleury_conf.fleury_fd = fleury_server_tcp(port);
   gethostname(fleury_conf.hostname, FLEURY_SZ_HOSTNAME);
   getdomainname(fleury_conf.domain, FLEURY_SZ_HOSTNAME);
-  if (strlen(fleury_conf.domain) && !strcmp(fleury_conf.domain, "(none)"))
+  if ((strlen(fleury_conf.domain) > 0) && !strcmp(fleury_conf.domain, "(none)"))
     {
       sprintf(fleury_conf.host, "%s.%s", fleury_conf.hostname, fleury_conf.domain);
     }
