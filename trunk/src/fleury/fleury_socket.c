@@ -19,6 +19,9 @@ void fleury_server_start(int port)
   sigaction(SIGQUIT, &end_action, NULL);
   sigaction(SIGABRT, &end_action, NULL);
 
+  fleury_conf.pon = 0;
+  fleury_conf.pou = 1;
+  fleury_conf.pto = 10;
   fleury_conf.over = 0;
   fleury_conf.list_cl = NULL;
   fleury_conf.fleury_fd = fleury_server_tcp(port);

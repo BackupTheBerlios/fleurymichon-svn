@@ -12,6 +12,10 @@ void fleury_thread_init(int fd)
   *(cl.nick) = 0;
   *(cl.user) = 0;
   *(cl.name) = 0;
+  *(cl.pingstr) = 0;
+  cl.pingtime = 0;
+  cl.logged = 0;
+  cl.connected = 1;
   fleury_conf.list_cl = list_add_tail(fleury_conf.list_cl, &cl, sizeof(struct s_cl));
   pcl = list_last(fleury_conf.list_cl);
   pcl->in = fdopen(pcl->fd, "r");
@@ -54,7 +58,7 @@ void *fleury_thread_proc(void *data)
 
   pcl = data;
   
-  while (1)
+  while (!fleury_conf.over && pcl->connected)
     {
       if (fileno(pcl->in) == -1)
 	{

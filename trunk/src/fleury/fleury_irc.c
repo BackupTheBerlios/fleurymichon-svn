@@ -8,6 +8,24 @@ void fleury_irc_process(struct s_cl *pcl)
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
 
+  if (pcl->logged && pcl->pingtime && ((time(NULL) - pcl->pingtime) > fleury_conf.pto))
+    {
+      /* ping timeout here */
+      fprintf(pcl->out, "Ping timeout\n");
+      pcl->connected = 0;
+      fflush(pcl->out);
+      fclose(pcl->in);
+      fclose(pcl->out);
+      shutdown(pcl->fd2, 2);
+      shutdown(pcl->fd, 2);
+      close(pcl->fd2);
+      close(pcl->fd);
+	     
+#ifdef FLEURY_DEBUG
+      fprintf(dbgout, "Fleury: Ping timeout\n"); 
+#endif
+    }
+
   fgets(pcl->buffer, FLEURY_SZ_BUFFER, pcl->in);
 
   fleury_irc_param = pcl->buffer;
@@ -44,6 +62,10 @@ void fleury_irc_process(struct s_cl *pcl)
 	  if (!strcmp(fleury_irc_cmd, "NICK"))
 	    {
 	      sscanf(fleury_irc_param, "%64s\n", pcl->nick);
+	      if (fleury_conf.pon)
+		{
+		  fleury_irc_ping(pcl, fleury_conf.hostname);
+		} 
 #ifdef FLEURY_DEBUG
 	      fprintf(dbgout, "Fleury: NICK (%s)\n", fleury_irc_param);
 #endif
@@ -53,6 +75,14 @@ void fleury_irc_process(struct s_cl *pcl)
 	      if (!strcmp(fleury_irc_cmd, "USER"))
 		{
 		  sscanf(fleury_irc_param, "%64s\n", pcl->user);
+		  if (pcl->nick[0] && pcl->user[0])
+		    {
+		      pcl->logged = 1;
+		    }
+		  if (fleury_conf.pou)
+		    {
+		      fleury_irc_ping(pcl, fleury_conf.hostname);
+		    } 
 #ifdef FLEURY_DEBUG
 		  fprintf(dbgout, "Fleury: USER (%s)\n", fleury_irc_param);
 #endif
@@ -61,8 +91,13 @@ void fleury_irc_process(struct s_cl *pcl)
 		{
 		  if (!strcmp(fleury_irc_cmd, "PONG"))
 		    {
+		      if (!strcmp(fleury_irc_param, pcl->pingstr) || (*fleury_irc_param == ':' && !strcmp(fleury_irc_param + 1, pcl->pingstr)))
+			{
+			  *(pcl->pingstr) = 0;
+			  pcl->pingtime = 0;
+			}
 #ifdef FLEURY_DEBUG
-		      fprintf(dbgout, "Fleury: PONG (%s)\n", fleury_irc_param);		      
+		      fprintf(dbgout, "Fleury: PONG (%s)\n", fleury_irc_param);
 #endif
 		    }
 		  else
@@ -91,4 +126,11 @@ void fleury_irc_process(struct s_cl *pcl)
 #endif
 
   fflush(pcl->out);
+}
+
+void fleury_irc_ping(struct s_cl *pcl, char *s)
+{
+  fprintf(pcl->out, "PING :%s\n", s);
+  strcpy(pcl->pingstr, s);
+  pcl->pingtime = time(NULL);
 }

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <time.h>
 #include "gen_list.h"
 
 #define FATALBUG(err) { perror((char *)err); exit(EXIT_FAILURE); }
@@ -16,20 +17,24 @@
 #define FLEURY_SZ_USER 128
 #define FLEURY_SZ_NAME 128
 #define FLEURY_SZ_BUFFER 1024
+#define FLEURY_SZ_HOSTNAME 128
 
 struct s_cl
 {
   pthread_t tid;
   pthread_mutex_t lock;
-  int active;
+  int connected;
+  int logged;
   int fd;
   int fd2;
   FILE *in;
   FILE *out;
+  time_t pingtime;
   char pass[FLEURY_SZ_PASS];
   char nick[FLEURY_SZ_NICK];
   char user[FLEURY_SZ_USER];
   char name[FLEURY_SZ_NAME];
+  char pingstr[FLEURY_SZ_HOSTNAME];
   char buffer[FLEURY_SZ_BUFFER];
 };
 
@@ -38,7 +43,10 @@ struct s_fleury_conf
   int over;
   int fleury_fd;
   t_list list_cl;
-  char hostname[128];
+  char hostname[FLEURY_SZ_HOSTNAME];
+  int pon;
+  int pou;
+  int pto;
 } fleury_conf;
 
 #ifdef FLEURY_DEBUG
