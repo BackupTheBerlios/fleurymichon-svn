@@ -6,7 +6,7 @@ void fleury_irc_process(struct s_cl *pcl)
   char *fleury_irc_param;
   /* char *tmp; */
 
-  /* commandes a rajouter : JOIN PART PING OPER NAMES PRIVMSG */
+  /* commandes a rajouter : PING OPER NAMES PRIVMSG */
 
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
@@ -109,7 +109,6 @@ void fleury_irc_process(struct s_cl *pcl)
 			{
 #ifdef FLEURY_DEBUG
 			  fprintf(dbgout, "Fleury: QUIT (%s)\n", fleury_irc_param);
-			  
 #endif
 			}
 		      else
@@ -118,14 +117,31 @@ void fleury_irc_process(struct s_cl *pcl)
 			    {
 #ifdef FLEURY_DEBUG
 			      fprintf(dbgout, "Fleury: MODE (%s)\n", fleury_irc_param);
-			  
 #endif
 			    }
 			  else
 			    {
+			      if (!strcmp(fleury_irc_cmd, "JOIN"))
+				{
 #ifdef FLEURY_DEBUG
-			      fprintf(dbgout, "Fleury: Unmatched command %s (%s)\n", fleury_irc_cmd, fleury_irc_param);
+				  fprintf(dbgout, "Fleury: PART (%s)\n", fleury_irc_param);
 #endif
+				}
+			      else
+				{
+				  if (!strcmp(fleury_irc_cmd, "PART"))
+				    {
+#ifdef FLEURY_DEBUG
+				      fprintf(dbgout, "Fleury: PART (%s)\n", fleury_irc_param);
+#endif
+				    }
+				  else
+				    {			      
+#ifdef FLEURY_DEBUG
+				      fprintf(dbgout, "Fleury: Unmatched command %s (%s)\n", fleury_irc_cmd, fleury_irc_param);
+#endif
+				    }
+				}
 			    }
 			}
 		    }
