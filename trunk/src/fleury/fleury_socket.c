@@ -19,13 +19,13 @@ void fleury_server_start(int port)
   sigaction(SIGQUIT, &end_action, NULL);
   sigaction(SIGABRT, &end_action, NULL);
 
-  over = 0;
-  list_cl = NULL;
-  fleury_fd = fleury_server_tcp(port);
-  gethostname(hostname, 128);
+  fleury_conf.over = 0;
+  fleury_conf.list_cl = NULL;
+  fleury_conf.fleury_fd = fleury_server_tcp(port);
+  gethostname(fleury_conf.hostname, 128);
 
 #ifdef FLEURY_DEBUG
-  fprintf(dbgout, "Fleury: Server listening on %s:%d\n", hostname, port);
+  fprintf(dbgout, "Fleury: Server listening on %s:%d\n", fleury_conf.hostname, port);
 #endif
   pthread_create(&lt, NULL, fleury_server_listen, NULL);
 #ifdef FLEURY_DEBUG
@@ -103,20 +103,6 @@ int fleury_server_tcp(int port)
   return fd;
 }
 
-/* int fleury_server_wait(int fd)
-{
-  int cl_fd;
-
-  while ((cl_fd = accept(fd, NULL, NULL)) < 0)
-    {
-      if (errno != EINTR)
-	{
-	  FATALBUG("Fleury: Socket accept error");
-	}
-    }
-  return cl_fd;
-} */
-
 void *fleury_server_listen(void *data)
 {
   int cl_fd;
@@ -125,7 +111,7 @@ void *fleury_server_listen(void *data)
   
   while (1)
     {
-      while (!over && (cl_fd = accept(fleury_fd, NULL, NULL)) < 0)
+      while (!fleury_conf.over && (cl_fd = accept(fleury_conf.fleury_fd, NULL, NULL)) < 0)
 	{
 	  if (errno != EINTR)
 	    {
@@ -141,9 +127,9 @@ void *fleury_server_listen(void *data)
 
 void fleury_server_end(int sig)
 {
-  over = 1;
-  shutdown(fleury_fd, 2);
-  close(fleury_fd);
+  fleury_conf.over = 1;
+  shutdown(fleury_conf.fleury_fd, 2);
+  close(fleury_conf.fleury_fd);
 #ifdef FLEURY_DEBUG
   fprintf(dbgout, "Fleury: Server ending\n");
   fprintf(dbgout, "Fleury: Server terminated (%s)\n", sys_siglist[sig]);

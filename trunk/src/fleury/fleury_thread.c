@@ -12,8 +12,8 @@ void fleury_thread_init(int fd)
   *(cl.nick) = 0;
   *(cl.user) = 0;
   *(cl.name) = 0;
-  list_cl = list_add_tail(list_cl, &cl, sizeof(struct s_cl));
-  pcl = list_last(list_cl);
+  fleury_conf.list_cl = list_add_tail(fleury_conf.list_cl, &cl, sizeof(struct s_cl));
+  pcl = list_last(fleury_conf.list_cl);
   pcl->in = fdopen(pcl->fd, "r");
   pcl->fd2 = dup(pcl->fd);
   pcl->out = fdopen(pcl->fd2, "w");

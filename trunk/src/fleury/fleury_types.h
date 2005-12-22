@@ -33,15 +33,16 @@ struct s_cl
   char buffer[FLEURY_SZ_BUFFER];
 };
 
+struct s_fleury_conf
+{
+  int over;
+  int fleury_fd;
+  t_list list_cl;
+  char hostname[128];
+} fleury_conf;
+
 #ifdef FLEURY_DEBUG
 FILE *dbgout;
 #endif
-
-int over;
-int fleury_fd;
-t_list list_cl;
-char hostname[128];
-
-/* struct s_task tasks[FLEURY_MAX_TASKS]; */
 
 #endif
