@@ -81,14 +81,14 @@ void *fleury_thread_proc(void *data)
 #endif
 
       fleury_irc_process(pcl);
-      
+      /*
       int test(void *cl)
-	{
-	  return pcl->tid == (*(struct s_cl *)cl).tid; 
-	}	
+      {
+        return pcl->tid == (*(struct s_cl *)cl).tid; 
+      }	
       
       fleury_conf.list_cl = list_del(fleury_conf.list_cl, test);
-      
+      */
                     
     }
 
