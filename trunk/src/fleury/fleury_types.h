@@ -20,6 +20,7 @@
 #define FLEURY_SZ_TOPIC 1024
 #define FLEURY_SZ_BUFFER 1024
 #define FLEURY_SZ_HOSTNAME 128
+#define FLEURY_MAX_CONNECTIONS 64
 
 struct s_mode_cl
 {
