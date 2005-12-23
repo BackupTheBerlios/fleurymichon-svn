@@ -80,16 +80,20 @@ void *fleury_thread_proc(void *data)
       /* fprintf(dbgout, "Fleury: Iteration on thread %lu\n", pcl->tid); */
 #endif
 
-      fleury_irc_process(pcl);
-      /*
-      int test(void *cl)
-      {
-        return pcl->tid == (*(struct s_cl *)cl).tid; 
-      }	
+      fleury_irc_process(pcl);   
+                       
+    }
+  if (!fleury_conf.over)
+    {
+      int test(void *elt)
+	{
+	  struct s_cl *cl;
+
+	  cl = (struct s_cl *)&elt;
+	  return cl->tid = pcl->tid;	   
+	}	
       
       fleury_conf.list_cl = list_del(fleury_conf.list_cl, test);
-      */
-                    
     }
 
   return NULL;

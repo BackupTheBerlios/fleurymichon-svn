@@ -107,8 +107,10 @@ void fleury_irc_process(struct s_cl *pcl)
 		    {
 		      if (!strcmp(fleury_irc_cmd, "QUIT"))
 			{
+			  pcl->connected = 0;
+
 #ifdef FLEURY_DEBUG
-			  fprintf(dbgout, "Fleury: QUIT (%ud)\n", (unsigned int)pcl->tid);
+			  fprintf(dbgout, "Fleury: QUIT (%u)\n", (unsigned int)pcl->tid);
 #endif
 			}
 		      else
