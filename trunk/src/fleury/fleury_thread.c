@@ -28,6 +28,7 @@ void fleury_thread_init(int fd)
   pthread_create(&(pcl->tid), NULL, fleury_thread_proc, pcl);
 #ifdef FLEURY_DEBUG
   fprintf(dbgout, "Fleury: New client thread %lu\n", pcl->tid);
+  fprintf(dbgout, "Fleury: Total connexions %d/%d\n", list_length(fleury_conf.list_cl), FLEURY_MAX_CONNEXIONS);  
 #endif
 }
 
@@ -80,6 +81,15 @@ void *fleury_thread_proc(void *data)
 #endif
 
       fleury_irc_process(pcl);
+      
+      int test(void *cl)
+	{
+	  return pcl->tid == (*(struct s_cl *)cl).tid; 
+	}	
+      
+      fleury_conf.list_cl = list_del(fleury_conf.list_cl, test);
+      
+                    
     }
 
   return NULL;
