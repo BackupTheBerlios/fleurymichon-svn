@@ -104,7 +104,7 @@ t_list list_del(t_list l, int (*pf) (void *))
     }
   else
     {
-      if (pf(&p->elt))
+      if (pf(&l->elt))
 	{
 	  p = l->next;
 	  free(l);
