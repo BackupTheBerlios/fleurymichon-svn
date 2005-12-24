@@ -115,11 +115,11 @@ void *fleury_thread_proc(void *data)
   fprintf(dbgout, "Fleury: [%lu] %s closed\n", pcl->tid, pcl->host);
 #endif
 
-  int test(void *elt)
+  int test(void *p)
     {
       struct s_cl *cl;
       
-      cl = (struct s_cl *)&elt;
+      cl = (struct s_cl *)p;
       return (cl->tid == pcl->tid);	   
     }	
   
