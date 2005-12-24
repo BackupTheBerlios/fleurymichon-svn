@@ -2,6 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
+#include "fleury_socket.h"
 #include "fleury_types.h"
 
 void fleury_irc_process(struct s_cl *);

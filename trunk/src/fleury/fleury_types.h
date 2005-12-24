@@ -45,6 +45,7 @@ struct s_cl
   char nick[FLEURY_SZ_NICK];
   char user[FLEURY_SZ_USER];
   char name[FLEURY_SZ_NAME];
+  char host[FLEURY_SZ_HOSTNAME];
   char pingstr[FLEURY_SZ_HOSTNAME];
   char buffer[FLEURY_SZ_BUFFER];
   t_list list_chans;
@@ -80,6 +81,7 @@ struct s_user_ch
 
 struct s_fleury_conf
 {
+  pthread_t lt;
   int over;
   int fleury_fd;
   char hostname[FLEURY_SZ_HOSTNAME];

@@ -1,11 +1,16 @@
 #include "fleury_thread.h"
 #include "fleury_irc.h"
+#include "fleury_socket.h"
 #include "fleury_types.h"
 
 void fleury_thread_init(int fd)
 {
   struct s_cl cl;
   struct s_cl* pcl;
+  struct sockaddr_in addr;
+  size_t sz_addr;
+
+  sz_addr = sizeof(addr);
 
   cl.fd = fd;
   *(cl.pass) = 0;
@@ -26,8 +31,11 @@ void fleury_thread_init(int fd)
   pcl->fd2 = dup(pcl->fd);
   pcl->out = fdopen(pcl->fd2, "w");
   pthread_create(&(pcl->tid), NULL, fleury_thread_proc, pcl);
+  getsockname(pcl->fd, (struct sockaddr *) &addr, &sz_addr);
+  strcpy(pcl->host, inet_ntoa(addr.sin_addr));
 #ifdef FLEURY_DEBUG
-  fprintf(dbgout, "Fleury: New client thread %lu\n", pcl->tid);
+  fprintf(dbgout, "Fleury: [%lu] %s connected\n", pcl->tid, pcl->host);
+  fleury_socket_debug_client(pcl);
   fprintf(dbgout, "Fleury: Total connections %d/%d\n", list_length(fleury_conf.list_cl), FLEURY_MAX_CONNECTIONS);  
 #endif
 }
@@ -83,6 +91,7 @@ void *fleury_thread_proc(void *data)
       fleury_irc_process(pcl);   
                        
     }
+  /*
   if (!fleury_conf.over)
     {
       int test(void *elt)
@@ -95,6 +104,26 @@ void *fleury_thread_proc(void *data)
       
       fleury_conf.list_cl = list_del(fleury_conf.list_cl, test);
     }
+  */
+
+  if (pcl->connected)
+    {
+      fleury_socket_disconnect(pcl);
+    }
+
+#ifdef FLEURY_DEBUG
+  fprintf(dbgout, "Fleury: [%lu] %s closed\n", pcl->tid, pcl->host);
+#endif
+
+  int test(void *elt)
+    {
+      struct s_cl *cl;
+      
+      cl = (struct s_cl *)&elt;
+      return (cl->tid == pcl->tid);	   
+    }	
+  
+  fleury_conf.list_cl = list_del(fleury_conf.list_cl, test);
 
   return NULL;
 }
