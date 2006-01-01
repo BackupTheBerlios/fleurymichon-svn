@@ -126,7 +126,11 @@ void fleury_server_end(int sig)
   shutdown(fleury_conf.fleury_fd, 2);
   close(fleury_conf.fleury_fd);
 #ifdef FLEURY_DEBUG
+#ifndef FLEURY_CYGWIN
   fprintf(dbgout, "Fleury: Server terminated (%s)\n", sys_siglist[sig]);
+#else
+  fprintf(dbgout, "Fleury: Server terminated (Signal %d)\n", sig);
+#endif
   fflush(dbgout);
 #endif
   /* exit(EXIT_SUCCESS); */
