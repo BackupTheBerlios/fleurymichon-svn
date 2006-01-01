@@ -17,7 +17,7 @@ void fleury_irc_process(struct s_cl *pcl)
       fprintf(pcl->out, "Ping timeout\r\n");
       fleury_socket_disconnect(pcl);
 #ifdef FLEURY_DEBUG
-      fprintf(dbgout, "Fleury: [%lu] Ping timeout\n", pcl->tid); 
+      fprintf(dbgout, "Fleury: [%lu] Ping timeout\n", (unsigned long)(pcl->tid));
 #endif
     }
 
@@ -49,7 +49,7 @@ void fleury_irc_process(struct s_cl *pcl)
 	{
 	  sscanf(fleury_irc_param, "%64s\n", pcl->pass);
 #ifdef FLEURY_DEBUG
-	  fprintf(dbgout, "Fleury: [%lu] PASS (%s)\n", pcl->tid, fleury_irc_param); 
+	  fprintf(dbgout, "Fleury: [%lu] PASS (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param); 
 #endif
 	}
       else
@@ -62,7 +62,7 @@ void fleury_irc_process(struct s_cl *pcl)
 		  fleury_irc_ping(pcl, fleury_conf.hostname);
 		} 
 #ifdef FLEURY_DEBUG
-	      fprintf(dbgout, "Fleury: [%lu] NICK (%s)\n", pcl->tid, fleury_irc_param);
+	      fprintf(dbgout, "Fleury: [%lu] NICK (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
 	    }
 	  else
@@ -79,7 +79,7 @@ void fleury_irc_process(struct s_cl *pcl)
 		      fleury_irc_ping(pcl, fleury_conf.hostname);
 		    } 
 #ifdef FLEURY_DEBUG
-		  fprintf(dbgout, "Fleury: [%lu] USER (%s)\n", pcl->tid, fleury_irc_param);
+		  fprintf(dbgout, "Fleury: [%lu] USER (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
 		}
 	      else
@@ -102,7 +102,7 @@ void fleury_irc_process(struct s_cl *pcl)
 			  /* erreur pas de parametre */
 			}
 #ifdef FLEURY_DEBUG
-		      fprintf(dbgout, "Fleury: [%lu] PING (%s)\n", pcl->tid, fleury_irc_param);
+		      fprintf(dbgout, "Fleury: [%lu] PING (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
 		    }
 		  else
@@ -115,7 +115,7 @@ void fleury_irc_process(struct s_cl *pcl)
 			      pcl->pingtime = 0;
 			    }
 #ifdef FLEURY_DEBUG
-			  fprintf(dbgout, "Fleury: [%lu] PONG (%s)\n", pcl->tid, fleury_irc_param);
+			  fprintf(dbgout, "Fleury: [%lu] PONG (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
 			}
 		      else
@@ -124,7 +124,7 @@ void fleury_irc_process(struct s_cl *pcl)
 			    {
 			      fleury_socket_disconnect(pcl);
 #ifdef FLEURY_DEBUG
-			      fprintf(dbgout, "Fleury: [%lu] QUIT (%s)\n", pcl->tid, fleury_irc_param);
+			      fprintf(dbgout, "Fleury: [%lu] QUIT (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
 			    }
 			  else
@@ -132,7 +132,7 @@ void fleury_irc_process(struct s_cl *pcl)
 			      if (!strcmp(fleury_irc_cmd, "MODE"))
 				{
 #ifdef FLEURY_DEBUG
-				  fprintf(dbgout, "Fleury: [%lu] MODE (%s)\n", pcl->tid, fleury_irc_param);
+				  fprintf(dbgout, "Fleury: [%lu] MODE (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
 				}
 			      else
@@ -140,7 +140,7 @@ void fleury_irc_process(struct s_cl *pcl)
 				  if (!strcmp(fleury_irc_cmd, "JOIN"))
 				    {
 #ifdef FLEURY_DEBUG
-				      fprintf(dbgout, "Fleury: [%lu] JOIN (%s)\n", pcl->tid, fleury_irc_param);
+				      fprintf(dbgout, "Fleury: [%lu] JOIN (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
 				    }
 				  else
@@ -148,13 +148,13 @@ void fleury_irc_process(struct s_cl *pcl)
 				      if (!strcmp(fleury_irc_cmd, "PART"))
 					{
 #ifdef FLEURY_DEBUG
-					  fprintf(dbgout, "Fleury: [%lu] PART (%s)\n", pcl->tid, fleury_irc_param);
+					  fprintf(dbgout, "Fleury: [%lu] PART (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
 					}
 				      else
 					{			      
 #ifdef FLEURY_DEBUG
-					  fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", pcl->tid, fleury_irc_cmd, fleury_irc_param);
+					  fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
 #endif
 					}
 				    }

@@ -34,7 +34,7 @@ void fleury_thread_init(int fd)
   getsockname(pcl->fd, (struct sockaddr *) &addr, &sz_addr);
   strcpy(pcl->host, inet_ntoa(addr.sin_addr));
 #ifdef FLEURY_DEBUG
-  fprintf(dbgout, "Fleury: [%lu] %s connected\n", pcl->tid, pcl->host);
+  fprintf(dbgout, "Fleury: [%lu] %s connected\n", (unsigned long)(pcl->tid), pcl->host);
   fleury_socket_debug_client(pcl);
   fprintf(dbgout, "Fleury: Total connections %d/%d\n", list_length(fleury_conf.list_cl), FLEURY_MAX_CONNECTIONS);  
 #endif
@@ -77,7 +77,7 @@ void *fleury_thread_proc(void *data)
 	{
 
 #ifdef FLEURY_DEBUG
-	  fprintf(dbgout, "Fleury: Invalid input stream on thread %lu\n", pcl->tid);
+	  fprintf(dbgout, "Fleury: [%lu] Invalid input stream\n", (unsigned long)(pcl->tid));
 	  fflush(dbgout);
 #endif 
 
@@ -85,7 +85,7 @@ void *fleury_thread_proc(void *data)
 	}
 
 #ifdef FLEURY_DEBUG
-      /* fprintf(dbgout, "Fleury: Iteration on thread %lu\n", pcl->tid); */
+      /* fprintf(dbgout, "Fleury: [%lu] Iteration\n", (unsigned long)(pcl->tid)); */
 #endif
 
       fleury_irc_process(pcl);   
@@ -112,7 +112,7 @@ void *fleury_thread_proc(void *data)
     }
 
 #ifdef FLEURY_DEBUG
-  fprintf(dbgout, "Fleury: [%lu] %s closed\n", pcl->tid, pcl->host);
+  fprintf(dbgout, "Fleury: [%lu] %s closed\n", (unsigned long)(pcl->tid), pcl->host);
 #endif
 
   int test(void *p)

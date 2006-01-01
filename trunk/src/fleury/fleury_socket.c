@@ -41,7 +41,7 @@ void fleury_server_start(int port)
 
   pthread_create(&(fleury_conf.lt), NULL, fleury_server_listen, NULL);
 #ifdef FLEURY_DEBUG
-  fprintf(dbgout, "Fleury: [%lu] Server listening on %s:%d\n", fleury_conf.lt, fleury_conf.host, port);
+  fprintf(dbgout, "Fleury: [%lu] Server listening on %s:%d\n", (unsigned long)(fleury_conf.lt), fleury_conf.host, port);
 #endif
   pthread_join(fleury_conf.lt, &ret);
 	
@@ -113,7 +113,7 @@ void *fleury_server_listen(void *data)
     }
 
 #ifdef FLEURY_DEBUG
-  fprintf(dbgout, "Fleury: [%lu] No more listening\n", fleury_conf.lt);
+  fprintf(dbgout, "Fleury: [%lu] No more listening\n", (unsigned long)(fleury_conf.lt));
   fflush(dbgout);
 #endif
 
@@ -152,6 +152,6 @@ void fleury_socket_debug_server()
 
 void fleury_socket_debug_client(struct s_cl *pcl)
 {
-  fprintf(dbgout, "Fleury: [%lu] Client sockets: fd=%d fd2=%d in=%p out=%p\n", pcl->tid, pcl->fd, pcl->fd2, pcl->in, pcl->out);
+  fprintf(dbgout, "Fleury: [%lu] Client sockets: fd=%d fd2=%d in=%p out=%p\n", (unsigned long)(pcl->tid), pcl->fd, pcl->fd2, pcl->in, pcl->out);
 }
 #endif
