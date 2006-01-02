@@ -157,3 +157,21 @@ t_list list_del(t_list l, int (*pf) (void *))
     }
 }
       
+void *list_search(t_list l, int (*fun) (void *))
+{
+  if (!l)
+    {
+      return NULL;
+    }
+  else
+    {
+      if (fun(&(l->elt)))
+	{
+	  return (&(l->elt));
+	}
+      else
+	{
+	  return (list_search(l->next, fun));
+	}
+    }
+}
