@@ -42,6 +42,46 @@ t_list list_add_tail(t_list l, void *elt, unsigned int size)
   return l;
 }
 
+t_list list_add_sorted(t_list l, void *elt, unsigned int size, int (*fun)(void *e1, void *e2))
+{
+  t_list p;
+  t_list pp;
+
+  if (l)
+    {
+      p = l;
+      pp = NULL;
+      while (p && fun(&(p->elt), elt))
+	{
+	  pp = p;
+	  p = p->next;
+	}
+      if (p)
+	{
+	  if (pp)
+	    {
+	      pp->next = list_new(elt, size);
+	      pp->next->next = p;
+	    }
+	  else
+	    {
+	      p = list_new(elt, size);
+	      p->next = l;
+	      l = p;
+	    }
+	}
+      else
+	{
+	  pp->next = list_new(elt, size);
+	}
+      return l;
+    }
+  else
+    {
+      return (l = list_new(elt, size));
+    }
+}
+
 void *list_last(t_list l)
 {
   if (l)
