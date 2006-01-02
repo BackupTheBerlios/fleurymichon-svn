@@ -64,7 +64,7 @@ struct s_ch
   char pass[FLEURY_SZ_PASS];
   t_list list_users;
   t_list list_ban;
-  struct s_mode_cl mode;
+  struct s_mode_ch mode;
 };
 
 struct s_ch_user

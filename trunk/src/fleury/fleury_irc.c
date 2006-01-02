@@ -2,6 +2,8 @@
 
 void fleury_irc_process(struct s_cl *pcl)
 {
+  struct s_ch *pchan;
+  struct s_ch chan;
   char fleury_irc_cmd[64];
   char *fleury_irc_param;
   /* char *tmp; */
@@ -139,6 +141,39 @@ void fleury_irc_process(struct s_cl *pcl)
 				{
 				  if (!strcmp(fleury_irc_cmd, "JOIN"))
 				    {
+				      int test(void *p)
+					{
+					  struct s_ch *ch;
+					  
+					  ch = (struct s_ch *)p;
+					  return (!strcmp(fleury_irc_param, ch->name));
+					}
+				      int test2(void *p1, void *p2)
+					{
+					  return (!strcmp(((struct s_ch *)p1)->name, ((struct s_ch *)p2)->name) < 0);
+					}
+				      pchan = list_search(fleury_conf.list_ch, test);
+				      strcpy(chan.name, fleury_irc_param);
+				      chan.topic[0] = 0;
+				      chan.pass[0] = 0;
+				      chan.list_users = NULL;
+				      chan.list_ban = NULL;
+				      chan.mode.r = 0;
+
+				      if (!pchan)
+					{
+					  if (fleury_conf.list_ch)
+					    {
+					      fleury_conf.list_ch = list_add_sorted(fleury_conf.list_ch, &chan, sizeof(chan), test2);
+					      pchan = list_search(fleury_conf.list_ch, test);					      
+					    }
+					  else
+					    {
+					      fleury_conf.list_ch = list_new(&chan, sizeof(chan));
+					      pchan = (struct s_ch *)&(fleury_conf.list_ch->elt);
+					    }
+					}
+				      pchan->list_users = list_add_tail(pchan->list_users, (void *)&pcl, sizeof(void *));
 #ifdef FLEURY_DEBUG
 				      fprintf(dbgout, "Fleury: [%lu] JOIN (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
