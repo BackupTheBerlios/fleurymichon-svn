@@ -25,6 +25,7 @@ void fleury_thread_init(int fd)
   cl.mode.s = 0;
   cl.mode.w = 0;
   cl.mode.o = 0;
+  cl.list_chans = NULL;
   fleury_conf.list_cl = list_add_tail(fleury_conf.list_cl, &cl, sizeof(struct s_cl));
   pcl = list_last(fleury_conf.list_cl);
   pcl->in = fdopen(pcl->fd, "r");

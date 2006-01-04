@@ -2,7 +2,12 @@
 
 void fleury_irc_process(struct s_cl *pcl)
 {
+  t_list ltemp;
   struct s_ch *pchan;
+  struct s_ch_user user;
+  struct s_ch_user *pu;
+  struct s_user_ch chch;
+  struct s_user_ch *pch;
   struct s_ch chan;
   char fleury_irc_cmd[64];
   char *fleury_irc_param;
@@ -141,6 +146,7 @@ void fleury_irc_process(struct s_cl *pcl)
 				{
 				  if (!strcmp(fleury_irc_cmd, "JOIN"))
 				    {
+				      /* TODO: tester les differents parametres */
 				      int test(void *p)
 					{
 					  struct s_ch *ch;
@@ -152,28 +158,92 @@ void fleury_irc_process(struct s_cl *pcl)
 					{
 					  return (!strcmp(((struct s_ch *)p1)->name, ((struct s_ch *)p2)->name) < 0);
 					}
+				      int test3(void *p)
+					{
+					  return (!strcmp(fleury_irc_param, ((struct s_user_ch *)p)->pch->name));
+					}
+				      int test4(void *p1, void *p2)
+					{
+					  return (!strcmp(((struct s_ch_user *)p1)->pcl->nick, ((struct s_ch_user *)p2)->pcl->nick) < 0);
+					}
+				      int test5(void *p1, void *p2)
+					{
+					  return (!strcmp(((struct s_user_ch *)p1)->pch->name, ((struct s_user_ch *)p2)->pch->name) < 0);
+					}
+
 				      pchan = list_search(fleury_conf.list_ch, test);
+
+				      /* initialisation des champs du canal */
 				      strcpy(chan.name, fleury_irc_param);
 				      chan.topic[0] = 0;
 				      chan.pass[0] = 0;
 				      chan.list_users = NULL;
 				      chan.list_ban = NULL;
 				      chan.mode.r = 0;
+				      
+				      pch = list_search(pcl->list_chans, test3);
 
-				      if (!pchan)
+				      chch.status = 0;
+				      user.status = 0;
+
+				      if (!pch)
 					{
-					  if (fleury_conf.list_ch)
+					  if (!pchan)
 					    {
-					      fleury_conf.list_ch = list_add_sorted(fleury_conf.list_ch, &chan, sizeof(chan), test2);
-					      pchan = list_search(fleury_conf.list_ch, test);					      
+					      if (fleury_conf.list_ch)
+						{
+						  fleury_conf.list_ch = list_add_sorted(fleury_conf.list_ch, &chan, sizeof(chan), test2);
+						  pchan = list_search(fleury_conf.list_ch, test);		      
+						}
+					      else
+						{
+						  fleury_conf.list_ch = list_new(&chan, sizeof(chan));
+						  pchan = (struct s_ch *)&(fleury_conf.list_ch->elt);
+						}
+					      chch.status = 'o';
+					      user.status = 'o';
 					    }
-					  else
-					    {
-					      fleury_conf.list_ch = list_new(&chan, sizeof(chan));
-					      pchan = (struct s_ch *)&(fleury_conf.list_ch->elt);
-					    }
+					  
+					  chch.pch = pchan;
+					  
+					  user.pcl = pcl;
+
+					  pcl->list_chans = list_add_sorted(pcl->list_chans, &chch, sizeof(void *), test5);
+					  pchan->list_users = list_add_sorted(pchan->list_users, (void *)&user, sizeof(void *), test4);
 					}
-				      pchan->list_users = list_add_tail(pchan->list_users, (void *)&pcl, sizeof(void *));
+
+				      fprintf(pcl->out, ":%s!~%s@%s JOIN :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name);
+				      if (*(pchan->topic))
+					{
+					  fprintf(pcl->out, ":%s 332 %s %s :%s\r\n", fleury_conf.host, pcl->nick, pchan->name, pchan->topic);
+					}
+
+				      fprintf(pcl->out, ":%s 353 %s = %s :", fleury_conf.host, pcl->nick, pchan->name);
+				      pu = NULL;
+				      ltemp = pchan->list_users;
+				      while (ltemp)
+					{
+					  if (pu)
+					    {
+					      fprintf(pcl->out, " ");
+					    }
+					  pu = (struct s_ch_user *)&(ltemp->elt);
+					  if (pu->status == 'o')
+					    {
+					      fprintf(pcl->out, "@");
+					    }
+					  fprintf(pcl->out, "%s", pu->pcl->nick);
+					  if (pu->pcl != pcl)
+					    {
+					      fprintf(pu->pcl->out, ":%s!~%s@%s JOIN :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name);					    
+					    }
+					  
+					  ltemp = ltemp->next;
+					}
+				      fprintf(pcl->out, "\r\n");
+				      fprintf(pcl->out, ":%s 366 %s %s :End of /NAMES list.\r\n", fleury_conf.host, pcl->nick, pchan->name);
+				      
+
 #ifdef FLEURY_DEBUG
 				      fprintf(dbgout, "Fleury: [%lu] JOIN (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
