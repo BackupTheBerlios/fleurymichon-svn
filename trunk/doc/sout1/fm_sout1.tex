@@ -1,0 +1,83 @@
+\documentclass[12pt,a4paper,frenchb]{report}
+
+\usepackage[french]{babel}
+\usepackage{a4}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage[official]{eurosym}
+
+%\title{FleuryMichon}
+%\author{\emph{Les TouTouYouTou}}
+%\date{\today}
+
+\begin{document}
+
+%\maketitle
+
+\begin{minipage}{\textwidth}
+\flushright{
+\textbf{\Huge{\bsc{FleuryMichon}}}
+\rule[+1.5ex]{\textwidth}{4pt} \\
+\emph{\Large{Rapport de soutenance I}}
+}
+\end{minipage}
+\begin{figure}[b]
+\begin{center}
+\large{
+Sergueï \bsc{Milechine} \\
+Benoit \bsc{Menet} \\
+Lionel \bsc{Herbin} \\
+Nicolas \bsc{Vernot} \\
+}
+\end{center}
+\flushleft{
+\emph{Les TouTouYouTou}
+\rule[+1.5ex]{\textwidth}{2pt}
+}
+\end{figure}
+
+\newpage
+
+\chapter*{Introduction}
+
+\input{fm_sout1_intro.tex}
+
+\newpage
+
+\tableofcontents
+
+\pagestyle{fancy}
+\lhead{\scriptsize{\textbf{FleuryMichon} \\ \bsc{Rapport de soutenance I}}}
+\rhead{\scriptsize{\bsc{Info-Spé} \\ \bsc{Epita}}}
+\headheight 18pt
+
+\newpage
+
+\chapter{Origine et nature du projet}
+
+\newpage
+
+\input{fm_sout1_1.tex}
+
+\newpage
+
+\chapter{Etat d'avancement du serveur \emph{Fleury}}
+
+\newpage
+
+\input{fm_sout1_2.tex}
+
+\chapter{Etat d'avancement du client \emph{Michon}}
+
+\newpage
+
+\input{fm_sout1_3.tex}
+
+\newpage
+
+\chapter*{Conclusion}
+
+\input{fm_sout1_ccl.tex}
+
+\end{document}
