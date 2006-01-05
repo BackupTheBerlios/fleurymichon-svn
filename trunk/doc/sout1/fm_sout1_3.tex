@@ -1,2 +1,11 @@
 \section{Programmation objet avec \emph{Qt}}
+
+Qt est  un outil permettant de créer des interfaces. Cet outil, en plus d'être open source, a l'avantage d'être multi-plateformes, il est donc utilisable et compatible autant pour windows qu'Unix ou encore Mac OS X.
+De plus, par l'utilisation de QtDesigner, ça permet une visualisation claire de ce que l'on est en train de faire (et rappelle pas mal delphi que l'on a pu utilisé l'an passé). L'utilisation de Qt amènera le fait que l'on doive coder avec C++ (là encore avec un peu de bonne volonté, on peut remarquer une ressemblance avec le langage objet de delphi :)).
+Ensuite, il faudra compliquer un peu la chose pour faire un design entrainant en se sortant de QtDesigner en faisant du Qt pur.
+
 \section{Recherche bibliographique}
+
+L'utilisateur voulant aller sur irc aura besoin d'un client irc pour se connecter sur celui ci. C'est là le but du client irc. Le client irc, alors que c'est inutile pour le serveur, est beaucoup mieux vu dans le cas où il a une interface graphique conviviale. C'est pour cela que lui sera utile une interface faite sous \emph{Qt}. Ce client donc fait avec une interface graphique aura pour but de base de se connecter à un serveur, pour cela il devra lui transmettre le pseudonyme (NICK), le nom de l'hôte sur lequel le client est exécuté, le nom de l'utilisateur du client sur cet hôte (USER), parfois un pass. Par la suite il devra répondre aux demandes de PING du serveur par des PONG pour signifier sa présence.
+ Pour quitter le serveur le client devra lui envoyer un message QUIT. Ensuite le client devra rejoindre un canal de discussion, pour cela, il devra envoyer un message JOIN.
+Ce sont là les messages les plus basiques auxquels le client doit avoir recours pour être utilisable. Vient ensuite d'autres nombreux messages que le client devra pouvoir utiliser. Ils sont nombreux et seront à mettre en place mais ne sont pas les priorités même pour le fonctionnement du client de façon basique.
