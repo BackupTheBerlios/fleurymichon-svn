@@ -24,8 +24,19 @@ Pour ce faire, nous avons fait appel aux fonctions et aux structure présentes da
 Pour plus de souplesse dans l'application serveur, nous avons fait appel au multi-threading. Un thread est un processus léger, ou encore une tâche qui a un rôle bien précis. L'avantage des threads est qu'on peut en éxécuter plusieurs qui fonctionneront en parallèle et qui auront accès aux mêmes données. Ainsi, une fois le serveur initialisé, l'application comporte un thread d'écoute, qui attend les connexions des clients et qui est chargé de générer un nouveau thread de traitement pour chaque client qui se connecte au serveur. Nous avons employé la bibliothèque de threads POSIX pour l'implémentation de ce sytème de traitement, ainsi le serveur peut fonctionner dans des environnements Linux et Cygwin mais Windows n'est pas exclu pour autant puisqu'un portage de cette bibliothèque pour ce système est disponible.
 
 \section{Messages serveur}
+
+Les serveurs et les clients s'envoient chacun des messages qui peuvent ou non générer une réponse. Chaque message IRC peut contenir jusqu'à trois parties : le 
+préfixe (optionnel), la commande, et les paramètre de la commande (il peut y en avoir jusqu'à 15). Le préfixe, la commande, et tous les paramètres sont séparés 
+par un (ou plusieurs) espace.
+
+Pour cette première soutenance, nous avons commencé par implémenter les commandes de base, c'est-à-dire celles qui permettent l'établissement de la connection (PASS, NICK, USER, QUIT, \ldots)
+ainsi que les commandes d'opérations sur les canaux (JOIN, MODE, \ldots).
+
 \subsection{Établissement de la connexion}
+Ce sont les commandes utilisées pour établir une connection avec un serveur IRC, aussi bien par un client que par un serveur, ainsi qu'une déconnexion correcte. 
+
 \subsection{Opérations sur les canaux}
+Ce groupe de messages s'intéresse à la manipulation de canaux, à leurs propriétés (mode des canaux), et à leur contenu (typiquement des clients).
 
 
 
