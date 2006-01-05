@@ -36,7 +36,7 @@ void fleury_thread_init(int fd)
   strcpy(pcl->host, inet_ntoa(addr.sin_addr));
 #ifdef FLEURY_DEBUG
   fprintf(dbgout, "Fleury: [%lu] %s connected\n", (unsigned long)(pcl->tid), pcl->host);
-  fleury_socket_debug_client(pcl);
+  /* fleury_socket_debug_client(pcl); */
   fprintf(dbgout, "Fleury: Total connections %d/%d\n", list_length(fleury_conf.list_cl), FLEURY_MAX_CONNECTIONS);  
 #endif
 }

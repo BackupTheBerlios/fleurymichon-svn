@@ -26,7 +26,7 @@ void fleury_server_start(int port)
   fleury_conf.list_ch = NULL;
   fleury_conf.fleury_fd = fleury_server_tcp(port);
 #ifdef FLEURY_DEBUG
-  fleury_socket_debug_server();
+  /* fleury_socket_debug_server(); */
 #endif
   gethostname(fleury_conf.hostname, FLEURY_SZ_HOSTNAME);
   getdomainname(fleury_conf.domain, FLEURY_SZ_HOSTNAME);
@@ -102,7 +102,8 @@ void *fleury_server_listen(void *data)
 	  if (errno != EINTR)
 	    {
 #ifdef FLEURY_DEBUG
-	      fprintf(dbgout, "Fleury: Socket accept error\n");
+	      /* socket accept error */
+	      fprintf(dbgout, "Fleury: Listening stopped\n");
 #endif
 	    }
 	}
