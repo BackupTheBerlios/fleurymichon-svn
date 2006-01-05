@@ -6,6 +6,9 @@ Pour que l'application serveur puisse fonctionner convenablement, elle doit gagn
 
 \section{Travaux sur les sockets}
 \section{Concept de threads}
+
+Pour plus de souplesse dans l'application serveur, nous avons fait appel au multi-threading. Un thread est un processus léger, ou encore une tâche qui a un rôle bien précis. L'avantage des threads est qu'on peut en éxécuter plusieurs qui fonctionneront en parallèle et qui auront accès aux mêmes données. Ainsi, une fois le serveur initialisé, l'application comporte un thread d'écoute, qui attend les connexions des clients et qui est chargé de générer un nouveau thread de traitement pour chaque client qui se connecte au serveur. Nous avons employé la bibliothèque de threads POSIX pour l'implémentation de ce sytème de traitement, ainsi le serveur peut fonctionner dans des environnements Linux et Cygwin mais Windows n'est pas exclu pour autant puisqu'un portage de cette bibliothèque pour ce système est disponible.
+
 \section{Messages serveur}
 \subsection{Établissement de la connexion}
 \subsection{Opérations sur les canaux}
