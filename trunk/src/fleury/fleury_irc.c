@@ -147,6 +147,7 @@ void fleury_irc_process(struct s_cl *pcl)
 				  if (!strcmp(fleury_irc_cmd, "JOIN"))
 				    {
 				      /* TODO: tester les differents parametres */
+				      fleury_irc_param = fleury_irc_last(fleury_irc_param);
 				      int test(void *p)
 					{
 					  struct s_ch *ch;
@@ -251,6 +252,33 @@ void fleury_irc_process(struct s_cl *pcl)
 				    {
 				      if (!strcmp(fleury_irc_cmd, "PART"))
 					{
+					  fleury_irc_param = fleury_irc_last(fleury_irc_param);
+					  int part_test1(void *p)
+					    {
+					      return(!strcmp(((struct s_user_ch *)p)->pch->name, fleury_irc_param));
+					    }
+					  pch = list_search(pcl->list_chans, part_test1);
+					  if (pch)
+					    {
+					      int part_test2(void *p)
+						{
+						  return(!strcmp(((struct s_user_ch *)p)->pch->name, fleury_irc_param));
+						}
+					      pcl->list_chans = list_del(pcl->list_chans, part_test2);
+					      
+					      ltemp = pch->pch->list_users;
+					      while (ltemp)
+						{
+						  fprintf(((struct s_ch_user *)&(ltemp->elt))->pcl->out, ":%s!~%s@%s PART %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
+						  ltemp = ltemp->next;
+						}
+
+					      int part_test3(void *p)
+						{
+						  return(!strcmp(((struct s_ch_user *)p)->pcl->nick, pcl->nick));
+						}
+					      pch->pch->list_users = list_del(pch->pch->list_users, part_test3);
+					    }
 #ifdef FLEURY_DEBUG
 					  fprintf(dbgout, "Fleury: [%lu] PART (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
@@ -294,4 +322,18 @@ void fleury_irc_logged(struct s_cl *pcl)
   fprintf(pcl->out, ":%s 004 %s :Bla bla bla\r\n", fleury_conf.host, pcl->nick);
   fprintf(pcl->out, ":%s 005 %s :Bla bla bla\r\n", fleury_conf.host, pcl->nick);
   fprintf(pcl->out, ":%s 005 %s :Bla bla bla\r\n", fleury_conf.host, pcl->nick);
+}
+
+char *fleury_irc_last(char *s)
+{
+  char *ss;
+
+  ss = s;
+  while(*s && (*s != ' '))
+    {
+      s++;
+    }
+  *s = 0;
+
+  return ss;
 }

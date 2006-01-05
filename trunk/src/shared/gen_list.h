@@ -18,3 +18,4 @@ int list_length(t_list);
 t_list list_del_default(t_list, int (*) (void *));
 t_list list_del(t_list, int (*) (void *));
 void *list_search(t_list, int (*) (void *));
+void list_map(t_list, void (*) (void *));

@@ -175,3 +175,12 @@ void *list_search(t_list l, int (*fun) (void *))
 	}
     }
 }
+
+void list_map(t_list l, void (*fun) (void *))
+{
+  while (l)
+    {
+      fun(&(l->elt));
+      l = l->next;
+    }
+}
