@@ -1,5 +1,3 @@
-
-
 \section{Implémentation du daemon}
 
 Pour que l'application serveur puisse fonctionner convenablement, elle doit gagner son indépendance par rapport à la console depuis laquelle elle est appelée, devenant ainsi un daemon, c'est-à-dire une application résidant en mémoire et qui s'éxécute invisiblement en tâche de fond. Pour ce faire, nous avons utilisé principalement les fonctions \textit{fork()} et \textit{setsid()} afin d'isoler le processus du serveur Fleury de la console depuis laquelle il a été éxécuté. Ainsi, l'instance de Fleury nouvellement créée est détachée de la console, ce qui permet à l'utilisateur d'en reprendre le contrôle pendant que le serveur tourne en background. Donc le processus de l'application serveur se duplique et le processus originel quitte, ce qui donne un nouveau processus sans père, qui ne risque plus d'influencer le shell, qui en était le processus père auparavant.
@@ -17,9 +15,9 @@ deux modes :
 Comme dans le cas de l'ouverture d'un fichier, la communication par socket utilise un descripteur pour désigner la connection sur laquelle on envoie ou reçoit les 
 données. Ainsi la première opération à effectuer consiste à appeler une fonction créant un socket et retournant un descripteur (un entier) identifiant de manière unique 
 la connection. Ainsi ce descripteur est passé en paramètres des fonctions permettant d'envoyer ou recevoir des informations à travers le socket.
-Pour ce faire, nous avons fait appel aux fonctions et aux structure présentes dans la librairie standard \emph{sys/socket.h}. De plus, l'échange d'informations par le biais de sockets peut se faire à l'aide de simples fonctions de formatages de chaînes de caractères haut niveau comme \textit{fscanf()}, textit{fprintf()}, textit{fgets()} \ldots
+Pour ce faire, nous avons fait appel aux fonctions et aux structure présentes dans la librairie standard \emph{sys/socket.h}. De plus, l'échange d'informations par le biais de sockets peut se faire à l'aide de simples fonctions de formatages de chaînes de caractères haut niveau comme \textit{fscanf()}, \textit{fprintf()}, \textit{fgets()} \ldots
 
-\section{Concept de threads}
+\section{Multi-threading}
 
 Pour plus de souplesse dans l'application serveur, nous avons fait appel au multi-threading. Un thread est un processus léger, ou encore une tâche qui a un rôle bien précis. L'avantage des threads est qu'on peut en éxécuter plusieurs qui fonctionneront en parallèle et qui auront accès aux mêmes données. Ainsi, une fois le serveur initialisé, l'application comporte un thread d'écoute, qui attend les connexions des clients et qui est chargé de générer un nouveau thread de traitement pour chaque client qui se connecte au serveur. Nous avons employé la bibliothèque de threads POSIX pour l'implémentation de ce sytème de traitement, ainsi le serveur peut fonctionner dans des environnements Linux et Cygwin mais Windows n'est pas exclu pour autant puisqu'un portage de cette bibliothèque pour ce système est disponible.
 
@@ -58,4 +56,4 @@ La commande PART est utilisée par un client pour quitter un canal de discussion,
 
 \subsection{La commande QUIT}
 
-La commande QUIT est utilisée par un client pour fermer la connexion avec le serveur.
+La commande QUIT est utilisée par un client pour fermer la connexion avec le serveur. Le client peut passer en paramètre un éventuel message de départ.
