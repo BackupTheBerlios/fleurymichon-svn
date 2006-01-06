@@ -1,6 +1,32 @@
+\begin{figure}
+\centering
+\includegraphics[width=.8\linewidth]{fleury_ssh_ps_full.jpg}
+\caption{Fleury sous Linux}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=.8\linewidth]{fleury_cyg_ps.jpg}
+\caption{Fleury sous Cygwin}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=.8\linewidth]{fleury_cyg_session.jpg}
+\caption{Exemple de communication client/serveur}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=.8\linewidth]{fleury_cyg_log.jpg}
+\caption{Log d'éxécution}
+\end{figure}
+
 \section{Implémentation du daemon}
 
-Pour que l'application serveur puisse fonctionner convenablement, elle doit gagner son indépendance par rapport à la console depuis laquelle elle est appelée, devenant ainsi un daemon, c'est-à-dire une application résidant en mémoire et qui s'éxécute invisiblement en tâche de fond. Pour ce faire, nous avons utilisé principalement les fonctions \textit{fork()} et \textit{setsid()} afin d'isoler le processus du serveur Fleury de la console depuis laquelle il a été éxécuté. Ainsi, l'instance de Fleury nouvellement créée est détachée de la console, ce qui permet à l'utilisateur d'en reprendre le contrôle pendant que le serveur tourne en background. Donc le processus de l'application serveur se duplique et le processus originel quitte, ce qui donne un nouveau processus sans père, qui ne risque plus d'influencer le shell, qui en était le processus père auparavant.
+Pour que l'application serveur puisse fonctionner convenablement, elle doit gagner son indépendance par rapport à la console depuis laquelle elle est appelée, devenant ainsi un daemon, c'est-à-dire une application résidant en mémoire et qui s'éxécute invisiblement en tâche de fond. Pour ce faire, nous avons utilisé principalement les fonctions \textit{fork()} et \textit{setsid()} afin d'isoler le processus du serveur Fleury de la console depuis laquelle il a été éxécuté. Ainsi, l'instance de Fleury nouvellement créée est détachée de la console, ce qui permet à l'utilisateur d'en reprendre le contrôle pendant que le serveur tourne en background. Donc le processus de l'application serveur se duplique et le processus originel quitte, ce qui donne un nouveau processus sans père, qui ne risque plus d'influencer le shell, qui en était le processus père auparavant. \\
+Sous Linux, contrairement à \textbf{bash} et les autres commandes éxécutées par \textbf{bash}, Fleury est un processus indépendant de la console (\textbf{?} au lieu de \textbf{pts/0}). \textit{Voir Fig 2.1} \\
+Sous Cygwin, c'est pareil. \textit{Voir Fig 2.2}
 
 \section{Sockets et protocole TCP}
 
@@ -19,7 +45,8 @@ Pour ce faire, nous avons fait appel aux fonctions et aux structure présentes da
 
 \section{Multi-threading}
 
-Pour plus de souplesse dans l'application serveur, nous avons fait appel au multi-threading. Un thread est un processus léger, ou encore une tâche qui a un rôle bien précis. L'avantage des threads est qu'on peut en éxécuter plusieurs qui fonctionneront en parallèle et qui auront accès aux mêmes données. Ainsi, une fois le serveur initialisé, l'application comporte un thread d'écoute, qui attend les connexions des clients et qui est chargé de générer un nouveau thread de traitement pour chaque client qui se connecte au serveur. Nous avons employé la bibliothèque de threads POSIX pour l'implémentation de ce sytème de traitement, ainsi le serveur peut fonctionner dans des environnements Linux et Cygwin mais Windows n'est pas exclu pour autant puisqu'un portage de cette bibliothèque pour ce système est disponible.
+Pour plus de souplesse dans l'application serveur, nous avons fait appel au multi-threading. Un thread est un processus léger, ou encore une tâche qui a un rôle bien précis. L'avantage des threads est qu'on peut en éxécuter plusieurs qui fonctionneront en parallèle et qui auront accès aux mêmes données. Ainsi, une fois le serveur initialisé, l'application comporte un thread d'écoute, qui attend les connexions des clients et qui est chargé de générer un nouveau thread de traitement pour chaque client qui se connecte au serveur. Nous avons employé la bibliothèque de threads POSIX pour l'implémentation de ce sytème de traitement, ainsi le serveur peut fonctionner dans des environnements Linux et Cygwin mais Windows n'est pas exclu pour autant puisqu'un portage de cette bibliothèque pour ce système est disponible. \\
+Les identifiants des threads apparaissent entre crochets dans le log d'éxécution \textit{Voir Fig 2.4}
 
 \section{Messages serveur}
 
@@ -57,3 +84,5 @@ La commande PART est utilisée par un client pour quitter un canal de discussion,
 \subsection{La commande QUIT}
 
 La commande QUIT est utilisée par un client pour fermer la connexion avec le serveur. Le client peut passer en paramètre un éventuel message de départ.
+\\
+\textit{Exemple de communication: Voiir Fig 2.3}
