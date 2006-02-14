@@ -296,10 +296,77 @@ void fleury_irc_process(struct s_cl *pcl)
 #endif
 					}
 				      else
-					{			      
+					{
+					  if (!strcmp(fleury_irc_cmd, "PRIVMSG"))
+
+
+					    {
 #ifdef FLEURY_DEBUG
-					  fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
+					       fprintf(dbgout, "Fleury: [%lu] PRIVMSG (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
+
+
+					      char dest[128];
+					      char *msg;
+					      char c;
+					      int  i;
+					      int  j;
+					      int  l;
+					      struct s_cl *tmp;
+					      
+					      l = strlen(fleury_irc_param);
+
+					      for (i = 0; (i < l) && (c != ' '); i++)
+						{
+						  c = *(fleury_irc_param + i);
+						  *(dest + i) = c; 
+						}
+
+					      *(dest + i - 1) = 0;
+
+					      msg = malloc((l - i + 1) * sizeof(char));
+
+					      			      
+					      
+
+					      for (j = i, i = 0; j < l ; i++, j++)
+						{
+						  c = *(fleury_irc_param + j);
+						  *(msg + i) = c; 
+						}				
+					      
+					      *(msg + i) = 0;
+
+
+#ifdef FLEURY_DEBUG
+					       fprintf(dbgout, "Fleury: msg: %s* dest: %s*\n", msg, dest);
+#endif
+
+					      
+					      int test(void *p)
+						{
+						  return(!strcmp(((struct s_cl *)p)->nick, dest));
+						}
+					      
+					      tmp = list_search(fleury_conf.list_cl, test);
+					      
+					      if (tmp)
+						{
+						  fprintf(tmp->out, ":%s!~%s@%s PRIVMSG %s\r\n", pcl->nick, pcl->user, pcl->host, msg);					      
+						}
+
+					      free(msg);
+					    
+
+					    }
+
+					  else
+					    
+					    {			      
+#ifdef FLEURY_DEBUG
+					      fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
+#endif
+					    }
 					}
 				    }
 				}
