@@ -274,12 +274,14 @@ void fleury_irc_process(struct s_cl *pcl)
 					      while (ltemp)
 						{
 						  pu = (struct s_ch_user *)&(ltemp->elt);
-						  fprintf(pu->pcl->out, ":%s!~%s@%s PART %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
-
+						  if (pu->pcl != pcl)
+						    {
+						      fprintf(pu->pcl->out, ":%s!~%s@%s PART %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
+						      
 #ifdef FLEURY_DEBUG
-						  fprintf(dbgout, "Fleury: [%lu;%lu] PART (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
+						      fprintf(dbgout, "Fleury: [%lu;%lu] PART Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
 #endif
-
+						    }
 						  ltemp = ltemp->next;
 						}
 
