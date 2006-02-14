@@ -235,7 +235,11 @@ void fleury_irc_process(struct s_cl *pcl)
 					      fprintf(pcl->out, "%s", pu->pcl->nick);
 					      if (pu->pcl != pcl)
 						{
-						  fprintf(pu->pcl->out, ":%s!~%s@%s JOIN :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name);					    
+						  fprintf(pu->pcl->out, ":%s!~%s@%s JOIN :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name);
+
+#ifdef FLEURY_DEBUG
+						  fprintf(dbgout, "Fleury: [%lu;%lu] JOIN (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
+#endif
 						}
 					      
 					      ltemp = ltemp->next;
@@ -269,7 +273,13 @@ void fleury_irc_process(struct s_cl *pcl)
 					      ltemp = pch->pch->list_users;
 					      while (ltemp)
 						{
-						  fprintf(((struct s_ch_user *)&(ltemp->elt))->pcl->out, ":%s!~%s@%s PART %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
+						  pu = (struct s_ch_user *)&(ltemp->elt);
+						  fprintf(pu->pcl->out, ":%s!~%s@%s PART %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
+
+#ifdef FLEURY_DEBUG
+						  fprintf(dbgout, "Fleury: [%lu;%lu] PART (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
+#endif
+
 						  ltemp = ltemp->next;
 						}
 
