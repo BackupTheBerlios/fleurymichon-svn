@@ -359,7 +359,7 @@ void fleury_irc_process(struct s_cl *pcl)
 						  
 						  
 #ifdef FLEURY_DEBUG
-						  fprintf(dbgout, "Fleury: msg: %s* dest: %s*\n", msg, dest);
+						  fprintf(dbgout, "Fleury: MSG: %s TO: %s\n", msg, dest);
 #endif
 						  
 					       
@@ -367,7 +367,13 @@ void fleury_irc_process(struct s_cl *pcl)
 						    {
 						      return(!strcmp(((struct s_cl *)p)->nick, dest));
 						    }
+
 						  
+						  int test2(void *p)
+						    {
+						      return(!strcmp(((struct s_ch *)p)->name, dest));
+						    }							 
+ 
 						  tmp = list_search(fleury_conf.list_cl, test);
 						  
 						  if (tmp)
@@ -375,10 +381,41 @@ void fleury_irc_process(struct s_cl *pcl)
 						      fprintf(tmp->out, ":%s!~%s@%s PRIVMSG %s\r\n", pcl->nick, pcl->user, pcl->host, msg);					      
 
 						    }
+						  else
+						    {
+						      pchan = list_search(fleury_conf.list_ch, test2);
+						      if (pchan)
+							{
+							  ltemp = pchan->list_users;
+#ifdef FLEURY_DEBUG
+							  fprintf(dbgout, "Fleury: CHANNEL: %s\n", pchan->name);
+#endif
+
+							  while (ltemp)
+							    {
+							      pu = (struct s_ch_user *)&(ltemp->elt);
+							      if (strcmp(pcl->nick, pu->pcl->nick))
+								{
+								  fprintf(pu->pcl->out, ":%s!~%s@%s PRIVMSG %s\r\n", pcl->nick, pcl->user, pcl->host, msg);					      
+#ifdef FLEURY_DEBUG
+								  fprintf(dbgout, "Fleury: BROADCAST TO: %s\n", pu->pcl->nick);
+#endif
+								}
+							      ltemp = ltemp->next;
+							    }						     
+							}						  
+						      else
+							{
+#ifdef FLEURY_DEBUG
+							  fprintf(dbgout, "Fleury: CHANNEL: %s\n", "This channel doesn't exist!");
+#endif
+							}
+						    }
 						  
 						  free(msg);
-
+#ifdef FLEURY_DEBUG
 						  fprintf(dbgout, "Fleury: [%lu] PRIVMSG (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
+#endif
 						}
 					      else
 						
