@@ -294,6 +294,8 @@ void fleury_irc_process(struct s_cl *pcl)
 						    }
 						  pcl->list_chans = list_del(pcl->list_chans, part_test2);
 						  
+						  fprintf(pcl->out, ":%s!~%s@%s PART %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
+
 						  ltemp = pch->pch->list_users;
 						  while (ltemp)
 						    {
