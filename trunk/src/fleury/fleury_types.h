@@ -36,6 +36,7 @@ struct s_cl
   pthread_mutex_t lock;
   int connected;
   int logged;
+  int ibuf;
   int fd;
   int fd2;
   FILE *in;
