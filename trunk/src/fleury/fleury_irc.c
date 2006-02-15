@@ -378,8 +378,7 @@ void fleury_irc_process(struct s_cl *pcl)
 						  
 						  if (tmp)
 						    {
-						      fprintf(tmp->out, ":%s!~%s@%s PRIVMSG %s\r\n", pcl->nick, pcl->user, pcl->host, msg);					      
-
+						      fprintf(tmp->out, ":%s!~%s@%s PRIVMSG %s :%s\r\n", pcl->nick, pcl->user, pcl->host, pcl->nick, msg);					    
 						    }
 						  else
 						    {
@@ -396,7 +395,7 @@ void fleury_irc_process(struct s_cl *pcl)
 							      pu = (struct s_ch_user *)&(ltemp->elt);
 							      if (strcmp(pcl->nick, pu->pcl->nick))
 								{
-								  fprintf(pu->pcl->out, ":%s!~%s@%s PRIVMSG %s\r\n", pcl->nick, pcl->user, pcl->host, msg);					      
+								  fprintf(pu->pcl->out, ":%s!~%s@%s PRIVMSG %s :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name, msg);					      
 #ifdef FLEURY_DEBUG
 								  fprintf(dbgout, "Fleury: BROADCAST TO: %s\n", pu->pcl->nick);
 #endif
@@ -418,11 +417,27 @@ void fleury_irc_process(struct s_cl *pcl)
 #endif
 						}
 					      else
-						
-						{			      
+						{
+						  
+
+						  if (!strcmp(fleury_irc_cmd, "NAMES"))
+						    {
+						      if (!fleury_irc_param)
+							{
+							  
+							}
+						      else
+							{
+
+							}
+
+						    }
+						  else
+						    {			      
 #ifdef FLEURY_DEBUG
-						  fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
+						      fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
 #endif
+						    }
 						}
 					    }
 					}
