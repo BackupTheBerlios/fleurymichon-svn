@@ -9,8 +9,6 @@ void fleury_irc_process(struct s_cl *pcl)
   struct s_user_ch chch;
   struct s_user_ch *pch;
   struct s_ch chan;
-  struct timeval tv;
-  fd_set rset;
   char fleury_irc_cmd[64];
   char *fleury_irc_param;
   int retval;
@@ -34,13 +32,6 @@ void fleury_irc_process(struct s_cl *pcl)
     }
 
   retval = 0;
-  /* tv.tv_sec = 1;
-  tv.tv_usec = 0;
-
-  FD_ZERO(&rset);
-  FD_SET(pcl->fd,&rset);
-  retval = select(pcl->fd + 1, &rset, NULL, NULL, &tv); 
-  if (FD_ISSET(pcl->fd,&rset)) */
   ioctl(pcl->fd, FIONREAD, &val);
   if (val)
     {
