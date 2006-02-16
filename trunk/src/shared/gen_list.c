@@ -156,6 +156,48 @@ t_list list_del(t_list l, int (*pf) (void *))
 	}
     }
 }
+t_list list_del_long_default(t_list l, int (*pf) (void *, void *), void *d)
+{
+  t_list p;
+  t_list q;
+  
+  p = l;
+  q = l;
+  while (q && !(pf(&q->elt, d)))
+    {
+      p = q;
+      q = q->next;
+    }
+  if (q)
+    {
+      p->next = q->next;
+      free(q);
+    }
+  return l;
+}
+
+t_list list_del_long(t_list l, int (*pf) (void *, void *), void *d)
+{
+  t_list p;
+  
+  if (!l)
+    {
+      return NULL;
+    }
+  else
+    {
+      if (pf(&l->elt, d))
+	{
+	  p = l->next;
+	  free(l);
+	  return p;
+	}
+      else
+	{
+	  return list_del_long_default(l, pf, d);
+	}
+    }
+}
       
 void *list_search(t_list l, int (*fun) (void *))
 {
@@ -172,6 +214,25 @@ void *list_search(t_list l, int (*fun) (void *))
       else
 	{
 	  return (list_search(l->next, fun));
+	}
+    }
+}
+
+void *list_search_long(t_list l, int (*fun) (void *, void *), void *d)
+{
+  if (!l)
+    {
+      return NULL;
+    }
+  else
+    {
+      if (fun(d, &(l->elt)))
+	{
+	  return (&(l->elt));
+	}
+      else
+	{
+	  return (list_search_long(l->next, fun, d));
 	}
     }
 }

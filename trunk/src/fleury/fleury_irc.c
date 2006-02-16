@@ -16,7 +16,7 @@ void fleury_irc_process(struct s_cl *pcl)
 
   /* char *tmp; */
 
-  /* commandes a rajouter : PING OPER NAMES PRIVMSG */
+  /* commandes a rajouter : PING OPER NAMES WHO */
 
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
@@ -172,31 +172,20 @@ void fleury_irc_process(struct s_cl *pcl)
 					{
 					  /* TODO: tester les differents parametres */
 					  fleury_irc_param = fleury_irc_last(fleury_irc_param);
-					  int test(void *p)
-					    {
-					      struct s_ch *ch;
-					      
-					      ch = (struct s_ch *)p;
-					      return (!strcmp(fleury_irc_param, ch->name));
-					    }
 					  int test2(void *p1, void *p2)
 					    {
-					      return (!strcmp(((struct s_ch *)p1)->name, ((struct s_ch *)p2)->name) < 0);
-					    }
-					  int test3(void *p)
-					    {
-					      return (!strcmp(fleury_irc_param, ((struct s_user_ch *)p)->pch->name));
+					      return (strcmp(((struct s_ch *)p1)->name, ((struct s_ch *)p2)->name) < 0);
 					    }
 					  int test4(void *p1, void *p2)
 					    {
-					      return (!strcmp(((struct s_ch_user *)p1)->pcl->nick, ((struct s_ch_user *)p2)->pcl->nick) < 0);
+					      return (strcmp(((struct s_ch_user *)p1)->pcl->nick, ((struct s_ch_user *)p2)->pcl->nick) < 0);
 					    }
 					  int test5(void *p1, void *p2)
 					    {
-					      return (!strcmp(((struct s_user_ch *)p1)->pch->name, ((struct s_user_ch *)p2)->pch->name) < 0);
+					      return (strcmp(((struct s_user_ch *)p1)->pch->name, ((struct s_user_ch *)p2)->pch->name) < 0);
 					    }
 					  
-					  pchan = list_search(fleury_conf.list_ch, test);
+					  pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, fleury_irc_param);
 					  
 					  /* initialisation des champs du canal */
 					  strcpy(chan.name, fleury_irc_param);
@@ -206,7 +195,7 @@ void fleury_irc_process(struct s_cl *pcl)
 					  chan.list_ban = NULL;
 					  chan.mode.r = 0;
 					  
-					  pch = list_search(pcl->list_chans, test3);
+					  pch = list_search_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param);
 					  
 					  chch.status = 0;
 					  user.status = 0;
@@ -218,7 +207,7 @@ void fleury_irc_process(struct s_cl *pcl)
 						  if (fleury_conf.list_ch)
 						    {
 						      fleury_conf.list_ch = list_add_sorted(fleury_conf.list_ch, &chan, sizeof(chan), test2);
-						      pchan = list_search(fleury_conf.list_ch, test);	      
+						      pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, fleury_irc_param);	      
 						    }
 						  else
 						    {
@@ -281,18 +270,10 @@ void fleury_irc_process(struct s_cl *pcl)
 					  if (!strcmp(fleury_irc_cmd, "PART"))
 					    {
 					      fleury_irc_param = fleury_irc_last(fleury_irc_param);
-					      int part_test1(void *p)
-						{
-						  return(!strcmp(((struct s_user_ch *)p)->pch->name, fleury_irc_param));
-						}
-					      pch = list_search(pcl->list_chans, part_test1);
+					      pch = list_search_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param);
 					      if (pch)
 						{
-						  int part_test2(void *p)
-						    {
-						      return(!strcmp(((struct s_user_ch *)p)->pch->name, fleury_irc_param));
-						    }
-						  pcl->list_chans = list_del(pcl->list_chans, part_test2);
+						  pcl->list_chans = list_del_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param);
 						  
 						  fprintf(pcl->out, ":%s!~%s@%s PART %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
 
@@ -310,12 +291,7 @@ void fleury_irc_process(struct s_cl *pcl)
 							}
 						      ltemp = ltemp->next;
 						    }
-						  
-						  int part_test3(void *p)
-						    {
-						      return(!strcmp(((struct s_ch_user *)p)->pcl->nick, pcl->nick));
-						    }
-						  pch->pch->list_users = list_del(pch->pch->list_users, part_test3);
+						  pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, pcl->nick);
 						}
 #ifdef FLEURY_DEBUG
 					      fprintf(dbgout, "Fleury: [%lu] PART (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
@@ -492,4 +468,44 @@ char *fleury_irc_last(char *s)
   *s = 0;
 
   return ss;
+}
+
+int test_streq_cl_user(void *p1, void *p2)
+{
+  return (!strcmp((char *)p1, ((struct s_ch_user *)p2)->pcl->nick));  
+}
+
+int test_streq_cl(void *p1, void *p2)
+{
+  return (!strcmp((char *)p1, ((struct s_cl *)p2)->nick));  
+}
+
+int test_streq_ch_chan(void *p1, void *p2)
+{
+  return (!strcmp((char *)p1, ((struct s_user_ch *)p2)->pch->name));  
+}
+
+int test_streq_ch(void *p1, void *p2)
+{
+  return (!strcmp((char *)p1, ((struct s_ch *)p2)->name));  
+}
+
+int test_strcmp_cl_user(void *p1, void *p2)
+{
+  return (strcmp(((struct s_ch_user *)p1)->pcl->nick, ((struct s_ch_user *)p2)->pcl->nick) < 0);
+}
+
+int test_strcmp_cl(void *p1, void *p2)
+{
+  return (strcmp(((struct s_cl *)p1)->nick, ((struct s_cl *)p2)->nick) < 0);
+}
+
+int test_strcmp_ch_chan(void *p1, void *p2)
+{
+  return (strcmp(((struct s_user_ch *)p1)->pch->name, ((struct s_user_ch *)p2)->pch->name) < 0);
+}
+
+int test_strcmp_ch(void *p1, void *p2)
+{
+  return (strcmp(((struct s_ch *)p1)->name, ((struct s_ch *)p2)->name) < 0);
 }
