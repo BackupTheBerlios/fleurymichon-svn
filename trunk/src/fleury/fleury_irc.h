@@ -19,3 +19,4 @@ int test_strcmp_ch_chan(void *, void *);
 int test_strcmp_ch(void *, void *);
 int test_strcmp_cl_user(void *, void *);
 int test_strcmp_cl(void *, void *);
+int test_pthread_cl(void *, void *);

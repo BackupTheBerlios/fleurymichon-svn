@@ -125,7 +125,7 @@ void *fleury_thread_proc(void *data)
       return (cl->tid == pcl->tid);	   
     }	
   
-  fleury_conf.list_cl = list_del(fleury_conf.list_cl, test);
+  fleury_conf.list_cl = list_del_long(fleury_conf.list_cl, test_pthread_cl, pcl);
 
   return NULL;
 }

@@ -500,3 +500,8 @@ int test_strcmp_ch(void *p1, void *p2)
 {
   return (strcmp(((struct s_ch *)p1)->name, ((struct s_ch *)p2)->name) < 0);
 }
+
+int test_pthread_cl(void *p1, void *p2)
+{
+  return (((struct s_cl *)p1)->tid == ((struct s_cl *)p2)->tid);
+}
