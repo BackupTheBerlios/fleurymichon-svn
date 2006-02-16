@@ -9,15 +9,94 @@
 ** These will automatically be called by the form's constructor and
 ** destructor.
 *****************************************************************************/
+#include <qsocket.h>
 
+#define CMDSMAX 32
+#define starg struct arguments
 
+struct arguments
+{
+    char arg[CMDSMAX];
+    starg *next;
+};
+
+struct commande
+{
+    char com[CMDSMAX];
+    int size;
+    starg *args;
+};
+
+void fprnt(FILE *f,const char* s)
+{
+   int i;
+   
+   i=0;
+   while(s[i])
+       fputc(s[i++],f);
+   fputc('\n',f);
+}
+
+const char* qstrtostr(const char *s)
+{
+    return s;
+}
+	
 void dlgmain::pbsendclick()
 {
-   if( lemess->text()[0]!=0 )
-    {
-       fprintf(logf,"%s\n",(lemess->text())::assci);
-       tbchat->append(lemess->text());
-       lemess->clear();
+    struct commande *cmd;
+    int i,j;
+    const char *s;
+    starg **argu,*tmp;
+    
+    s=qstrtostr(lemess->text());
+    if( s[0]!=0 )
+    {      
+	if(s[0]=='/')
+	{
+	    /*saisie commande*/
+	    i=1;	    
+	    cmd=(commande *)malloc(sizeof(struct commande));
+	    while((s[i]!=0)&&(s[i]!=' ')&&(i<=CMDSMAX))
+	    {
+		cmd->com[i-1]=s[i];	
+		i++;
+	    }
+	    cmd->size=i-1;
+	    cmd->com[i-1]=0;
+	    /*saisie argument(s)*/
+	    argu=&(cmd->args);
+	    while(s[i])
+	    {
+		i++;
+		*argu=(starg*)malloc(sizeof(starg));
+		j=0;
+		while((s[i])&&(s[i]!=' '))
+		{
+		    (*argu)->arg[j]=s[i];
+		    i++;
+		    j++;
+		}
+		(*argu)->arg[j]=0;
+		argu=&((*argu)->next);
+	    }	
+	    (*argu)=NULL;
+	    /*execution*/
+	    
+	    
+	    
+	    /*liberation*/
+	    argu=&(cmd->args);
+	    while((*argu)!=NULL)
+	    {
+		tmp=*argu;
+		argu=&((*argu)->next);
+		free(tmp);
+	    }
+	    free(cmd);
+	}
+	majchat();
+	lemess->clear();
     }
 }
 
@@ -35,30 +114,8 @@ void dlgmain::destroy()
 }
 
 
-/*void dlgmain::majchat()
+void dlgmain::majchat()
 {
-    int i=0,j=0,c;
-    char *s;
-    
-    tbchat->clear();
-    if(!(s=(char*)malloc(512*sizeof(char))))
-	printf("erreur d'allocation");
-    fseek(logf,0,SEEK_SET);
-    c=fgetc(logf);
-    while(c!=EOF)
-    {
-	if(((unsigned char) c)!=10)
-	{
-	    s[j]=(unsigned char) c;
-	    j++;
-	}
-	else
-	{
-	    i++;
-	    s[j]=0;
-	    j=0;
-	    tbchat->insertParagraph(s,i);
-	}
-    }
-    tbchat->append(lemess->text());
-}*/
+    fprnt(logf,(lemess->text()));
+    tbchat->append(lemess->text());    
+}

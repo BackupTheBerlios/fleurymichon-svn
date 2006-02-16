@@ -8,130 +8,88 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>571</width>
+            <width>567</width>
             <height>527</height>
         </rect>
     </property>
     <property name="caption">
         <string>Michon</string>
     </property>
-    <widget class="QScrollBar">
+    <widget class="QLayoutWidget">
         <property name="name">
-            <cstring>scrollbarchan</cstring>
+            <cstring>layout2</cstring>
         </property>
         <property name="geometry">
             <rect>
-                <x>530</x>
-                <y>21</y>
-                <width>16</width>
-                <height>496</height>
-            </rect>
-        </property>
-        <property name="orientation">
-            <enum>Vertical</enum>
-        </property>
-    </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>lemess</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>52</x>
-                <y>493</y>
-                <width>345</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property name="minimumSize">
-            <size>
-                <width>0</width>
-                <height>25</height>
-            </size>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>pbsend</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>403</x>
-                <y>493</y>
-                <width>45</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property name="minimumSize">
-            <size>
-                <width>45</width>
-                <height>25</height>
-            </size>
-        </property>
-        <property name="maximumSize">
-            <size>
-                <width>45</width>
-                <height>30</height>
-            </size>
-        </property>
-        <property name="text">
-            <string>Send</string>
-        </property>
-    </widget>
-    <widget class="QListBox">
-        <item>
-            <property name="text">
-                <string>abcdefghi</string>
-            </property>
-        </item>
-        <property name="name">
-            <cstring>lbchan_util</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>453</x>
-                <y>21</y>
-                <width>75</width>
-                <height>496</height>
-            </rect>
-        </property>
-        <property name="minimumSize">
-            <size>
-                <width>75</width>
-                <height>0</height>
-            </size>
-        </property>
-        <property name="maximumSize">
-            <size>
-                <width>75</width>
-                <height>32767</height>
-            </size>
-        </property>
-    </widget>
-    <widget class="QTextBrowser">
-        <property name="name">
-            <cstring>tbchat</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>20</x>
+                <x>10</x>
                 <y>10</y>
-                <width>371</width>
-                <height>471</height>
+                <width>550</width>
+                <height>510</height>
             </rect>
         </property>
-        <property name="hScrollBarMode">
-            <enum>AlwaysOff</enum>
-        </property>
-        <property name="textFormat">
-            <enum>LogText</enum>
-        </property>
-        <property name="text">
-            <string></string>
-        </property>
-        <property name="autoFormatting">
-            <set>AutoAll</set>
-        </property>
+        <vbox>
+            <property name="name">
+                <cstring>unnamed</cstring>
+            </property>
+            <widget class="QTextBrowser">
+                <property name="name">
+                    <cstring>tbchat</cstring>
+                </property>
+                <property name="hScrollBarMode">
+                    <enum>AlwaysOff</enum>
+                </property>
+                <property name="textFormat">
+                    <enum>LogText</enum>
+                </property>
+                <property name="text">
+                    <string></string>
+                </property>
+                <property name="autoFormatting">
+                    <set>AutoAll</set>
+                </property>
+            </widget>
+            <widget class="QLayoutWidget">
+                <property name="name">
+                    <cstring>layout1</cstring>
+                </property>
+                <hbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLineEdit">
+                        <property name="name">
+                            <cstring>lemess</cstring>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>0</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton">
+                        <property name="name">
+                            <cstring>pbsend</cstring>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>45</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                        <property name="maximumSize">
+                            <size>
+                                <width>45</width>
+                                <height>30</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string>Send</string>
+                        </property>
+                    </widget>
+                </hbox>
+            </widget>
+        </vbox>
     </widget>
 </widget>
 <connections>
@@ -145,7 +103,6 @@
 <tabstops>
     <tabstop>lemess</tabstop>
     <tabstop>pbsend</tabstop>
-    <tabstop>lbchan_util</tabstop>
     <tabstop>tbchat</tabstop>
 </tabstops>
 <includes>
@@ -156,10 +113,11 @@
 </variables>
 <slots>
     <slot>pbsendclick()</slot>
+    <slot>majchat()</slot>
 </slots>
 <functions>
-    <function>init()</function>
-    <function>destroy()</function>
+    <function access="private" specifier="non virtual">init()</function>
+    <function access="private" specifier="non virtual">destroy()</function>
 </functions>
 <pixmapinproject/>
 <layoutdefaults spacing="6" margin="11"/>
