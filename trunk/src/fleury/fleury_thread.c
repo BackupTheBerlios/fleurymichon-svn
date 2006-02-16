@@ -44,29 +44,6 @@ void fleury_thread_init(int fd)
 
 /* ne pas oublier fclose(in), fflush(out)?, fclose(out) */
 
-/* void fleury_tasks()
-{
-  int k;
-
-  for (k = 0; k < FLEURY_MAX_TASKS; k++)
-    {
-      struct s_task *pt;
-      pt = tasks + k;
-      pt->active = 0;
-      sprintf(pt->cl.pass, "");
-      sprintf(pt->cl.nick, "");
-      sprintf(pt->cl.user, "");
-      sprintf(pt->cl.name, "");
-      *(pt->cl.pass) = 0;
-      *(pt->cl.nick) = 0;
-      *(pt->cl.user) = 0;
-      *(pt->cl.name) = 0;
-      pthread_mutex_init(&pt->lock, NULL);
-      pthread_mutex_lock(&pt->lock);
-      pthread_create(&pt->id, NULL, fleury_task_work, (void *)pt);
-    }
-} */
-
 void *fleury_thread_proc(void *data)
 {
   struct s_cl *pcl;
@@ -93,20 +70,6 @@ void *fleury_thread_proc(void *data)
       fleury_irc_process(pcl);   
                        
     }
-  /*
-  if (!fleury_conf.over)
-    {
-      int test(void *elt)
-	{
-	  struct s_cl *cl;
-
-	  cl = (struct s_cl *)&elt;
-	  return cl->tid = pcl->tid;	   
-	}	
-      
-      fleury_conf.list_cl = list_del(fleury_conf.list_cl, test);
-    }
-  */
 
   if (pcl->connected)
     {
@@ -117,31 +80,7 @@ void *fleury_thread_proc(void *data)
   fprintf(dbgout, "Fleury: [%lu] %s closed\n", (unsigned long)(pcl->tid), pcl->host);
 #endif
 
-  int test(void *p)
-    {
-      struct s_cl *cl;
-      
-      cl = (struct s_cl *)p;
-      return (cl->tid == pcl->tid);	   
-    }	
-  
   fleury_conf.list_cl = list_del_long(fleury_conf.list_cl, test_pthread_cl, pcl);
 
   return NULL;
 }
-
-/* void *fleury_task_work(void *data)
-{
-  struct s_task *pt;
-
-  pt = data;
-
-  while (1)
-    {
-      pthread_mutex_lock(&pt->lock);
-      fleury_irc_process(pt->fd, &pt->cl);
-      close(pt->fd);
-      pt->active = 0;
-    }
-  return NULL;
-} */
