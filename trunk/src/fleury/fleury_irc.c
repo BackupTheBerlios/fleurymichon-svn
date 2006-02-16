@@ -172,18 +172,6 @@ void fleury_irc_process(struct s_cl *pcl)
 					{
 					  /* TODO: tester les differents parametres */
 					  fleury_irc_param = fleury_irc_last(fleury_irc_param);
-					  int test2(void *p1, void *p2)
-					    {
-					      return (strcmp(((struct s_ch *)p1)->name, ((struct s_ch *)p2)->name) < 0);
-					    }
-					  int test4(void *p1, void *p2)
-					    {
-					      return (strcmp(((struct s_ch_user *)p1)->pcl->nick, ((struct s_ch_user *)p2)->pcl->nick) < 0);
-					    }
-					  int test5(void *p1, void *p2)
-					    {
-					      return (strcmp(((struct s_user_ch *)p1)->pch->name, ((struct s_user_ch *)p2)->pch->name) < 0);
-					    }
 					  
 					  pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, fleury_irc_param);
 					  
@@ -206,7 +194,7 @@ void fleury_irc_process(struct s_cl *pcl)
 						{
 						  if (fleury_conf.list_ch)
 						    {
-						      fleury_conf.list_ch = list_add_sorted(fleury_conf.list_ch, &chan, sizeof(chan), test2);
+						      fleury_conf.list_ch = list_add_sorted(fleury_conf.list_ch, &chan, sizeof(chan), test_strcmp_ch);
 						      pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, fleury_irc_param);	      
 						    }
 						  else
@@ -221,8 +209,8 @@ void fleury_irc_process(struct s_cl *pcl)
 					      chch.pch = pchan;
 					      user.pcl = pcl;
 					      
-					      pcl->list_chans = list_add_sorted(pcl->list_chans, &chch, sizeof(void *), test5);
-					      pchan->list_users = list_add_sorted(pchan->list_users, &user, sizeof(void *), test4);
+					      pcl->list_chans = list_add_sorted(pcl->list_chans, &chch, sizeof(void *), test_strcmp_ch_chan);
+					      pchan->list_users = list_add_sorted(pchan->list_users, &user, sizeof(void *), test_strcmp_cl_user);
 					      
 					      
 					      fprintf(pcl->out, ":%s!~%s@%s JOIN :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name);
