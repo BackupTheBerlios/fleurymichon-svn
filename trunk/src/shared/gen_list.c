@@ -163,7 +163,7 @@ t_list list_del_long_default(t_list l, int (*pf) (void *, void *), void *d)
   
   p = l;
   q = l;
-  while (q && !(pf(&q->elt, d)))
+  while (q && !(pf(d, &q->elt)))
     {
       p = q;
       q = q->next;
@@ -186,7 +186,7 @@ t_list list_del_long(t_list l, int (*pf) (void *, void *), void *d)
     }
   else
     {
-      if (pf(&l->elt, d))
+      if (pf(d, &l->elt))
 	{
 	  p = l->next;
 	  free(l);
