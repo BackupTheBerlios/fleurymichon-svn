@@ -337,20 +337,8 @@ void fleury_irc_process(struct s_cl *pcl)
 #ifdef FLEURY_DEBUG
 						  fprintf(dbgout, "Fleury: MSG: %s TO: %s\n", msg, dest);
 #endif
-						  
-					       
-						  int test(void *p)
-						    {
-						      return(!strcmp(((struct s_cl *)p)->nick, dest));
-						    }
-
-						  
-						  int test2(void *p)
-						    {
-						      return(!strcmp(((struct s_ch *)p)->name, dest));
-						    }							 
  
-						  tmp = list_search(fleury_conf.list_cl, test);
+						  tmp = list_search_long(fleury_conf.list_cl, test_streq_cl, dest);
 						  
 						  if (tmp)
 						    {
@@ -358,7 +346,7 @@ void fleury_irc_process(struct s_cl *pcl)
 						    }
 						  else
 						    {
-						      pchan = list_search(fleury_conf.list_ch, test2);
+						      pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, dest);
 						      if (pchan)
 							{
 							  ltemp = pchan->list_users;
