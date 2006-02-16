@@ -325,7 +325,7 @@ void fleury_irc_process(struct s_cl *pcl)
 						  
 						  
 						  
-						  for (j = i, i = 0; j < l ; i++, j++)
+						  for (j = ++i, i = 0; j < l ; i++, j++)
 						    {
 						      c = *(fleury_irc_param + j);
 						      *(msg + i) = c; 
@@ -371,10 +371,7 @@ void fleury_irc_process(struct s_cl *pcl)
 							      pu = (struct s_ch_user *)&(ltemp->elt);
 							      if (strcmp(pcl->nick, pu->pcl->nick))
 								{
-								  fprintf(pu->pcl->out, ":%s!~%s@%s PRIVMSG %s :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name, msg);					      
-#ifdef FLEURY_DEBUG
-								  fprintf(dbgout, "Fleury: BROADCAST TO: %s\n", pu->pcl->nick);
-#endif
+								  fprintf(pu->pcl->out, ":%s!~%s@%s PRIVMSG %s :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name, msg); 
 								}
 							      ltemp = ltemp->next;
 							    }						     
@@ -394,13 +391,32 @@ void fleury_irc_process(struct s_cl *pcl)
 						}
 					      else
 						{
-						  
+						  int test(void *p)
+						    {
+						      return(!strcmp(((struct s_ch *)p)->name, fleury_irc_param));
+						    }							 
+				       
+
 
 						  if (!strcmp(fleury_irc_cmd, "NAMES"))
 						    {
-						      if (!fleury_irc_param)
+						      if (fleury_irc_param)
 							{
-							  
+							  pchan = list_search(fleury_conf.list_ch, test);
+							  if (pchan)
+							    {
+							      ltemp = pchan->list_users;
+							      fprintf(pcl->out, ":%s 353 %s = %s :", fleury_conf.host, pcl->nick, pchan->name);
+							      while (ltemp)
+								{
+								  pu = (struct s_ch_user *)&(ltemp->elt);
+								  fprintf(pcl->out, "%s ", pu->pcl->nick);
+								  ltemp = ltemp->next;
+								}
+							      fprintf(pcl->out, "\r\n");
+							      fprintf(pcl->out, ":%s 366 %s %s :End of /NAMES list.\r\n", fleury_conf.host, pcl->nick, pchan->name);
+							    }
+
 							}
 						      else
 							{
