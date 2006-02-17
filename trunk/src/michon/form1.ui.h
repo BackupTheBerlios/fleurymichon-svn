@@ -29,7 +29,17 @@ struct commande
 
 long strtoint(char *s)
 {
-    return 6667;
+    int i;
+    long l;
+    
+    i=0;
+    l=0;
+    while(s[i])
+    {
+	l=l*10+(long)(s[i]-'0');
+	i++;
+    }    
+    return l;
 }
 
 void fprnt(FILE *f,const char* s)
@@ -40,27 +50,6 @@ void fprnt(FILE *f,const char* s)
    while(s[i])
        fputc(s[i++],f);
    fputc('\n',f);
-}
-
-int execcmd(struct commande *cmd)
-{
-    long port;
-    if(strcmp(cmd->com,"SERVER"))
-    {
-	if(cmd->args==NULL)
-	    dlgmain::printchat("erreur pas de serveur specifie",-1);
-	else
-	{
-	    if(cmd->args->next==NULL)
-		port =6667;
-	    else	
-		port=strtoint(cmd->args->next->arg);
-	    /*connection a cmd->args->arg:port*/
-	}
-	     
-     }	 
- 
-    return 0;
 }
 	
 void dlgmain::pbsendclick()
@@ -103,7 +92,7 @@ void dlgmain::pbsendclick()
 	    }	
 	    (*argu)=NULL;
 	    /*execution*/
-	    execcmd(cmd);	  
+	    afferreur(execcmd(cmd));	  
 	    /*liberation*/
 	    argu=&(cmd->args);
 	    while((*argu)!=NULL)
@@ -142,4 +131,31 @@ void dlgmain::printchat(const char* s, long type)
     }
     fprnt(logf,s);
     tbchat->append(s);    
+}
+
+int dlgmain::execcmd( struct commande *cmd )
+{
+
+ long port;
+    if(strcmp(cmd->com,"SERVER"))
+    {
+	if(cmd->args==NULL)
+	    printchat("erreur pas de serveur specifie",-1);
+	else
+	{
+	    if(cmd->args->next==NULL)
+		port =6667;
+	    else	
+		port=strtoint(cmd->args->next->arg);
+	    /*connection a cmd->args->arg:port*/
+	}
+	     
+    }	 
+
+    return 0;
+}
+
+void dlgmain::afferreur(int err)
+{
+    
 }

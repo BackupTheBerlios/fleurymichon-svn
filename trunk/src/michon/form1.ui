@@ -114,6 +114,7 @@
 <slots>
     <slot>pbsendclick()</slot>
     <slot>printchat( const char * s, long type )</slot>
+    <slot>afferreur( int err )</slot>
 </slots>
 <functions>
     <function access="private" specifier="non virtual">init()</function>
