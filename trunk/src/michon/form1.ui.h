@@ -157,5 +157,5 @@ int dlgmain::execcmd( struct commande *cmd )
 
 void dlgmain::afferreur(int err)
 {
-    
+    printchat("erreur",err);
 }
