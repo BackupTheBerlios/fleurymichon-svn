@@ -141,23 +141,38 @@ void dlgmain::afferreur(int err)
 int dlgmain::execcmd( void  * cmd1 )
 {
     struct commande *cmd;    
-    long port;
-        
+    WSADATA WSAData;
+    WSAStartup(MAKEWORD(2,0), &WSAData);
+    SOCKET sock;
+    SOCKADDR_IN sin;
+ 
     cmd=(struct commande *)cmd1;
-    if(strcmp(cmd->com,"SERVER"))
+    if(strcmp(cmd->com,"connect"))
     {
 	if(cmd->args==NULL)
-	    printchat("erreur pas de serveur specifie",-1);
+	    dlgmain::printchat("erreur",-1);
 	else
 	{
+	    sock = socket(AF_INET, SOCK_STREAM, 0);
+	    sin.sin_family = AF_INET;
+	    sin.sin_addr.s_addr = inet_addr(cmd->args);
+	    /* connection a cmd->args:serveur */
 	    if(cmd->args->next==NULL)
-		port =6667;
-	    else	
-		port=strtoint(cmd->args->next->arg);
+		sin.sin_port = htons(6667)
+		else
+		    sin.sin_port = htons(strtoint(cmd->args->next->arg));
 	    /*connection a cmd->args->arg:port*/
+	    connect(sock, (SOCKADDR *)&sin, sizeof(sin));
 	}
-	     
-    }	 
-
+ 
+    } 
+ 
+    if(strcmp(cmd->com,"quit"))
+    {
+	/* envoie du message QUIT au serveur pas fait*/
+	closesocket(sock);
+	WSACleanup();
+	/* fermeture du socket */
+ }
     return 0;
 }
