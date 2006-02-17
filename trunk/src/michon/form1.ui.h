@@ -112,7 +112,7 @@ void dlgmain::init()
 {    
     if(!(logf=fopen("log.txt","w")))
 	printf("erreur, imposible de creer log.txt");
-    logf=freopen("log.txt","a+",logf);
+    logf=freopen("log.txt","a+",logf);    
 }
 
 
@@ -138,11 +138,12 @@ void dlgmain::afferreur(int err)
     printchat("erreur",err);
 }
 
-
-int dlgmain::execcmd( struct commande *cmd )
+int dlgmain::execcmd( void  * cmd1 )
 {
+    struct commande *cmd;    
     long port;
-    
+        
+    cmd=(struct commande *)cmd1;
     if(strcmp(cmd->com,"SERVER"))
     {
 	if(cmd->args==NULL)

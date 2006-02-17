@@ -32,7 +32,7 @@
                 <cstring>tab</cstring>
             </property>
             <attribute name="title">
-                <string>Tab 1</string>
+                <string>IRC</string>
             </attribute>
             <widget class="QLayoutWidget">
                 <property name="name">
@@ -133,6 +133,7 @@
     <tabstop>lemess</tabstop>
     <tabstop>pbsend</tabstop>
     <tabstop>tbchat</tabstop>
+    <tabstop>tab</tabstop>
 </tabstops>
 <includes>
     <include location="local" impldecl="in implementation">form1.ui.h</include>
@@ -148,6 +149,7 @@
 <functions>
     <function access="private" specifier="non virtual">init()</function>
     <function access="private" specifier="non virtual">destroy()</function>
+    <function returnType="int">execcmd( void * cmd1 )</function>
 </functions>
 <pixmapinproject/>
 <layoutdefaults spacing="6" margin="11"/>
