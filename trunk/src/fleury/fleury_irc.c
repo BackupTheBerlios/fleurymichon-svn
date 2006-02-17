@@ -4,19 +4,20 @@ void fleury_irc_process(struct s_cl *pcl)
 {
   t_list ltemp;
   struct s_ch *pchan;
+  struct s_cl *pcli;
   struct s_ch_user user;
   struct s_ch_user *pu;
   struct s_user_ch chch;
   struct s_user_ch *pch;
   struct s_ch chan;
+  char minibuf[256];
   char fleury_irc_cmd[64];
   char *fleury_irc_param;
   int retval;
   unsigned long val;
 
-  /* char *tmp; */
-
-  /* commandes a rajouter : PING OPER NAMES WHO */
+  /* commandes a rajouter  : OPER */
+  /* commandes a completer : MODE NAMES WHO */
 
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
@@ -280,6 +281,10 @@ void fleury_irc_process(struct s_cl *pcl)
 						  pcl->list_chans = list_del_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param);
 						  pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, pcl->nick);
 						}
+					      else
+						{
+						  fprintf(pcl->out, ":%s 442 %s %s :You're not on that channel\r\n", fleury_conf.host, pcl->nick, fleury_irc_param);						  
+						}
 #ifdef FLEURY_DEBUG
 					      fprintf(dbgout, "Fleury: [%lu] PART (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
@@ -366,18 +371,11 @@ void fleury_irc_process(struct s_cl *pcl)
 						}
 					      else
 						{
-						  int test(void *p)
-						    {
-						      return(!strcmp(((struct s_ch *)p)->name, fleury_irc_param));
-						    }							 
-				       
-
-
 						  if (!strcmp(fleury_irc_cmd, "NAMES"))
 						    {
 						      if (fleury_irc_param)
 							{
-							  pchan = list_search(fleury_conf.list_ch, test);
+							  pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, fleury_irc_param);
 							  if (pchan)
 							    {
 							      ltemp = pchan->list_users;
@@ -397,13 +395,63 @@ void fleury_irc_process(struct s_cl *pcl)
 							{
 
 							}
-
+#ifdef FLEURY_DEBUG
+						  fprintf(dbgout, "Fleury: [%lu] NAMES (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
+#endif
 						    }
 						  else
-						    {			      
+						    {
+						      if (!strcmp(fleury_irc_cmd, "WHO"))
+							{
+							  fleury_irc_param = fleury_irc_last(fleury_irc_param);
+							  if (fleury_irc_param && *fleury_irc_param)
+							    {
+							      if (*fleury_irc_param == '#')
+								{
+								  if ((pch = list_search_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param)))
+								    {
+								      ltemp = pch->pch->list_users;
+								      while (ltemp)
+									{
+									  pu = (struct s_ch_user *)&(ltemp->elt);
+									  fprintf(pcl->out, ":%s 352 %s %s %s %s %s %s H :0 %s\r\n", fleury_conf.host, pcl->nick, pch->pch->name, pu->pcl->user, pu->pcl->host, fleury_conf.host, pu->pcl->nick, pu->pcl->name);
+									  ltemp = ltemp->next;
+									}
+								    }
+								}
+							      else
+								{
+								  if((pcli = list_search_long(fleury_conf.list_cl, test_streq_cl, fleury_irc_param)))
+								    {
+								      if (pcli->list_chans)
+									{
+									  strcpy(minibuf, ((struct s_user_ch *)&(pcli->list_chans->elt))->pch->name);
+									}
+								      else
+									{
+									  sprintf(minibuf, "*");
+									}
+								      fprintf(pcl->out, ":%s 352 %s %s %s %s %s %s H :0 %s\r\n", fleury_conf.host, pcl->nick, minibuf, pcli->user, pcli->host, fleury_conf.host, pcli->nick, pcli->name);
+								    }
+								}
+							    }
+							  else
+							    {
+							      /* ignorage */
+							    }
+							  fprintf(pcl->out, ":%s 315 %s %s :End of /WHO list.\r\n", fleury_conf.host, pcl->nick, fleury_irc_param);
+
 #ifdef FLEURY_DEBUG
-						      fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
+							  fprintf(dbgout, "Fleury: [%lu] WHO (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
+							}
+						      else
+							{
+							  
+#ifdef FLEURY_DEBUG
+							  fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
+#endif
+							}
 						    }
 						}
 					    }
