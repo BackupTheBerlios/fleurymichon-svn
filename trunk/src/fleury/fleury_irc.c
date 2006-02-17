@@ -109,7 +109,7 @@ void fleury_irc_process(struct s_cl *pcl)
 			{
 			  temp++;
 			}
-		      sscanf(temp, "%64s", pcl->name);
+		      strcpy(pcl->name, temp);
 
 		      if (pcl->nick[0] && pcl->user[0])
 			{
