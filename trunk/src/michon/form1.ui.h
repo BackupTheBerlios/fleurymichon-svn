@@ -27,6 +27,11 @@ struct commande
     starg *args;
 };
 
+long strtoint(char *s)
+{
+    return 6667;
+}
+
 void fprnt(FILE *f,const char* s)
 {
    int i;
@@ -39,10 +44,20 @@ void fprnt(FILE *f,const char* s)
 
 int execcmd(struct commande *cmd)
 {
- if(strcmp(cmd->com,"SERVER"))
+    long port;
+    if(strcmp(cmd->com,"SERVER"))
     {
-     if(cmd->args==NULL)
-	 return 0;
+	if(cmd->args==NULL)
+	    dlgmain::printchat("erreur pas de serveur specifie",-1);
+	else
+	{
+	    if(cmd->args->next==NULL)
+		port =6667;
+	    else	
+		port=strtoint(cmd->args->next->arg);
+	    /*connection a cmd->args->arg:port*/
+	}
+	     
      }	 
  
     return 0;
