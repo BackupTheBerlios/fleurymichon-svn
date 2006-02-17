@@ -15,81 +15,110 @@
     <property name="caption">
         <string>Michon</string>
     </property>
-    <widget class="QLayoutWidget">
+    <widget class="QTabWidget">
         <property name="name">
-            <cstring>layout2</cstring>
+            <cstring>tab</cstring>
         </property>
         <property name="geometry">
             <rect>
-                <x>10</x>
-                <y>10</y>
+                <x>0</x>
+                <y>30</y>
                 <width>550</width>
-                <height>510</height>
+                <height>450</height>
             </rect>
         </property>
-        <vbox>
+        <widget class="QWidget">
             <property name="name">
-                <cstring>unnamed</cstring>
+                <cstring>tab</cstring>
             </property>
-            <widget class="QTextBrowser">
-                <property name="name">
-                    <cstring>tbchat</cstring>
-                </property>
-                <property name="hScrollBarMode">
-                    <enum>AlwaysOff</enum>
-                </property>
-                <property name="textFormat">
-                    <enum>LogText</enum>
-                </property>
-                <property name="text">
-                    <string></string>
-                </property>
-                <property name="autoFormatting">
-                    <set>AutoAll</set>
-                </property>
-            </widget>
+            <attribute name="title">
+                <string>Tab 1</string>
+            </attribute>
             <widget class="QLayoutWidget">
                 <property name="name">
-                    <cstring>layout1</cstring>
+                    <cstring>layout2</cstring>
                 </property>
-                <hbox>
+                <property name="geometry">
+                    <rect>
+                        <x>0</x>
+                        <y>0</y>
+                        <width>550</width>
+                        <height>410</height>
+                    </rect>
+                </property>
+                <vbox>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QLineEdit">
+                    <widget class="QTextBrowser">
                         <property name="name">
-                            <cstring>lemess</cstring>
+                            <cstring>tbchat</cstring>
                         </property>
-                        <property name="minimumSize">
-                            <size>
-                                <width>0</width>
-                                <height>25</height>
-                            </size>
+                        <property name="hScrollBarMode">
+                            <enum>AlwaysOff</enum>
                         </property>
-                    </widget>
-                    <widget class="QPushButton">
-                        <property name="name">
-                            <cstring>pbsend</cstring>
-                        </property>
-                        <property name="minimumSize">
-                            <size>
-                                <width>45</width>
-                                <height>25</height>
-                            </size>
-                        </property>
-                        <property name="maximumSize">
-                            <size>
-                                <width>45</width>
-                                <height>30</height>
-                            </size>
+                        <property name="textFormat">
+                            <enum>LogText</enum>
                         </property>
                         <property name="text">
-                            <string>Send</string>
+                            <string></string>
+                        </property>
+                        <property name="autoFormatting">
+                            <set>AutoAll</set>
                         </property>
                     </widget>
-                </hbox>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout1</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLineEdit">
+                                <property name="name">
+                                    <cstring>lemess</cstring>
+                                </property>
+                                <property name="minimumSize">
+                                    <size>
+                                        <width>0</width>
+                                        <height>25</height>
+                                    </size>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>pbsend</cstring>
+                                </property>
+                                <property name="minimumSize">
+                                    <size>
+                                        <width>45</width>
+                                        <height>25</height>
+                                    </size>
+                                </property>
+                                <property name="maximumSize">
+                                    <size>
+                                        <width>45</width>
+                                        <height>30</height>
+                                    </size>
+                                </property>
+                                <property name="text">
+                                    <string>Send</string>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                </vbox>
             </widget>
-        </vbox>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Tab 2</string>
+            </attribute>
+        </widget>
     </widget>
 </widget>
 <connections>

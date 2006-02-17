@@ -133,10 +133,16 @@ void dlgmain::printchat(const char* s, long type)
     tbchat->append(s);    
 }
 
+void dlgmain::afferreur(int err)
+{
+    printchat("erreur",err);
+}
+
+
 int dlgmain::execcmd( struct commande *cmd )
 {
-
- long port;
+    long port;
+    
     if(strcmp(cmd->com,"SERVER"))
     {
 	if(cmd->args==NULL)
@@ -153,9 +159,4 @@ int dlgmain::execcmd( struct commande *cmd )
     }	 
 
     return 0;
-}
-
-void dlgmain::afferreur(int err)
-{
-    printchat("erreur",err);
 }
