@@ -37,9 +37,15 @@ void fprnt(FILE *f,const char* s)
    fputc('\n',f);
 }
 
-const char* qstrtostr(const char *s)
+int execcmd(struct commande *cmd)
 {
-    return s;
+ if(strcmp(cmd->com,"SERVER"))
+    {
+     if(cmd->args==NULL)
+	 return 0;
+     }	 
+ 
+    return 0;
 }
 	
 void dlgmain::pbsendclick()
@@ -49,7 +55,7 @@ void dlgmain::pbsendclick()
     const char *s;
     starg **argu,*tmp;
     
-    s=qstrtostr(lemess->text());
+    s=lemess->text();
     if( s[0]!=0 )
     {      
 	if(s[0]=='/')
@@ -71,7 +77,7 @@ void dlgmain::pbsendclick()
 		i++;
 		*argu=(starg*)malloc(sizeof(starg));
 		j=0;
-		while((s[i])&&(s[i]!=' '))
+		while((s[i])&&(s[i]!=' ')&&(j<CMDSMAX))
 		{
 		    (*argu)->arg[j]=s[i];
 		    i++;
@@ -82,9 +88,7 @@ void dlgmain::pbsendclick()
 	    }	
 	    (*argu)=NULL;
 	    /*execution*/
-	    
-	    
-	    
+	    execcmd(cmd);	  
 	    /*liberation*/
 	    argu=&(cmd->args);
 	    while((*argu)!=NULL)
@@ -95,7 +99,7 @@ void dlgmain::pbsendclick()
 	    }
 	    free(cmd);
 	}
-	majchat();
+	printchat(lemess->text(),0);
 	lemess->clear();
     }
 }
@@ -114,8 +118,13 @@ void dlgmain::destroy()
 }
 
 
-void dlgmain::majchat()
-{
-    fprnt(logf,(lemess->text()));
-    tbchat->append(lemess->text());    
+void dlgmain::printchat(const char* s, long type)
+{	    
+    switch (type)
+    {	
+    case 5 :{type=5;}
+    default :{type=5;}
+    }
+    fprnt(logf,s);
+    tbchat->append(s);    
 }

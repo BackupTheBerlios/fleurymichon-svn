@@ -113,7 +113,7 @@
 </variables>
 <slots>
     <slot>pbsendclick()</slot>
-    <slot>majchat()</slot>
+    <slot>printchat( const char * s, long type )</slot>
 </slots>
 <functions>
     <function access="private" specifier="non virtual">init()</function>
