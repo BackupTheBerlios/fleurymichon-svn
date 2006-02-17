@@ -13,11 +13,13 @@ void fleury_irc_process(struct s_cl *pcl)
   char minibuf[256];
   char fleury_irc_cmd[64];
   char *fleury_irc_param;
+  char *temp;
   int retval;
   unsigned long val;
 
-  /* commandes a rajouter  : OPER */
-  /* commandes a completer : MODE NAMES WHO */
+  /* commandes a rajouter            : OPER           */
+  /* commandes a completer           : MODE NAMES     */
+  /* commandes a completer plus tard : WHO JOIN       */
 
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
@@ -101,7 +103,14 @@ void fleury_irc_process(struct s_cl *pcl)
 		{
 		  if (!strcmp(fleury_irc_cmd, "USER"))
 		    {
-		      sscanf(fleury_irc_param, "%64s\n", pcl->user);
+		      sscanf(fleury_irc_param, "%64s", pcl->user);
+		      temp = fleury_irc_next(fleury_irc_next(fleury_irc_next(fleury_irc_param)));
+		      if (*temp == ':')
+			{
+			  temp++;
+			}
+		      sscanf(temp, "%64s", pcl->name);
+
 		      if (pcl->nick[0] && pcl->user[0])
 			{
 			  fleury_irc_logged(pcl);
@@ -507,6 +516,22 @@ char *fleury_irc_last(char *s)
   *s = 0;
 
   return ss;
+}
+
+char *fleury_irc_next(char *s)
+{
+  while (*s && (*s != ' '))
+    {
+      s++;
+    }
+  if (*s)
+    {
+      return (++s);
+    }
+  else
+    {
+      return (s);
+    }
 }
 
 int test_streq_cl_user(void *p1, void *p2)
