@@ -17,9 +17,9 @@ void fleury_irc_process(struct s_cl *pcl)
   int retval;
   unsigned long val;
 
-  /* commandes a rajouter            : OPER                  */
-  /* commandes a completer           : MODE NAMES PRIVMSG    */
-  /* commandes a completer plus tard : WHO JOIN              */
+  /* commandes a rajouter            : OPER                    */
+  /* commandes a completer           : MODE NAMES PRIVMSG QUIT */
+  /* commandes a completer plus tard : WHO JOIN                */
 
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
@@ -163,6 +163,13 @@ void fleury_irc_process(struct s_cl *pcl)
 			    {
 			      if (!strcmp(fleury_irc_cmd, "QUIT"))
 				{
+				  ltemp = pcl->list_chans;
+				  while (ltemp)
+				    {
+				      pch = (struct s_user_ch *)&(ltemp->elt);
+				      /* a completer, ne gerer chaque destinataire qu'une fois */
+				      ltemp = ltemp->next;
+				    }
 				  fleury_socket_disconnect(pcl);
 #ifdef FLEURY_DEBUG
 				  fprintf(dbgout, "Fleury: [%lu] QUIT (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
@@ -469,6 +476,7 @@ void fleury_irc_process(struct s_cl *pcl)
 								{
 								  pu = (struct s_ch_user *)&(ltemp->elt);
 								  fprintf(pcl->out, "%s ", pu->pcl->nick);
+								  /* espace terminal, mode operateur */
 								  ltemp = ltemp->next;
 								}
 							      fprintf(pcl->out, "\r\n");
@@ -478,7 +486,7 @@ void fleury_irc_process(struct s_cl *pcl)
 							}
 						      else
 							{
-
+							  /* erreur ? */
 							}
 #ifdef FLEURY_DEBUG
 						  fprintf(dbgout, "Fleury: [%lu] NAMES (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
@@ -532,7 +540,7 @@ void fleury_irc_process(struct s_cl *pcl)
 							}
 						      else
 							{
-							  
+							  fprintf(pcl->out, ":%s 421 %s %s :Unknown command\r\n", fleury_conf.host, pcl->nick, fleury_irc_cmd);
 #ifdef FLEURY_DEBUG
 							  fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
 #endif
