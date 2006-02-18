@@ -55,6 +55,8 @@ struct s_cl
 
 struct s_mode_ch
 {
+  unsigned int n: 1;
+  unsigned int t: 1;
   unsigned int r: 1;
 };
 
@@ -63,6 +65,7 @@ struct s_ch
   char name[FLEURY_SZ_CHAN];
   char topic[FLEURY_SZ_TOPIC];
   char pass[FLEURY_SZ_PASS];
+  time_t date;
   t_list list_users;
   t_list list_ban;
   struct s_mode_ch mode;

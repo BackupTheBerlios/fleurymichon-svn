@@ -171,12 +171,78 @@ void fleury_irc_process(struct s_cl *pcl)
 			      else
 				{
 				  if (!strcmp(fleury_irc_cmd, "MODE"))
-				{
-				  fleury_irc_param = fleury_irc_last(fleury_irc_param);
+				    {
+				      if (*fleury_irc_param)
+					{
+					  temp = fleury_irc_next(fleury_irc_param);
+					  fleury_irc_param = fleury_irc_last(fleury_irc_param);
+
+					  if (*temp)
+					    {
+					      /* parser les modes */
+					    }
+					  else
+					    {
+					      if (*fleury_irc_param == '#')
+						{
+						  if ((pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, fleury_irc_param)))
+						    {
+						      fprintf(pcl->out, ":%s 324 %s %s +", fleury_conf.host, pcl->nick, fleury_irc_param);
+						      if (pchan->mode.n)
+							{
+							  fprintf(pcl->out, "n");
+							}
+						      if (pchan->mode.t)
+							{
+							  fprintf(pcl->out, "t");
+							}
+						      if (pchan->mode.r)
+							{
+							  fprintf(pcl->out, "r");
+							}
+
+						      fprintf(pcl->out, "\r\n");
+						      fprintf(pcl->out, ":%s 329 %s %s %lu\r\n", fleury_conf.host, pcl->nick, fleury_irc_param, (unsigned long)(pchan->date));
+						    }
+						  else
+						    {
+						      fprintf(pcl->out, ":%s 401 %s %s :No such nick/channel\r\n", fleury_conf.host, pcl->nick, fleury_irc_param);
+						    }
+						}
+					      else
+						{
+						  if (!strcmp(fleury_irc_param, pcl->nick))
+						    {
+						      fprintf(pcl->out, ":%s 221 %s %s +", fleury_conf.host, pcl->nick, fleury_irc_param);
+						      if (pcl->mode.i)
+							{
+							  fprintf(pcl->out, "i");
+							}
+						      if (pcl->mode.s)
+							{
+							  fprintf(pcl->out, "s");
+							}
+						      if (pcl->mode.w)
+							{
+							  fprintf(pcl->out, "w");
+							}
+						      if (pcl->mode.o)
+							{
+							  fprintf(pcl->out, "o");
+							}
+						      fprintf(pcl->out, "\r\n");
+						    }
+						  else
+						    {
+						      fprintf(pcl->out, ":%s 502 %s %s :Can't change mode for other users\r\n", fleury_conf.host, pcl->nick, fleury_irc_param);
+						    }
+						}
+					    }
+					}
 #ifdef FLEURY_DEBUG
-				  fprintf(dbgout, "Fleury: [%lu] MODE (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
+				      fprintf(dbgout, "Fleury: [%lu] MODE (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
-				}
+				    }
 				  else
 				    {
 				      if (!strcmp(fleury_irc_cmd, "JOIN"))
@@ -194,8 +260,11 @@ void fleury_irc_process(struct s_cl *pcl)
 					      chan.pass[0] = 0;
 					      chan.list_users = NULL;
 					      chan.list_ban = NULL;
+					      chan.mode.n = 0;
+					      chan.mode.t = 0;
 					      chan.mode.r = 0;
-					      
+					      chan.date = time(NULL);
+
 					      pch = list_search_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param);
 					      
 					      chch.status = 0;
