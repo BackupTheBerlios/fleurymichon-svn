@@ -372,7 +372,10 @@ void fleury_irc_process(struct s_cl *pcl)
 						      ltemp = ltemp->next;
 						    }
 						  pcl->list_chans = list_del_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param);
-						  pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, pcl->nick);
+						  if (!(pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, pcl->nick)))
+						    {
+						      fleury_conf.list_ch = list_del_long(fleury_conf.list_ch, test_streq_ch, pch->pch->name);
+						    }
 						}
 					      else
 						{
