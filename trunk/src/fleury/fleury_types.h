@@ -65,7 +65,9 @@ struct s_ch
   char name[FLEURY_SZ_CHAN];
   char topic[FLEURY_SZ_TOPIC];
   char pass[FLEURY_SZ_PASS];
+  char topicauthor[FLEURY_SZ_NICK];
   time_t date;
+  time_t topicdate;
   t_list list_users;
   t_list list_ban;
   struct s_mode_ch mode;
