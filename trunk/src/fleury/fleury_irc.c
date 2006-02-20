@@ -17,9 +17,9 @@ void fleury_irc_process(struct s_cl *pcl)
   int retval;
   unsigned long val;
 
-  /* commandes a rajouter            : OPER LIST TOPIC         */
-  /* commandes a completer           : MODE NAMES PRIVMSG QUIT */
-  /* commandes a completer plus tard : WHO JOIN                */
+  /* commandes a rajouter            : OPER KICK                    */
+  /* commandes a completer           : MODE PRIVMSG QUIT NICK       */
+  /* commandes a completer plus tard : WHO JOIN LIST                */
 
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
@@ -323,6 +323,13 @@ void fleury_irc_process(struct s_cl *pcl)
 							{
 							  fprintf(pcl->out, "@");
 							}
+						      else
+							{
+							  if (pu->status == 'v')
+							    {
+							      fprintf(pcl->out, "+");
+							    }
+							}
 						      fprintf(pcl->out, "%s", pu->pcl->nick);
 						      if (pu->pcl != pcl)
 							{
@@ -421,11 +428,8 @@ void fleury_irc_process(struct s_cl *pcl)
 						  
 						  *(msg + i) = 0;
 						  
-						  
-#ifdef FLEURY_DEBUG
-						  fprintf(dbgout, "Fleury: MSG: %s TO: %s\n", msg, dest);
-#endif
- 
+						  /* test nick/channel a optimiser */
+
 						  tmp = list_search_long(fleury_conf.list_cl, test_streq_cl, dest);
 						  
 						  if (tmp)
@@ -438,9 +442,6 @@ void fleury_irc_process(struct s_cl *pcl)
 						      if (pchan)
 							{
 							  ltemp = pchan->list_users;
-#ifdef FLEURY_DEBUG
-							  fprintf(dbgout, "Fleury: CHANNEL: %s\n", pchan->name);
-#endif
 
 							  while (ltemp)
 							    {
@@ -454,9 +455,7 @@ void fleury_irc_process(struct s_cl *pcl)
 							}						  
 						      else
 							{
-#ifdef FLEURY_DEBUG
-							  fprintf(dbgout, "Fleury: CHANNEL: %s\n", "This channel doesn't exist!");
-#endif
+							  fprintf(pcl->out, ":%s 401 %s %s :No such nick/channel\r\n", fleury_conf.host, pcl->nick, fleury_irc_param);
 							}
 						    }
 						  
@@ -478,8 +477,23 @@ void fleury_irc_process(struct s_cl *pcl)
 							      fprintf(pcl->out, ":%s 353 %s = %s :", fleury_conf.host, pcl->nick, pchan->name);
 							      while (ltemp)
 								{
+								  if (ltemp != pchan->list_users)
+								    {
+								      fprintf(pcl->out, " ");
+								    }
 								  pu = (struct s_ch_user *)&(ltemp->elt);
-								  fprintf(pcl->out, "%s ", pu->pcl->nick);
+								  if (pu->status == 'o')
+								    {
+								      fprintf(pcl->out, "@");
+								    }
+								  else
+								    {
+								      if (pu->status == 'v')
+									{
+									  fprintf(pcl->out, "+");
+									}
+								    }
+								  fprintf(pcl->out, "%s", pu->pcl->nick);
 								  /* espace terminal, mode operateur */
 								  ltemp = ltemp->next;
 								}
@@ -552,14 +566,42 @@ void fleury_irc_process(struct s_cl *pcl)
 								{
 								  if ((pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, fleury_irc_param)))
 								    {
-								      if (pchan->topicdate)
+								      if (temp)
 									{
-									  fprintf(pcl->out, ":%s 332 %s %s :%s\r\n", fleury_conf.host, pcl->nick, fleury_irc_param, pchan->topic);
-									  fprintf(pcl->out, ":%s 333 %s %s %s %lu\r\n", fleury_conf.host, pcl->nick, fleury_irc_param, pchan->topicauthor, (unsigned long)(pchan->topicdate));
+									  if (*temp == ':')
+									    {
+									      temp++;
+									    }
+									  strcpy(pchan->topic, temp);
+									  pchan->topicdate = time(NULL);
+									  ltemp = pchan->list_users;
+									  fprintf(pcl->out, ":%s!~%s@%s TOPIC %s :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name, pchan->topic);
+									  while (ltemp)
+									    {
+									      pu = (struct s_ch_user *)&(ltemp->elt);
+									      if (pu->pcl != pcl)
+										{
+										  fprintf(pu->pcl->out, ":%s!~%s@%s TOPIC %s :%s\r\n", pcl->nick, pcl->user, pcl->host, pchan->name, pchan->topic);
+#ifdef FLEURY_DEBUG
+										  fprintf(dbgout, "Fleury: [%lu;%lu] TOPIC Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
+#endif
+
+										}
+
+									      ltemp = ltemp->next;
+									    }
 									}
 								      else
 									{
-									  fprintf(pcl->out, ":%s 331 %s %s :No topic is set.\r\n", fleury_conf.host, pcl->nick, fleury_irc_param);
+									  if (pchan->topicdate)
+									    {
+									      fprintf(pcl->out, ":%s 332 %s %s :%s\r\n", fleury_conf.host, pcl->nick, fleury_irc_param, pchan->topic);
+									      fprintf(pcl->out, ":%s 333 %s %s %s %lu\r\n", fleury_conf.host, pcl->nick, fleury_irc_param, pchan->topicauthor, (unsigned long)(pchan->topicdate));
+									    }
+									  else
+									    {
+									      fprintf(pcl->out, ":%s 331 %s %s :No topic is set.\r\n", fleury_conf.host, pcl->nick, fleury_irc_param);
+									    }
 									}
 								    }
 								  else
@@ -577,10 +619,48 @@ void fleury_irc_process(struct s_cl *pcl)
 							    }
 							  else
 							    {
-							      fprintf(pcl->out, ":%s 421 %s %s :Unknown command\r\n", fleury_conf.host, pcl->nick, fleury_irc_cmd);
+							      if (!strcmp(fleury_irc_cmd, "LIST"))
+								{
+								  if (*fleury_irc_param)
+								    {
+								      /* a completer */
+								    }
+								  else
+								    {
+								      fprintf(pcl->out, ":%s 321 %s Channel :Users  Name\r\n", fleury_conf.host, pcl->nick);
+								      ltemp = fleury_conf.list_ch;
+								      while (ltemp)
+									{
+									  pchan = (struct s_ch *)&(ltemp->elt);
+									  fprintf(pcl->out, ":%s 322 %s %s %d :[+", fleury_conf.host, pcl->nick, pchan->name, list_length(pchan->list_users));
+									  if (pchan->mode.n)
+									    {
+									      fprintf(pcl->out, "n");
+									    }
+									  if (pchan->mode.t)
+									    {
+									      fprintf(pcl->out, "t");
+									    }
+									  if (pchan->mode.r)
+									    {
+									      fprintf(pcl->out, "r");
+									    }
+									  fprintf(pcl->out, "] %s\r\n", pchan->topic);
+									  ltemp = ltemp->next;
+									}
+								      fprintf(pcl->out, ":%s 323 %s :End of /LIST\r\n", fleury_conf.host, pcl->nick);
+								    }
 #ifdef FLEURY_DEBUG
-							      fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
+								  fprintf(dbgout, "Fleury: [%lu] LIST (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
+								}
+							      else
+								{
+								  fprintf(pcl->out, ":%s 421 %s %s :Unknown command\r\n", fleury_conf.host, pcl->nick, fleury_irc_cmd);
+#ifdef FLEURY_DEBUG
+								  fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
+#endif
+								}
 							    }
 							}
 						    }
