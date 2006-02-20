@@ -14,10 +14,11 @@ void fleury_irc_process(struct s_cl *pcl)
   char fleury_irc_cmd[64];
   char *fleury_irc_param;
   char *temp;
+  char *temp2;
   int retval;
   unsigned long val;
 
-  /* commandes a rajouter            : OPER KICK                    */
+  /* commandes a rajouter            : OPER                         */
   /* commandes a completer           : MODE PRIVMSG QUIT NICK       */
   /* commandes a completer plus tard : WHO JOIN LIST                */
 
@@ -656,10 +657,79 @@ void fleury_irc_process(struct s_cl *pcl)
 								}
 							      else
 								{
-								  fprintf(pcl->out, ":%s 421 %s %s :Unknown command\r\n", fleury_conf.host, pcl->nick, fleury_irc_cmd);
+								  if (!strcmp(fleury_irc_cmd, "KICK"))
+								    {
 #ifdef FLEURY_DEBUG
-								  fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
+								      fprintf(dbgout, "Fleury: [%lu] KICK (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
 #endif
+								      temp = fleury_irc_next(fleury_irc_param);
+								      temp2 = fleury_irc_next(temp);
+								      if (*temp2 == ':')
+									{
+									  temp2++;
+									}
+								      else
+									{
+									  if (!(*temp2))
+									    {
+									      temp2 = pcl->nick;
+									    }
+									}
+								      temp = fleury_irc_last(temp);
+								      fleury_irc_param = fleury_irc_last(fleury_irc_param);
+								      if (*fleury_irc_param == '#')
+									{
+									  if ((pch = list_search_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param)) && pch->status == 'o')
+									    {
+									      if ((pu = list_search_long(pch->pch->list_users, test_streq_cl_user, temp)))
+										{
+										  fprintf(pcl->out, ":%s!~%s@%s KICK %s %s :%s\r\n", pcl->nick, pcl->user, pcl->host, pch->pch->name, temp, temp2);		
+										  if (pu->pcl != pcl)
+										    {
+										      fprintf(pu->pcl->out, ":%s!~%s@%s KICK %s %s :%s\r\n", pcl->nick, pcl->user, pcl->host, pch->pch->name, temp, temp2);
+										    }
+										  pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, temp);
+										  pu->pcl->list_chans = list_del_long(pu->pcl->list_chans, test_streq_ch_chan, fleury_irc_param);
+										  
+										  ltemp = pch->pch->list_users;
+										  while (ltemp)
+										    {
+										      pu = (struct s_ch_user *)&(ltemp->elt);
+										      if (pu->pcl != pcl)
+											{
+											  fprintf(pu->pcl->out, ":%s!~%s@%s KICK %s %s :%s\r\n", pcl->nick, pcl->user, pcl->host, pch->pch->name, temp, temp2);
+#ifdef FLEURY_DEBUG
+											  fprintf(dbgout, "Fleury: [%lu;%lu] KCK Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
+#endif
+											  
+											}
+										      
+										      ltemp = ltemp->next;
+										    }
+										
+										}
+									      else
+										{
+										  fprintf(pcl->out, ":%s 401 %s %s :No such nick/channel\r\n", fleury_conf.host, pcl->nick, temp);
+										}
+									    }
+									  else
+									    {
+									      fprintf(pcl->out, ":%s 482 %s %s :You're not channel operator\r\n", fleury_conf.host, pcl->nick, fleury_irc_param);
+									    }
+									}
+								      else
+									{
+									  fprintf(pcl->out, ":%s 403 %s %s :No such channel\r\n", fleury_conf.host, pcl->nick, fleury_irc_param);
+									}
+								    }
+								  else
+								    {
+								      fprintf(pcl->out, ":%s 421 %s %s :Unknown command\r\n", fleury_conf.host, pcl->nick, fleury_irc_cmd);
+#ifdef FLEURY_DEBUG
+								      fprintf(dbgout, "Fleury: [%lu] Unmatched command %s (%s)\n", (unsigned long)(pcl->tid), fleury_irc_cmd, fleury_irc_param);
+#endif
+								    }
 								}
 							    }
 							}
