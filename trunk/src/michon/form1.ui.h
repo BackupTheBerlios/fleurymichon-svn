@@ -11,6 +11,7 @@
 *****************************************************************************/
 #include <qsocket.h>
 
+
 #define CMDSMAX 32
 #define starg struct arguments
 
@@ -51,7 +52,7 @@ void fprnt(FILE *f,const char* s)
        fputc(s[i++],f);
    fputc('\n',f);
 }
-	
+
 void dlgmain::pbsendclick()
 {
     struct commande *cmd;
@@ -112,7 +113,7 @@ void dlgmain::init()
 {    
     if(!(logf=fopen("log.txt","w")))
 	printf("erreur, imposible de creer log.txt");
-    logf=freopen("log.txt","a+",logf);    
+    logf=freopen("log.txt","a+",logf);
 }
 
 
@@ -120,59 +121,77 @@ void dlgmain::destroy()
 {
     fclose(logf);
 }
-
-
+    
 void dlgmain::printchat(const char* s, long type)
-{	    
+{
+    char* str;
+    int l;
+    l=0;
+    while(s[l])
+	l++;
+    l+=30;
+    str=(char*)malloc(l*sizeof(char));
+    str[0]=0;
+    strcat(str,"<font color=#");
     switch (type)
-    {	
-    case 5 :{type=5;}
-    default :{type=5;}
+    {
+    case -1 :{strcat(str,"ff0000");break;}
+    default :{strcat(str,"0000ff");}
     }
+    strcat(str,">");
+    strcat(str,s);
+    strcat(str,"</font>");
     fprnt(logf,s);
-    tbchat->append(s);    
+    tbchat->append(str);
+    free(str);
 }
 
 void dlgmain::afferreur(int err)
 {
-    printchat("erreur",err);
+    if (err)
+	printchat("erreur",err);
 }
 
 int dlgmain::execcmd( void  * cmd1 )
 {
-    struct commande *cmd;    
-    WSADATA WSAData;
+    struct commande *cmd;
+    int result=0;
+    /*WSADATA WSAData;
     WSAStartup(MAKEWORD(2,0), &WSAData);
     SOCKET sock;
-    SOCKADDR_IN sin;
+    SOCKADDR_IN sin;*/
  
     cmd=(struct commande *)cmd1;
     if(strcmp(cmd->com,"connect"))
     {
 	if(cmd->args==NULL)
-	    dlgmain::printchat("erreur",-1);
+	    //dlgmain::printchat("erreur",-1);
+	    result=-1;
 	else
 	{
-	    sock = socket(AF_INET, SOCK_STREAM, 0);
+	    /*sock = socket(AF_INET, SOCK_STREAM, 0);
 	    sin.sin_family = AF_INET;
-	    sin.sin_addr.s_addr = inet_addr(cmd->args);
+	    sin.sin_addr.s_addr = inet_addr(cmd->args);*/
 	    /* connection a cmd->args:serveur */
 	    if(cmd->args->next==NULL)
-		sin.sin_port = htons(6667)
-		else
-		    sin.sin_port = htons(strtoint(cmd->args->next->arg));
+		//sin.sin_port = htons(6667);
+		5;
+	    else
+		5;
+		//sin.sin_port = htons(strtoint(cmd->args->next->arg));
 	    /*connection a cmd->args->arg:port*/
-	    connect(sock, (SOCKADDR *)&sin, sizeof(sin));
+	    //connect(sock, (SOCKADDR *)&sin, sizeof(sin));
 	}
  
     } 
  
     if(strcmp(cmd->com,"quit"))
     {
+	5;
 	/* envoie du message QUIT au serveur pas fait*/
-	closesocket(sock);
-	WSACleanup();
+	/*closesocket(sock);
+	WSACleanup();*/
 	/* fermeture du socket */
  }
-    return 0;
+    return result;
 }
