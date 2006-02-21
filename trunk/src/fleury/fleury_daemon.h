@@ -3,4 +3,4 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-int let_fleury_be_daemon(void);
+int let_fleury_be_daemon(FILE *);

@@ -4,8 +4,8 @@
 
 int main()
 {
-  let_fleury_be_daemon();
-
+  let_fleury_be_daemon(fopen("fleury_cfg","r"));
+  
   fleury_server_start(6667);
 
 #ifdef FLEURY_DEBUG

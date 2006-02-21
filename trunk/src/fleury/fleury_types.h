@@ -20,8 +20,7 @@
 #define FLEURY_SZ_TOPIC 1024
 #define FLEURY_SZ_BUFFER 1024
 #define FLEURY_SZ_HOSTNAME 128
-#define FLEURY_MAX_CONNECTIONS 64
-
+#define FLEURY_MAX_CONNECTIONS 1024
 struct s_mode_cl
 {
   unsigned int i: 1;
@@ -87,6 +86,19 @@ struct s_user_ch
   unsigned int v: 1;
 };
 
+struct s_fleury_values
+{
+  int	sz_pass;
+  int	sz_nick;
+  int	sz_user;
+  int	sz_name;
+  int	sz_chan;
+  int	sz_topic;
+  int	sz_hostname;
+  int	port;
+  int	max_con;
+};
+
 struct s_fleury_conf
 {
   pthread_t lt;
@@ -100,6 +112,7 @@ struct s_fleury_conf
   int pto;
   t_list list_cl;
   t_list list_ch;
+  struct s_fleury_values sfv;
 } fleury_conf;
 
 #ifdef FLEURY_DEBUG

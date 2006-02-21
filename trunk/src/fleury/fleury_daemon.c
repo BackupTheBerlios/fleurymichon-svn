@@ -1,7 +1,8 @@
 #include "fleury_daemon.h"
 #include "fleury_types.h"
+#include "fleury_load.h"
 
-int let_fleury_be_daemon()
+int let_fleury_be_daemon(FILE *cfg)
 {
   int fd;
 
@@ -19,6 +20,13 @@ int let_fleury_be_daemon()
   dbgout = fopen("fleury_debug.log", "a");
   fprintf(dbgout, "Fleury: Logging on\n");
 #endif
+  
+  if (cfg)
+    {
+      fleury_load_param(&fleury_conf, cfg);
+      fclose(cfg);
+    }
+  
 
   chdir("/");
   fd = open("/dev/null", O_RDWR);
