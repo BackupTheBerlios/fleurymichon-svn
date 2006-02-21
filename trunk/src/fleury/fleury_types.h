@@ -76,13 +76,15 @@ struct s_ch
 struct s_ch_user
 {
   struct s_cl* pcl;
-  char status;
+  unsigned int o: 1;
+  unsigned int v: 1;
 };
 
 struct s_user_ch
 {
   struct s_ch* pch;
-  char status;
+  unsigned int o: 1;
+  unsigned int v: 1;
 };
 
 struct s_fleury_conf

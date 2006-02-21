@@ -276,8 +276,10 @@ void fleury_irc_process(struct s_cl *pcl)
 					      chan.topicdate = 0;
 					      pch = list_search_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param);
 					      
-					      chch.status = 0;
-					      user.status = 0;
+					      chch.o = 0;
+					      chch.v = 0;
+					      user.o = 0;
+					      user.v = 0;
 					  
 					      if (!pch)
 						{
@@ -293,8 +295,8 @@ void fleury_irc_process(struct s_cl *pcl)
 							  fleury_conf.list_ch = list_new(&chan, sizeof(chan));
 							  pchan = (struct s_ch *)&(fleury_conf.list_ch->elt);
 							}
-						      chch.status = 'o';
-						      user.status = 'o';
+						      chch.o = 1;
+						      user.o = 1;
 						    }
 						  
 						  chch.pch = pchan;
@@ -320,13 +322,13 @@ void fleury_irc_process(struct s_cl *pcl)
 							  fprintf(pcl->out, " ");
 							}
 						      pu = (struct s_ch_user *)&(ltemp->elt);
-						      if (pu->status == 'o')
+						      if (pu->o)
 							{
 							  fprintf(pcl->out, "@");
 							}
 						      else
 							{
-							  if (pu->status == 'v')
+							  if (pu->v)
 							    {
 							      fprintf(pcl->out, "+");
 							    }
@@ -483,13 +485,13 @@ void fleury_irc_process(struct s_cl *pcl)
 								      fprintf(pcl->out, " ");
 								    }
 								  pu = (struct s_ch_user *)&(ltemp->elt);
-								  if (pu->status == 'o')
+								  if (pu->o)
 								    {
 								      fprintf(pcl->out, "@");
 								    }
 								  else
 								    {
-								      if (pu->status == 'v')
+								      if (pu->v)
 									{
 									  fprintf(pcl->out, "+");
 									}
@@ -679,7 +681,7 @@ void fleury_irc_process(struct s_cl *pcl)
 								      fleury_irc_param = fleury_irc_last(fleury_irc_param);
 								      if (*fleury_irc_param == '#')
 									{
-									  if ((pch = list_search_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param)) && pch->status == 'o')
+									  if ((pch = list_search_long(pcl->list_chans, test_streq_ch_chan, fleury_irc_param)) && pch->o)
 									    {
 									      if ((pu = list_search_long(pch->pch->list_users, test_streq_cl_user, temp)))
 										{
