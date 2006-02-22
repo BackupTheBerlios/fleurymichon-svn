@@ -28,6 +28,9 @@ struct commande
     starg *args;
 };
 
+
+QSocket socket; //socket du serveur
+
 long strtoint(char *s)
 {
     int i;
@@ -77,9 +80,8 @@ void dlgmain::pbsendclick()
 	    cmd->com[i-1]=0;
 	    /*saisie argument(s)*/
 	    argu=&(cmd->args);
-	    while(s[i])
+	    while(s[++i])
 	    {
-		i++;
 		*argu=(starg*)malloc(sizeof(starg));
 		j=0;
 		while((s[i])&&(s[i]!=' ')&&(j<CMDSMAX))
@@ -93,7 +95,7 @@ void dlgmain::pbsendclick()
 	    }	
 	    (*argu)=NULL;
 	    /*execution*/
-	    afferreur(execcmd(cmd));	  
+	    execcmd(cmd);	  
 	    /*liberation*/
 	    argu=&(cmd->args);
 	    while((*argu)!=NULL)
@@ -120,6 +122,8 @@ void dlgmain::init()
 void dlgmain::destroy()
 {
     fclose(logf);
+    socket.clearPendingData();
+    socket.close();
 }
     
 void dlgmain::printchat(const char* s, long type)
@@ -156,17 +160,21 @@ int dlgmain::execcmd( void  * cmd1 )
 {
     struct commande *cmd;
     int result=0;
+    char message[510];
     /*WSADATA WSAData;
     WSAStartup(MAKEWORD(2,0), &WSAData);
     SOCKET sock;
     SOCKADDR_IN sin;*/
  
+    message[0]=0;
     cmd=(struct commande *)cmd1;
-    if(strcmp(cmd->com,"connect"))
+    if(!strcmp(cmd->com,"connect"))
     {
 	if(cmd->args==NULL)
-	    //dlgmain::printchat("erreur",-1);
+	{
+	    dlgmain::printchat("erreur pas de serveur specifie",-1);
 	    result=-1;
+	}
 	else
 	{
 	    /*sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -175,9 +183,9 @@ int dlgmain::execcmd( void  * cmd1 )
 	    /* connection a cmd->args:serveur */
 	    if(cmd->args->next==NULL)
 		//sin.sin_port = htons(6667);
-		5;
+		socket.connectToHost(cmd->args->arg,6667);
 	    else
-		5;
+		socket.connectToHost(cmd->args->arg,strtoint(cmd->args->next->arg));
 		//sin.sin_port = htons(strtoint(cmd->args->next->arg));
 	    /*connection a cmd->args->arg:port*/
 	    //connect(sock, (SOCKADDR *)&sin, sizeof(sin));
@@ -187,11 +195,12 @@ int dlgmain::execcmd( void  * cmd1 )
  
     if(strcmp(cmd->com,"quit"))
     {
-	5;
 	/* envoie du message QUIT au serveur pas fait*/
 	/*closesocket(sock);
 	WSACleanup();*/
 	/* fermeture du socket */
+	socket.clearPendingData();
+	socket.close();
  }
     return result;
 }
