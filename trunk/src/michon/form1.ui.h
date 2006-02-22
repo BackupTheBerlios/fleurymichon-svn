@@ -58,7 +58,7 @@ void fprnt(FILE *f,const char* s)
 
 void dlgmain::pbsendclick()
 {
-    struct commande *cmd;
+    struct commande *cmd=NULL;
     int i,j;
     const char *s;
     starg **argu,*tmp;
