@@ -10,7 +10,8 @@
 ** destructor.
 *****************************************************************************/
 #include <qsocket.h>
-
+#include <qsocketdevice.h>
+#include <qtimer.h>
 
 #define CMDSMAX 32
 #define starg struct arguments
@@ -29,7 +30,8 @@ struct commande
 };
 
 
-QSocket *socket=new QSocket(); //socket du serveur
+QSocket *socket;//socket du serveur
+QTimer *timer;//timer
 
 long strtoint(char *s)
 {
@@ -116,6 +118,10 @@ void dlgmain::init()
     if(!(logf=fopen("log.txt","w")))
 	printf("erreur, imposible de creer log.txt");
     logf=freopen("log.txt","a+",logf);
+    timer=new QTimer(  );
+    connect( timer, SIGNAL(timeout()), SLOT(fct_timer()) );
+    timer->start( 0, FALSE );
+    socket = new QSocket();
 }
 
 
@@ -191,4 +197,18 @@ int dlgmain::execcmd( void  * cmd1 )
  }
     return result;
     return 0;
+}
+
+
+void dlgmain::fct_timer()
+{
+    long t;
+    const char *s;
+    
+    if(socket->canReadLine())
+    {
+	t=socket->bytesAvailable();
+	s=socket->readLine();
+	printchat(s,0);
+    }
 }

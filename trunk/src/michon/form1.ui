@@ -137,6 +137,7 @@
     <slot>pbsendclick()</slot>
     <slot>printchat( const char * s, long type )</slot>
     <slot>afferreur( int err )</slot>
+    <slot>fct_timer()</slot>
 </slots>
 <functions>
     <function access="private" specifier="non virtual">init()</function>
