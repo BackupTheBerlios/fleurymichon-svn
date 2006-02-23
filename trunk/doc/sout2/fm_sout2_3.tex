@@ -1,10 +1,23 @@
+\section{Le démarrage}
+
+Après un non-démarrage du client michon pour la soutenance précédente, il était donc tant pour nous de le commencer. Nous nous sommes donc décider à nous lancer dans l'aventure de ce client avec qt. Nous avons donc réussi à nous retrouver, nous les 2 membres de cette partie du projet, Nicolas et Lionel. Nicolas a donc commencé par s'interresser à la mise en place de notre projet sous Qt Designer tandis que moi, Lionel j'étais plutot orienté vers les sockets.
+
+
 \section{Création de l'interface graphique et codage sous qtdesigner}
 
 
 
 \section{Sockets}
 
+Comme Sergueï et Benoît l'avaient découvert lors de la précédente session, nous avons à notre tour découvert ces fameux sockets.
+Le socket est donc ce qui va nous permettre de connecter notre cher client au serveur. Pour l'explication générale de ce qu'est le socket, il faut se ramener à ce qu'avait expliqué Benoît et Sergueï lors de la soutenance précédente.
+Pour notre client, ça nous permettra de se connecter à un serveur irc en rentrant son adresse ip ou son DNS ainsi que si ce n'est pas celle par défaut : 6667, le port utilisé.
 
+Dans le cas de Qt, il y a la classe Qsocket qui existe et qui permet de se servir des sockets, de plus cela devrait pouvoir permettre une bonne portabilité du protocole si on le passe sous windows car normalement cette classe existe autant sur le Qt de Linux que Windows.
+
+Cependant l'utilisation de cette classe Qt a été un vrai calvaire pour la compréhension et la mise en place du socket sur le client.
+Mais il est vrai qu'une fois mis en place, l'utilisation est simple et efficace.
+La principale découverte impressionnante et ô combien efficace et utile pour la suite, c'est la connection de signals aux slots permettant par la suite de par exemple recevoir donc le signal du serveur annonçant donc l'arrivée d'un message et ainsi pouvoir le lire directement, ça rend les choses tellement simple mais c'est tellement impressionnant quand on essaye de comprendre comment ça marche et que font tous ces connect(...).
 
 \section{Messages}
 
