@@ -29,7 +29,7 @@ struct commande
 };
 
 
-QSocket socket; //socket du serveur
+QSocket *socket=new QSocket(); //socket du serveur
 
 long strtoint(char *s)
 {
@@ -44,6 +44,7 @@ long strtoint(char *s)
 	i++;
     }    
     return l;
+    return 0;
 }
 
 void fprnt(FILE *f,const char* s)
@@ -95,8 +96,7 @@ void dlgmain::pbsendclick()
 	    }	
 	    (*argu)=NULL;
 	    /*execution*/
-	    execcmd(cmd);	  
-	    /*liberation*/
+	    execcmd(cmd);
 	    argu=&(cmd->args);
 	    while((*argu)!=NULL)
 	    {
@@ -112,7 +112,7 @@ void dlgmain::pbsendclick()
 }
 
 void dlgmain::init()
-{    
+{   
     if(!(logf=fopen("log.txt","w")))
 	printf("erreur, imposible de creer log.txt");
     logf=freopen("log.txt","a+",logf);
@@ -122,8 +122,8 @@ void dlgmain::init()
 void dlgmain::destroy()
 {
     fclose(logf);
-    socket.clearPendingData();
-    socket.close();
+    socket->clearPendingData();
+    socket->close();
 }
     
 void dlgmain::printchat(const char* s, long type)
@@ -161,10 +161,6 @@ int dlgmain::execcmd( void  * cmd1 )
     struct commande *cmd;
     int result=0;
     char message[510];
-    /*WSADATA WSAData;
-    WSAStartup(MAKEWORD(2,0), &WSAData);
-    SOCKET sock;
-    SOCKADDR_IN sin;*/
  
     message[0]=0;
     cmd=(struct commande *)cmd1;
@@ -177,18 +173,12 @@ int dlgmain::execcmd( void  * cmd1 )
 	}
 	else
 	{
-	    /*sock = socket(AF_INET, SOCK_STREAM, 0);
-	    sin.sin_family = AF_INET;
-	    sin.sin_addr.s_addr = inet_addr(cmd->args);*/
 	    /* connection a cmd->args:serveur */
-	    if(cmd->args->next==NULL)
-		//sin.sin_port = htons(6667);
-		socket.connectToHost(cmd->args->arg,6667);
+	    if(cmd->args->next==NULL)		
+		socket->connectToHost(cmd->args->arg,6667);
 	    else
-		socket.connectToHost(cmd->args->arg,strtoint(cmd->args->next->arg));
-		//sin.sin_port = htons(strtoint(cmd->args->next->arg));
+		socket->connectToHost(cmd->args->arg,strtoint(cmd->args->next->arg));		
 	    /*connection a cmd->args->arg:port*/
-	    //connect(sock, (SOCKADDR *)&sin, sizeof(sin));
 	}
  
     } 
@@ -196,11 +186,9 @@ int dlgmain::execcmd( void  * cmd1 )
     if(strcmp(cmd->com,"quit"))
     {
 	/* envoie du message QUIT au serveur pas fait*/
-	/*closesocket(sock);
-	WSACleanup();*/
-	/* fermeture du socket */
-	socket.clearPendingData();
-	socket.close();
+	socket->clearPendingData();
+	socket->close();
  }
     return result;
+    return 0;
 }
