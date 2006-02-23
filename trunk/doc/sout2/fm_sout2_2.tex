@@ -7,6 +7,13 @@ de nombreux bugs ont été résolus et démystifiés.
 
 \section{Corrections effectuées}
 
+\subsection{Des sockets débogués}
+
+À la première soutenance, des messages entre les clients et le serveur étaient souvent mis en attente en raison du caractère bloquant de l'appel à la fonction \textit{fgets()}. Ainsi, un client devait envoyer une autre commande au serveur, pour que le message en attente qui lui est destiné lui parvienne. Nous avons réussi à résoudre ce problème en lisant l'entrée du socket octet par octet, en vérifiant à chaque fois si des données sont prêtes à être reçues. Désormais, le serveur réagit instantanément aux commandes soumises par les clients : le protocole opère en temps réel.
+
+\subsection{Du code plus propre}
+
+Certaines sections du code du serveur nécessitent des traitements de listes particulièrement délicats. Nous avions utilisé des définitions de fonctions imbriquées dans d'autres. Nous savons que ce n'est pas du langage C mais cela compilait magiquement avec GCC. Cependant, consciencieux comme nous sommes, nous avons pris le soin d'éliminer la vingtaine de fonctions imbriquées que nous utilisions en ajoutant simplement quelques paramètres à nos fonctions de traitement.
 
 \section{Implémentation de nouvelles commandes}
 
