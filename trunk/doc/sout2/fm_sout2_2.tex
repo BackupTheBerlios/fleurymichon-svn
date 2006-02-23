@@ -2,37 +2,48 @@
 
 \section{Corrections effectuées}
 
+
 \section{Implémentation de nouvelles commandes}
 
-\subsection{La commande \emph{PRIVMSG}}
+\subsection{La commande PRIVMSG}
 
-La commande \emph{PRIVMSG} est utilisée lorsque un utilisateur désire s'adresser à un ou plusieurs utilisateurs du réseaux, mais également à un ou plusieurs canaux.
+La commande PRIVMSG est utilisée lorsque un utilisateur désire s'adresser à un ou plusieurs utilisateurs du réseaux, mais également à un ou plusieurs canaux.
 
-\subsection{La commande \emph{LIST}}
+\subsection{La commande LIST}
 
-La commande \emph{LIST} permet d'obtenir la liste d'un ou plusieurs canaux avec leur \emph{topic} (sujet), excepté si ce dernier est privé. 
+La commande LIST est utilisée pour récupérer la liste des canaux visibles sur le serveur. Pour chaque canal, on reçoit plusieurs informations : le nom du canal, le nombre d'utilisateurs présents et le sujet de discussion relatif au canal.
 
-\subsection{La commande \emph{KICK}}
+\subsection{La commande TOPIC}
 
-La commande \emph{KICK} permet à un opérateur de sortir un utilisateur du canal.
+La commande TOPIC permet de récupérer ou de modifier le sujet de discussion d'un canal, il s'agit d'une phrase qui sert à définir l'intérêt du canal. En mode lecture, on reçoit également le pseudonyme de l'auteur du topic actuel ainsi que la date à laquelle il a été établi.
 
-\subsection{La commande \emph{NAMES}}
+\subsection{La commande KICK}
 
-La commande \emph{NAMES} est utilisée pour obtenir la liste des utilisateurs présents sur un canal.
+La commande KICK est employée pour exclure un utilisateur d'un canal. On peut spécifier un motif d'expulsion pour justifier l'utilisation de la commande. Elle se révèle très pratique pour sanctionner le flood ou les propos calomnieux.
 
-\subsection{La commande \emph{WHO}}
+\subsection{La commande NAMES}
 
-\subsection{La commande \emph{TOPIC}}
+La commande NAMES sert à récupérer la liste des utilisateurs d'un canal, ainsi que leur mode sur ce canal, c'est-à-dire s'ils ont des privilèges \textit{opérateur} ou \textit{voice}.
 
-La commande \emph{TOPIC} permet à un utilisateur de définir ou de voir le sujet d'un canal. 
+\subsection{La commande WHO}
 
-\subsection{La commande \emph{MODE}}
-La commande \emph{MODE} permet de changer le statut d'un utilisateur (opérateur, invisible, \ldots) ou d'un canal (privé, nombre de personnes maximum, \ldots).
+La commande WHO sert à afficher des informations détaillées sur un utilisateur en particulier ou bien sur tous les utilisateurs d'un canal.
 
-\subsubsection{Modes des canaux}
-\subsubsection{Modes des utilisateurs}
+\subsection{La commande MODE}
 
-\section{Gestion des erreurs}
+La commande MODE sert à consulter et définir les modes des canaux et des utilisateurs.
+
+\subsubsection{Les modes des utilisateurs}
+
+Les modes des utilisateurs permettent de les caractériser dans certains traitements de messages. Ainsi le mode +i active l'invisibilité pour certaines commandes de recherche d'utilisateurs. le mode +o global identifie les IRCops (les administrateurs du serveur) et ne peut être modifié par l'utilisateur, il est défini par le serveur à la suite d'une authentification réussie avec la commande OPER. Un utilisateur avec le mode +w (wallop) activé recevra les messages de notification de l'état du réseau.
+
+\subsubsection{Les modes des canaux}
+
+Les modes des canaux permettent principalement de définir des restrictions. Le mode +t permet de restreindre la modification du topic aux opérateurs du canal. Le mode +n désactive les messages externes, c'est-à-dire ceux émanant d'utilisateurs étrangers au canal. Le mode +m restreint la parole aux \textit{opérateurs} et \textit{voices}. Le mode +l définit le nombre maximal d'utilisateurs sur un canal. Le mode +k permet de définir un mot de passe pour le canal. Le mode +s rend le canal secret. Le mode +i le rend accessible sur invitation uniquement.
+
+\subsubsection{Les modes des utilisateurs sur les canaux}
+
+Le mode +b permet d'ajouter un masque de bannissement à la liste du canal pour interdire l'accès aux utilisateurs filtrés par ce masque. Les modes +o et +v permettent d'accorder des privilèges aux utilisateurs.
 
 \section{Fichier de configuration}
 
