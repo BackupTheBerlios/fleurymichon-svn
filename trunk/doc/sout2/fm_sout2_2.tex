@@ -1,5 +1,10 @@
 \section{Vers un serveur fonctionnel}
 
+Voilà, nous y sommes presque. Ce monde meilleur pour le flood qui avait emergé à la soutenance précédente est devenu en l'espace d'un mois beaucoup plus
+fonctionnel qu'avant. En effet, les utilisateurs peuvent dores et déjà s'insulter à leur guise sur des canaux aux sujets inintéressants. Ils peuvent aussi
+se doter de super-pouvoirs tels que le mode opérateur qui leur permet entre autre (et surtout gnark gnark!) de "kicker" les utilisateurs du canal. De plus,
+de nombreux bugs ont été résolus et démystifiés.
+
 \section{Corrections effectuées}
 
 
@@ -45,9 +50,15 @@ Les modes des canaux permettent principalement de définir des restrictions. Le m
 
 Le mode +b permet d'ajouter un masque de bannissement à la liste du canal pour interdire l'accès aux utilisateurs filtrés par ce masque. Les modes +o et +v permettent d'accorder des privilèges aux utilisateurs.
 
+\section{Gestion des erreurs}
+
+La RFC 1459 définit un certain nombres de messages d'erreurs permettant ainsi au serveur de gérer ces dernières de manière ordonné et efficace.
+Chaque réponse est présentée avec son numéro, son nom, et sa chaîne de réponse (en anglais). Par exemple, si un message est envoyé à un utilisateur inexistant,
+la réponse d'erreur sera : 401 ERR\_NOSUCHNICK "<pseudonyme> :No such nick/channel". 
+
 \section{Fichier de configuration}
 
 Dans le but de fournir une application graphique de paramétrage du serveur, nous avons mis en place un fichier d'initialisation 
 des longueurs maximum des chaines de caractères telles que le nom du serveur, le \emph{nick} de l'utilisateur\ldots, ainsi que 
-des valeurs numériques comme le port d'écoute.
+des valeurs numériques comme le port d'écoute. A l'avenir, ce fichier sera généré automatiquement au démarrage du serveur.
 
