@@ -22,4 +22,47 @@ La principale découverte impressionnante et ô combien efficace et utile pour la 
 
 \section{Messages}
 
+Le client irc Michon se doit d'envoyer (de recevoir) des messages au (du) serveur. Une fois la lecture des messages tapés par l'utilisateur et la réception des messages du serveur par le client rendus possibles, il a fallu mettre en place la traduction par des actes par le client.
 
+\subsection{se connecter au serveur}
+
+Pour se connecter à un serveur, l'utilisateur devra taper dans l'edit fait pour la réception des commandes de l'utilisateur : connect suivi de l'ip ou le DNS du serveur ainsi que le port utilisé s'il est différent du 6667.
+
+exemple :
+Pour connecter le socket sur un serveur lancé sur la machine H à l'epita sur le port 8792 l'utilisateur devra taper :
+                 
+                           connect H 8792
+
+Si le client trouve le serveur et arrive à se connecter dessus, des messages le signifiant apparaitront.
+
+\subsection{PASS}
+
+Afin de se connecter en tant qu'utilisateur irc sur le serveur irc, l'utilisateur doit par la suite entrer le pass du serveur irc. Dans le cas où il n'y a pas de mot de passe, l'utilisateur aura quand même à écrire la commande passe suivi de rien car le serveur doit dans tous les cas recevoir cette commande.
+
+exemple :
+Il n'y a pas de pass pour le seveur :
+                     
+                          pass
+
+\subsection{NICK}
+
+L'utilisateur doit par la suite entrer son nickname (pseudo) utilisé sur le serveur
+
+exemple :
+Le pseudo de l'utilisateur est momo :
+
+                        nick momo
+
+\subsection{USER}
+
+L'utilisateur doit ensuite rentrer son vrai nom. pour cela il tapera la commande user suivi de son vrai nom.
+
+exemple :
+L'utilisateur s'appelle Seraphin Lampion :
+
+                         user Seraphin Lampion
+
+\subsection{PING/PONG}
+
+Le serveur afin de vérifier que le client qu'il a en face de lui est toujours présent lui envoie un message PING auquel le client doit s'empresser de répondre PONG afin de signifier sa présence.
+Ce message est répondu automatiquement par le client sans que l'utilisateur n'ait quoique ce soit à faire.
