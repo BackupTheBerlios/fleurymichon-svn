@@ -269,8 +269,8 @@ void fleury_irc_process(struct s_cl *pcl)
 					      chan.topicauthor[0] = 0;
 					      chan.list_users = NULL;
 					      chan.list_ban = NULL;
-					      chan.mode.n = 0;
-					      chan.mode.t = 0;
+					      chan.mode.n = 1;
+					      chan.mode.t = 1;
 					      chan.mode.r = 0;
 					      chan.date = time(NULL);
 					      chan.topicdate = 0;
@@ -442,7 +442,7 @@ void fleury_irc_process(struct s_cl *pcl)
 						  else
 						    {
 						      pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, dest);
-						      if (pchan)
+						      if (pchan && (!(pchan->mode.n) || list_search_long(pchan->list_users, test_streq_cl_user, pcl->nick)))
 							{
 							  ltemp = pchan->list_users;
 
@@ -569,7 +569,7 @@ void fleury_irc_process(struct s_cl *pcl)
 								{
 								  if ((pchan = list_search_long(fleury_conf.list_ch, test_streq_ch, fleury_irc_param)))
 								    {
-								      if (temp)
+								      if (temp && (!(pchan->mode.t) || ((struct s_ch_user *)list_search_long(pchan->list_users, test_streq_cl_user, pcl->nick))->o))
 									{
 									  if (*temp == ':')
 									    {
