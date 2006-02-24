@@ -311,6 +311,7 @@ int dlgmain::execcmd(void  * cmd1, QString str)
     if(cmd->com == "quit")
     {
 	os << "QUIT" << str << "\n";
+	/* envoie du message QUIT au serveur pas fait*/
 	/* fermeture du socket */
 	destroy();
     }

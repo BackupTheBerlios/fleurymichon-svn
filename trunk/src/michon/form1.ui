@@ -135,14 +135,18 @@
 </variables>
 <slots>
     <slot>pbsendclick()</slot>
+    <slot>slotconnected()</slot>
+    <slot>slothostfound()</slot>
+    <slot>slotConnectionClosed()</slot>
+    <slot>sloterror( int e )</slot>
+    <slot>slotReadyRead()</slot>
     <slot>printchat( const char * s, long type )</slot>
     <slot>afferreur( int err )</slot>
-    <slot>fct_timer()</slot>
 </slots>
 <functions>
     <function access="private" specifier="non virtual">init()</function>
     <function access="private" specifier="non virtual">destroy()</function>
-    <function returnType="int">execcmd( void * cmd1 )</function>
+    <function returnType="int">execcmd( void * cmd1, QString str )</function>
 </functions>
 <pixmapinproject/>
 <layoutdefaults spacing="6" margin="11"/>
