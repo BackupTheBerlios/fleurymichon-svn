@@ -2,9 +2,10 @@
 #include "fleury_types.h"
 #include "fleury_load.h"
 
-int let_fleury_be_daemon(FILE *cfg)
+int let_fleury_be_daemon()
 {
   int fd;
+  FILE *cfg;
 
   if (fork())
     {
@@ -20,8 +21,8 @@ int let_fleury_be_daemon(FILE *cfg)
   dbgout = fopen("fleury_debug.log", "a");
   fprintf(dbgout, "Fleury: Logging on\n");
 #endif
-  
-  if (cfg)
+
+  if ((cfg = fopen("fleury.cfg", "r")))
     {
       fleury_load_param(&fleury_conf, cfg);
       fclose(cfg);

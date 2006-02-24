@@ -4,7 +4,7 @@
 
 int main()
 {
-  let_fleury_be_daemon(fopen("fleury.cfg","r"));
+  let_fleury_be_daemon();
   /* printf("%i\n", fleury_conf.sfv.port); */
 
   fleury_server_start(fleury_conf.sfv.port);
