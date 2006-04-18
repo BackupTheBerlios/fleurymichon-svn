@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>528</width>
-            <height>368</height>
+            <width>530</width>
+            <height>366</height>
         </rect>
     </property>
     <property name="caption">
@@ -104,51 +104,6 @@
             </widget>
         </hbox>
     </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>lineEdit1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>13</x>
-                <y>283</y>
-                <width>341</width>
-                <height>30</height>
-            </rect>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>pushButton4</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>430</x>
-                <y>280</y>
-                <width>90</width>
-                <height>30</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Insulte</string>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>pushButton18</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>360</x>
-                <y>280</y>
-                <width>70</width>
-                <height>30</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Interdit</string>
-        </property>
-    </widget>
     <widget class="QTabWidget">
         <property name="name">
             <cstring>tabWidget</cstring>
@@ -166,11 +121,11 @@
                 <cstring>Widget8</cstring>
             </property>
             <attribute name="title">
-                <string>Tab</string>
+                <string>Status</string>
             </attribute>
             <widget class="QTextEdit">
                 <property name="name">
-                    <cstring>textEdit1</cstring>
+                    <cstring>statusEdit</cstring>
                 </property>
                 <property name="enabled">
                     <bool>true</bool>
@@ -191,6 +146,70 @@
                 </property>
             </widget>
         </widget>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>pushButton18</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>420</x>
+                <y>280</y>
+                <width>40</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>No</string>
+        </property>
+    </widget>
+    <widget class="QLineEdit">
+        <property name="name">
+            <cstring>theEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>13</x>
+                <y>283</y>
+                <width>320</width>
+                <height>30</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>pushButton4</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>460</x>
+                <y>280</y>
+                <width>60</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Insulte</string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>ValButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>350</x>
+                <y>280</y>
+                <width>70</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>&amp;Send</string>
+        </property>
+        <property name="accel">
+            <string>Alt+S</string>
+        </property>
     </widget>
 </widget>
 <connections>
@@ -213,16 +232,28 @@
         <slot>theSlot()</slot>
     </connection>
     <connection>
-        <sender>textEdit1</sender>
+        <sender>statusEdit</sender>
         <signal>textChanged()</signal>
         <receiver>MyDialog1</receiver>
-        <slot>newSlot()</slot>
+        <slot>undoSlot()</slot>
     </connection>
     <connection>
-        <sender>lineEdit1</sender>
+        <sender>theEdit</sender>
         <signal>textChanged(const QString&amp;)</signal>
         <receiver>MyDialog1</receiver>
         <slot>lineEdit1_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>pushButton4</sender>
+        <signal>clicked()</signal>
+        <receiver>MyDialog1</receiver>
+        <slot>tSlot()</slot>
+    </connection>
+    <connection>
+        <sender>ValButton</sender>
+        <signal>clicked()</signal>
+        <receiver>MyDialog1</receiver>
+        <slot>valSlot()</slot>
     </connection>
 </connections>
 <includes>
@@ -230,8 +261,11 @@
 </includes>
 <slots>
     <slot>theSlot()</slot>
-    <slot>newSlot()</slot>
+    <slot>undoSlot()</slot>
     <slot>lineEdit1_textChanged( const QString &amp; s )</slot>
+    <slot>tSlot()</slot>
+    <slot>OpenChannel( QString s )</slot>
+    <slot>valSlot()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

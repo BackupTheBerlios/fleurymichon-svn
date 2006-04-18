@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'moker.ui'
 **
-** Created: Tue Apr 18 09:13:34 2006
+** Created: Tue Apr 18 16:56:40 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -11,10 +11,10 @@
 
 #include <qvariant.h>
 #include <qpushbutton.h>
-#include <qlineedit.h>
 #include <qtabwidget.h>
 #include <qwidget.h>
 #include <qtextedit.h>
+#include <qlineedit.h>
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
@@ -53,35 +53,40 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     buttonCancel->setAutoDefault( TRUE );
     Layout1->addWidget( buttonCancel );
 
-    lineEdit1 = new QLineEdit( this, "lineEdit1" );
-    lineEdit1->setGeometry( QRect( 13, 283, 341, 30 ) );
-
-    pushButton4 = new QPushButton( this, "pushButton4" );
-    pushButton4->setGeometry( QRect( 430, 280, 90, 30 ) );
-
-    pushButton18 = new QPushButton( this, "pushButton18" );
-    pushButton18->setGeometry( QRect( 360, 280, 70, 30 ) );
-
     tabWidget = new QTabWidget( this, "tabWidget" );
     tabWidget->setGeometry( QRect( 11, 11, 506, 270 ) );
 
     Widget8 = new QWidget( tabWidget, "Widget8" );
 
-    textEdit1 = new QTextEdit( Widget8, "textEdit1" );
-    textEdit1->setEnabled( TRUE );
-    textEdit1->setGeometry( QRect( 7, 7, 491, 221 ) );
-    textEdit1->setWordWrap( QTextEdit::WidgetWidth );
+    statusEdit = new QTextEdit( Widget8, "statusEdit" );
+    statusEdit->setEnabled( TRUE );
+    statusEdit->setGeometry( QRect( 7, 7, 491, 221 ) );
+    statusEdit->setWordWrap( QTextEdit::WidgetWidth );
     tabWidget->insertTab( Widget8, QString::fromLatin1("") );
+
+    pushButton18 = new QPushButton( this, "pushButton18" );
+    pushButton18->setGeometry( QRect( 420, 280, 40, 30 ) );
+
+    theEdit = new QLineEdit( this, "theEdit" );
+    theEdit->setGeometry( QRect( 13, 283, 320, 30 ) );
+
+    pushButton4 = new QPushButton( this, "pushButton4" );
+    pushButton4->setGeometry( QRect( 460, 280, 60, 30 ) );
+
+    ValButton = new QPushButton( this, "ValButton" );
+    ValButton->setGeometry( QRect( 350, 280, 70, 30 ) );
     languageChange();
-    resize( QSize(528, 368).expandedTo(minimumSizeHint()) );
+    resize( QSize(530, 366).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
 
     // signals and slots connections
     connect( buttonOk, SIGNAL( clicked() ), this, SLOT( accept() ) );
     connect( buttonCancel, SIGNAL( clicked() ), this, SLOT( reject() ) );
     connect( pushButton18, SIGNAL( clicked() ), this, SLOT( theSlot() ) );
-    connect( textEdit1, SIGNAL( textChanged() ), this, SLOT( newSlot() ) );
-    connect( lineEdit1, SIGNAL( textChanged(const QString&) ), this, SLOT( lineEdit1_textChanged(const QString&) ) );
+    connect( statusEdit, SIGNAL( textChanged() ), this, SLOT( undoSlot() ) );
+    connect( theEdit, SIGNAL( textChanged(const QString&) ), this, SLOT( lineEdit1_textChanged(const QString&) ) );
+    connect( pushButton4, SIGNAL( clicked() ), this, SLOT( tSlot() ) );
+    connect( ValButton, SIGNAL( clicked() ), this, SLOT( valSlot() ) );
 }
 
 /*
@@ -105,9 +110,11 @@ void MyDialog1::languageChange()
     buttonOk->setAccel( QKeySequence( QString::null ) );
     buttonCancel->setText( tr( "&Cancel" ) );
     buttonCancel->setAccel( QKeySequence( QString::null ) );
+    statusEdit->setText( tr( "testttttttttt" ) );
+    tabWidget->changeTab( Widget8, tr( "Status" ) );
+    pushButton18->setText( tr( "No" ) );
     pushButton4->setText( tr( "Insulte" ) );
-    pushButton18->setText( tr( "Interdit" ) );
-    textEdit1->setText( tr( "testttttttttt" ) );
-    tabWidget->changeTab( Widget8, tr( "Tab" ) );
+    ValButton->setText( tr( "&Send" ) );
+    ValButton->setAccel( QKeySequence( tr( "Alt+S" ) ) );
 }
 

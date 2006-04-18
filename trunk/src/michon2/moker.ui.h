@@ -16,14 +16,38 @@ void MyDialog1::theSlot()
    
 }
 
-
-void MyDialog1::newSlot()
+void MyDialog1::undoSlot()
 {
-    textEdit1->undo();
+    statusEdit->undo();
 }
 
 
 void MyDialog1::lineEdit1_textChanged( const QString &s )
 {
-    pushButton18->setText(s);
+    //pushButton18->setText(s);
+}
+
+
+void MyDialog1::tSlot()
+{
+    //OpenChannel(lineEdit1->text());
+}
+
+void MyDialog1::OpenChannel(QString s)
+{
+    QString *stext = new QString("text");
+    tabWidget->addTab(new QTextEdit(NULL, QString((s + *stext)).ascii()), s);
+    //connect(SIGNAL(textChanged(), MyDialog1, SLOT());
+}
+
+void MyDialog1::valSlot()
+{
+    if (!strncmp(theEdit->text(), "/join ", 6))
+    {
+	OpenChannel(theEdit->text().ascii() + 6);
+    }
+    else
+    {
+	//
+    }
 }
