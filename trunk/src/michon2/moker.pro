@@ -3,7 +3,8 @@ LANGUAGE	= C++
 
 CONFIG	+= qt warn_on release
 
-SOURCES	+= main.cpp
+SOURCES	+= main.cpp \
+	client.cpp
 
 FORMS	= moker.ui
 

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'moker.ui'
 **
-** Created: Tue Apr 18 16:56:05 2006
+** Created: Tue Apr 18 17:46:51 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -17,10 +17,10 @@ class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
 class QSpacerItem;
-class QPushButton;
 class QTabWidget;
 class QWidget;
 class QTextEdit;
+class QPushButton;
 class QLineEdit;
 
 class MyDialog1 : public QDialog
@@ -31,9 +31,6 @@ public:
     MyDialog1( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
     ~MyDialog1();
 
-    QPushButton* buttonHelp;
-    QPushButton* buttonOk;
-    QPushButton* buttonCancel;
     QTabWidget* tabWidget;
     QWidget* Widget8;
     QTextEdit* statusEdit;
@@ -41,6 +38,9 @@ public:
     QLineEdit* theEdit;
     QPushButton* pushButton4;
     QPushButton* ValButton;
+    QPushButton* buttonHelp;
+    QPushButton* buttonOk;
+    QPushButton* buttonCancel;
 
 public slots:
     virtual void theSlot();

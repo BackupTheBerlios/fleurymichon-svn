@@ -41,13 +41,16 @@ void MyDialog1::OpenChannel(QString s)
 }
 
 void MyDialog1::valSlot()
-{
+{    
     if (!strncmp(theEdit->text(), "/join ", 6))
     {
 	OpenChannel(theEdit->text().ascii() + 6);
     }
     else
     {
-	//
+	if (!strcmp(theEdit->text().ascii(), "/connect ", 9))	
+	{	
+	    c_client michon(theEdit->text().right(theEdit->text().length() - 9), 6667);
+	}	
     }
 }
