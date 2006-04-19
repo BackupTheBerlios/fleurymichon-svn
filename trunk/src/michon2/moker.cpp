@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'moker.ui'
 **
-** Created: Wed Apr 19 19:53:10 2006
+** Created: Wed Apr 19 20:02:53 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -115,6 +115,7 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     connect( buttonCancel, SIGNAL( clicked() ), this, SLOT( reject() ) );
     connect( statusEdit, SIGNAL( textChanged() ), this, SLOT( undoSlot() ) );
     connect( ValButton, SIGNAL( clicked() ), this, SLOT( valSlot() ) );
+    connect( ConnectButton, SIGNAL( clicked() ), this, SLOT( connectSlot() ) );
 
     // tab order
     setTabOrder( theEdit, ValButton );

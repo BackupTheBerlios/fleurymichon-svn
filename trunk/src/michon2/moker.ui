@@ -392,6 +392,12 @@
         <receiver>MyDialog1</receiver>
         <slot>valSlot()</slot>
     </connection>
+    <connection>
+        <sender>ConnectButton</sender>
+        <signal>clicked()</signal>
+        <receiver>MyDialog1</receiver>
+        <slot>connectSlot()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>theEdit</tabstop>
