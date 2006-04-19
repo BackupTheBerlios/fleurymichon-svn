@@ -1,6 +1,6 @@
 #include "decomparg.h"
 
-struct commande * decompcom(char* s)
+struct commande * decompcom(const char* s)
 {
  int i,j;
  struct commande *cmd=NULL;

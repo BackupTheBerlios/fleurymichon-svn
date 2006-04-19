@@ -15,5 +15,5 @@ struct commande
     struct arguments *args;
 };
 
-struct commande * decompcom(char* s);
+struct commande * decompcom(const char* s);
 void freecmd(struct commande *cmd);
