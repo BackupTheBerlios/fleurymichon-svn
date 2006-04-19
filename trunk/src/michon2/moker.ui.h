@@ -59,9 +59,9 @@ void MyDialog1::valSlot()
 		}
 		else
 		{
-		    if (false)
+		    if (!strncmp(theEdit->text().ascii(), "/kick ", 6))
 		    {
-		    
+		      
 		    }
 		    else
 		    {
