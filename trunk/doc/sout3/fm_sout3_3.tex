@@ -1,11 +1,32 @@
-\section{Programmation QT}
+\section{Programmation Qt}
 
 \subsection{C++ et langage objet}
 
+Soyons objectifs, parlons objet! Les classes permettent de regrouper des structures appelées objets, par type de données admettant un comportement algorithmiquement identique dans l'environnement défini par cette même classe. Ce comportement est défini par des méthodes, c'est-à-dire des fonctions et des procédures qui agissent sur et selon des propriétés, qui sont des données propres à chaque objet d'une classe donnée. Ainsi, il devient aisé d'implémenter des systèmes évolués et complexes dont les agents peuvent intéragir dans un même environnement structuré et hierarchisé de manière très rigoureuse. De plus, la majeure partie des systèmes de fenêtrage actuels fonctionnent selon des modèles objets de cette nature, c'est la raison pour laquelle il nous est important de bien en assimiler les mécanismes. L'utilisation de Qt pour la réalisation d'une application graphique nécessite la connaissance des aspects objectifs du langage C++.
+
 \subsection{Mise en place de l'interface}
 
-\subsection{Création de la classe \emph{c_client}}
+Pour la conception du client IRC Michon, nous avons élaboré une interface graphique se présentant sous la forme d'une boîte de dialogue unique, munie cependant d'un système de gestion dynamique d'onglets, ce qui nous permet de rassembler toutes les fenêtres de conversation dans un seul objet QTabWidget.
 
+\subsection{Création de la classe \emph{c\_client}}
+
+\subsection{Autres classes}
+
+\subsubsection{La classe QTabWidget}
+
+Les composants appartenant à la classe QTabWidget sont très pratiques puisqu'ils permettent de superposer plusieurs pages, contenant chacune des composants spécifiques, sur une même surface graphique. Cela évite par exemple l'invasion hostile du bureau de l'utilisateur par une myriade incontrolable et frénétiquement clignotante de fenêtres de conversation.
+
+\subsubsection{La classe QPushButton}
+
+La classe QPushButton est aussi très utile, elle permet de construire des boutons qui permettent à l'utilisateur d'ordonner des actions à l'application, chaque bouton correspond à une fonction bien particulière : valider une commande, se connecter, envoyer un message, quitter l'application\ldots
+
+\subsubsection{La classe QLineEdit}
+
+Les composants appartenant à la classe QLineEdit aspirent également à des utilisations très bénéfiques permettant à l'utilisateur d'entrer des données au clavier, comme par exemple des paramètres, un message à envoyer\ldots
+
+\subsubsection{La classe QTextEdit}
+
+La classe QTextEdit, quant à elle, nous sert principalement pour l'affichage, pour mémoriser les conversations, les évenements concernant les apparitions/disparitions d'autres utilisateurs et les événements relatifs à la connexion réseau.
 
 \section{Protocole IRC}
 
