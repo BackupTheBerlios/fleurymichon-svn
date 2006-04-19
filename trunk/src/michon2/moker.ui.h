@@ -33,6 +33,9 @@ void MyDialog1::OpenChannel(QString s)
 void MyDialog1::valSlot()
 {    
     struct commande * cmd;
+    const char *s;
+    int n;
+    int p;
     
     cmd=decompcom(theEdit->text());
     
@@ -60,6 +63,30 @@ void MyDialog1::valSlot()
 		{
 		    ((c_client *)michon)->sendToServer("QPART " + QString(theEdit->text().ascii() + 6) + "\r\n");
 		}
+		else
+		{
+		    if (!strncmp(theEdit->text().ascii(), "/kick ", 6))
+		    { 
+		      s = theEdit->text().ascii();
+		      n = QString(s + 6).find(' ', 0);
+		      p = QString(s + 7 + n).find(' ', 0);
+		      ((c_client *)michon)->sendToServer("KICK " + QString(s + 6).left(n) + " " + QString(s + 7 + n).left(p) + " :" + QString(s + 8 + n + p) + "\r\n");		      
+		    }
+		    else
+		    {
+			if (false)
+			{
+			    
+			}
+			else
+			{
+			
+			}
+			
+		    }
+		    
+		}    
+
 	    }
 	}
     }
@@ -76,6 +103,6 @@ void MyDialog1::ConnectMichon( QString s, unsigned int p )
 {
     michon = new c_client(s, p, this);
     ((c_client *)michon)->sendToServer("NICK " + lineEditNick->text() + "\r\n");
-    ((c_client *)michon)->sendToServer("USER " + lineEditUser->text() + " 0 " + s + lineEditReal->text() + "\r\n");
+    ((c_client *)michon)->sendToServer("USER " + lineEditUser->text() + " 0 " + s + " :" + lineEditReal->text() + "\r\n");
     ConnectButton->setEnabled(false);
 }

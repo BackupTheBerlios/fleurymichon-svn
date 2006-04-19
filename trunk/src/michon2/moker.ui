@@ -411,6 +411,9 @@
 <includes>
     <include location="local" impldecl="in implementation">moker.ui.h</include>
 </includes>
+<variables>
+    <variable>void *michon;</variable>
+</variables>
 <slots>
     <slot>undoSlot()</slot>
     <slot>tSlot()</slot>
