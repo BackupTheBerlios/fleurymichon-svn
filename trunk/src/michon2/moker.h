@@ -53,6 +53,7 @@ public slots:
 protected:
     QHBoxLayout* Layout1;
     QSpacerItem* Horizontal_Spacing2;
+    void *michon;
 
 protected slots:
     virtual void languageChange();

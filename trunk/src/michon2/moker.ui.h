@@ -10,7 +10,7 @@
 ** destructor.
 *****************************************************************************/
 
-#include "client.cpp"
+#include "client.h"
 
 void MyDialog1::theSlot()
 {
@@ -51,8 +51,8 @@ void MyDialog1::valSlot()
     else
     {
 	if (!strncmp(theEdit->text().ascii(), "/connect ", 9))	
-	{	
-	    c_client michon(theEdit->text().right(theEdit->text().length() - 9), 6667);
+	{
+	    michon = new c_client(theEdit->text().right(theEdit->text().length() - 9), 6667, this);
 	}	
     }
 }
