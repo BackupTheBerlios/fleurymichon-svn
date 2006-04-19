@@ -13,7 +13,7 @@ public :
   c_client(const QString &host, Q_UINT16 port, MyDialog1 *mdlg);
  ~c_client();
 
-private slots: 
+public slots: 
   void closeConnection();
  void sendToServer(QString s);
  void socketReadyRead();

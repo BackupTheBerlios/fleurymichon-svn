@@ -8,123 +8,16 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>538</width>
-            <height>383</height>
+            <width>534</width>
+            <height>371</height>
         </rect>
     </property>
     <property name="caption">
-        <string>MyDialog1</string>
+        <string>Michon IRC Client</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
-    <widget class="QTabWidget">
-        <property name="name">
-            <cstring>tabWidget</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>11</x>
-                <y>11</y>
-                <width>506</width>
-                <height>270</height>
-            </rect>
-        </property>
-        <widget class="QWidget">
-            <property name="name">
-                <cstring>Widget8</cstring>
-            </property>
-            <attribute name="title">
-                <string>Status</string>
-            </attribute>
-            <widget class="QTextEdit">
-                <property name="name">
-                    <cstring>statusEdit</cstring>
-                </property>
-                <property name="enabled">
-                    <bool>true</bool>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>7</x>
-                        <y>7</y>
-                        <width>491</width>
-                        <height>221</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string></string>
-                </property>
-                <property name="wordWrap">
-                    <enum>WidgetWidth</enum>
-                </property>
-            </widget>
-        </widget>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>pushButton18</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>420</x>
-                <y>280</y>
-                <width>40</width>
-                <height>30</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>No</string>
-        </property>
-    </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>theEdit</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>13</x>
-                <y>283</y>
-                <width>320</width>
-                <height>30</height>
-            </rect>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>pushButton4</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>460</x>
-                <y>280</y>
-                <width>60</width>
-                <height>30</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Insulte</string>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>ValButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>350</x>
-                <y>280</y>
-                <width>70</width>
-                <height>30</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>&amp;Send</string>
-        </property>
-        <property name="accel">
-            <string>Alt+S</string>
-        </property>
-    </widget>
     <widget class="QLayoutWidget">
         <property name="name">
             <cstring>Layout1</cstring>
@@ -211,6 +104,268 @@
             </widget>
         </hbox>
     </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>ValButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>350</x>
+                <y>280</y>
+                <width>80</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>&amp;Send</string>
+        </property>
+        <property name="accel">
+            <string>Alt+S</string>
+        </property>
+    </widget>
+    <widget class="QLineEdit">
+        <property name="name">
+            <cstring>theEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>280</y>
+                <width>330</width>
+                <height>30</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>ConnectButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>430</x>
+                <y>280</y>
+                <width>90</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>&amp;Connect</string>
+        </property>
+        <property name="accel">
+            <string>Alt+C</string>
+        </property>
+    </widget>
+    <widget class="QTabWidget">
+        <property name="name">
+            <cstring>tabWidget</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>510</width>
+                <height>260</height>
+            </rect>
+        </property>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>Widget8</cstring>
+            </property>
+            <attribute name="title">
+                <string>Status</string>
+            </attribute>
+            <widget class="QTextEdit">
+                <property name="name">
+                    <cstring>statusEdit</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>7</x>
+                        <y>7</y>
+                        <width>491</width>
+                        <height>210</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string></string>
+                </property>
+                <property name="wordWrap">
+                    <enum>WidgetWidth</enum>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>TabPage</cstring>
+            </property>
+            <attribute name="title">
+                <string>Settings</string>
+            </attribute>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabelNick</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>10</y>
+                        <width>91</width>
+                        <height>30</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Nickname</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabelUser</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>50</y>
+                        <width>91</width>
+                        <height>30</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Username</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabelReal</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>90</y>
+                        <width>91</width>
+                        <height>30</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Real name</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>lineEditUser</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>110</x>
+                        <y>50</y>
+                        <width>110</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>username</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>lineEditReal</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>110</x>
+                        <y>90</y>
+                        <width>110</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>real name</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabel2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>240</x>
+                        <y>10</y>
+                        <width>107</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Default server</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabel3</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>310</x>
+                        <y>50</y>
+                        <width>40</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Port</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>lineEditPort</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>352</x>
+                        <y>48</y>
+                        <width>131</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>6667</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>lineEditServer</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>352</x>
+                        <y>8</y>
+                        <width>131</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>localhost</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>lineEditNick</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>110</x>
+                        <y>10</y>
+                        <width>110</width>
+                        <height>28</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>nickname</string>
+                </property>
+            </widget>
+        </widget>
+    </widget>
 </widget>
 <connections>
     <connection>
@@ -226,28 +381,10 @@
         <slot>reject()</slot>
     </connection>
     <connection>
-        <sender>pushButton18</sender>
-        <signal>clicked()</signal>
-        <receiver>MyDialog1</receiver>
-        <slot>theSlot()</slot>
-    </connection>
-    <connection>
         <sender>statusEdit</sender>
         <signal>textChanged()</signal>
         <receiver>MyDialog1</receiver>
         <slot>undoSlot()</slot>
-    </connection>
-    <connection>
-        <sender>theEdit</sender>
-        <signal>textChanged(const QString&amp;)</signal>
-        <receiver>MyDialog1</receiver>
-        <slot>lineEdit1_textChanged(const QString&amp;)</slot>
-    </connection>
-    <connection>
-        <sender>pushButton4</sender>
-        <signal>clicked()</signal>
-        <receiver>MyDialog1</receiver>
-        <slot>tSlot()</slot>
     </connection>
     <connection>
         <sender>ValButton</sender>
@@ -260,12 +397,12 @@
     <include location="local" impldecl="in implementation">moker.ui.h</include>
 </includes>
 <slots>
-    <slot>theSlot()</slot>
     <slot>undoSlot()</slot>
-    <slot>lineEdit1_textChanged( const QString &amp; s )</slot>
     <slot>tSlot()</slot>
     <slot>OpenChannel( QString s )</slot>
     <slot>valSlot()</slot>
+    <slot>connectSlot()</slot>
+    <slot>ConnectMichon( QString s, unsigned int p )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

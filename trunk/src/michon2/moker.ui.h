@@ -12,23 +12,10 @@
 
 #include "client.h"
 
-void MyDialog1::theSlot()
-{
-    pushButton4->setText("fuck");
-   
-}
-
 void MyDialog1::undoSlot()
 {
     statusEdit->undo();
 }
-
-
-void MyDialog1::lineEdit1_textChanged( const QString &s )
-{
-    //pushButton18->setText(s);
-}
-
 
 void MyDialog1::tSlot()
 {
@@ -47,14 +34,28 @@ void MyDialog1::valSlot()
     if (!strncmp(theEdit->text(), "/join ", 6))
     {
 	OpenChannel(theEdit->text().ascii() + 6);
+	((c_client *)michon)->sendToServer("JOIN " + QString(theEdit->text().ascii() + 6) + "\r\n");
     }
     else
     {
 	if (!strncmp(theEdit->text().ascii(), "/connect ", 9))	
 	{
-	    michon = new c_client(theEdit->text().right(theEdit->text().length() - 9), 6667, this);
+	    ConnectMichon(theEdit->text().right(theEdit->text().length() - 9), 6667);	    
 	}	
     }
     
     theEdit->setText("");
+}
+
+void MyDialog1::connectSlot()
+{
+    ConnectMichon(lineEditServer->text(), atoi(lineEditPort->text()));
+}
+
+void MyDialog1::ConnectMichon( QString s, unsigned int p )
+{
+    michon = new c_client(s, p, this);
+    ((c_client *)michon)->sendToServer("NICK " + lineEditNick->text() + "\r\n");
+    ((c_client *)michon)->sendToServer("USER " + lineEditUser->text() + " 0 " + s + lineEditReal->text() + "\r\n");
+    ConnectButton->setEnabled(false);
 }

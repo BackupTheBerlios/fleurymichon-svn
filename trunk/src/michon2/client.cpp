@@ -9,7 +9,7 @@ c_client::c_client(const QString &host, Q_UINT16 port, MyDialog1 *mdlg)
   connect(socket, SIGNAL(error(int)), SLOT(socketError(int)));
   
   mydlg = mdlg;
-  mydlg->statusEdit->append("Michon: Trying to connect to the server\n");
+  // mydlg->statusEdit->append("Michon: Trying to connect to the server\n");
   socket->connectToHost(host, port);
 }
 
