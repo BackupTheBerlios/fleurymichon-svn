@@ -59,13 +59,13 @@ void MyDialog1::valSlot()
 		}
 		else
 		{
-		    if ()
+		    if (false)
 		    {
 		    
 		    }
 		    else
 		    {
-			if ()
+			if (false)
 			{
 			    
 			}
