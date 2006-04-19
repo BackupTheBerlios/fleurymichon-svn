@@ -13,10 +13,6 @@ L'utilisation de Qt pour la réalisation d'une application graphique nécessite la
 \subsection{Mise en place de l'interface}
 Qt est une bibliothèque qui fournit un ensemble de classes permettant non seulement le développement d'interfaces graphiques facilement portables, mais également des outils pour le fonctionnement même de l'application comme des classes de communication réseau et de stockage de données. Pour la conception du client IRC Michon, nous avons élaboré une interface graphique se présentant sous la forme d'une boîte de dialogue unique, munie cependant d'un système de gestion dynamique d'onglets, ce qui nous permet de rassembler toutes les fenêtres de conversation dans un seul objet QTabWidget.
 
-Pour la conception du client IRC Michon, nous avons élaboré une interface graphique se présentant sous la forme d'une boîte de dialogue unique, 
-munie cependant d'un système de gestion dynamique d'onglets, ce qui nous permet de rassembler toutes les fenêtres de conversation dans un seul 
-objet QTabWidget.
-
 \subsection{Création de la classe \emph{c\_client}}
 
 La classe \emph{c\_client} dérive de la classe système \emph{QSocket}. En effet, le socket possède les informations nécessaire 
