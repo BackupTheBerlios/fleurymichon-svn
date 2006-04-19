@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'moker.ui'
 **
-** Created: Wed Apr 19 18:31:13 2006
+** Created: Wed Apr 19 18:45:44 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -62,9 +62,10 @@ public slots:
     virtual void ConnectMichon( QString s, unsigned int p );
 
 protected:
+    void *michon;
+
     QHBoxLayout* Layout1;
     QSpacerItem* Horizontal_Spacing2;
-    void *michon;
 
 protected slots:
     virtual void languageChange();

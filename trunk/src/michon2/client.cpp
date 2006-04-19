@@ -57,6 +57,7 @@ void c_client::socketConnected()
 void c_client::socketConnectionClosed()
 {
     mydlg->statusEdit->append("Michon: Connection reset by server\n");
+    mydlg->ConnectButton->setEnabled(true);
 }
 
 void c_client::socketError(int e)

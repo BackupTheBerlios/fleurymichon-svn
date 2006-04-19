@@ -392,10 +392,19 @@
         <receiver>MyDialog1</receiver>
         <slot>valSlot()</slot>
     </connection>
+    <connection>
+        <sender>ConnectButton</sender>
+        <signal>clicked()</signal>
+        <receiver>MyDialog1</receiver>
+        <slot>connectSlot()</slot>
+    </connection>
 </connections>
 <includes>
     <include location="local" impldecl="in implementation">moker.ui.h</include>
 </includes>
+<variables>
+    <variable>void *michon;</variable>
+</variables>
 <slots>
     <slot>undoSlot()</slot>
     <slot>tSlot()</slot>

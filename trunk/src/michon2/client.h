@@ -4,6 +4,7 @@
 #include <qsocket.h>
 #include <qtextedit.h>
 #include <qlineedit.h>
+#include <qpushbutton.h>
 #include "moker.h"
 
 class c_client : public QObject
