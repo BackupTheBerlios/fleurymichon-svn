@@ -53,7 +53,7 @@
                     </rect>
                 </property>
                 <property name="text">
-                    <string>testttttttttt</string>
+                    <string></string>
                 </property>
                 <property name="wordWrap">
                     <enum>WidgetWidth</enum>

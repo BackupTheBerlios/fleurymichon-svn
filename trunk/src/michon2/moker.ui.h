@@ -55,4 +55,6 @@ void MyDialog1::valSlot()
 	    michon = new c_client(theEdit->text().right(theEdit->text().length() - 9), 6667, this);
 	}	
     }
+    
+    theEdit->setText("");
 }

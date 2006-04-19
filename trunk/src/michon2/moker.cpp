@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'moker.ui'
 **
-** Created: Wed Apr 19 17:14:07 2006
+** Created: Wed Apr 19 17:29:14 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -104,7 +104,7 @@ MyDialog1::~MyDialog1()
 void MyDialog1::languageChange()
 {
     setCaption( tr( "MyDialog1" ) );
-    statusEdit->setText( tr( "testttttttttt" ) );
+    statusEdit->setText( QString::null );
     tabWidget->changeTab( Widget8, tr( "Status" ) );
     pushButton18->setText( tr( "No" ) );
     pushButton4->setText( tr( "Insulte" ) );

@@ -15,7 +15,7 @@ public :
 
 private slots: 
   void closeConnection();
- void sendToServer();
+ void sendToServer(QString s);
  void socketReadyRead();
  void socketConnected();
  void socketConnectionClosed();

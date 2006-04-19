@@ -9,7 +9,7 @@ c_client::c_client(const QString &host, Q_UINT16 port, MyDialog1 *mdlg)
   connect(socket, SIGNAL(error(int)), SLOT(socketError(int)));
   
   mydlg = mdlg;
-  mydlg->statusEdit->append("Trying to connect to the server\n");
+  mydlg->statusEdit->append("Michon: Trying to connect to the server\n");
   socket->connectToHost(host, port);
 }
 
@@ -31,12 +31,14 @@ void c_client::closeConnection()
     }
 }
 
-void c_client::sendToServer()
+void c_client::sendToServer(QString s)
 {
   QTextStream os(socket);
   
-  os << mydlg->theEdit->text() << "\n";
-  mydlg->theEdit->setText("");
+  os << s << "\n";
+  
+  /* os << mydlg->theEdit->text() << "\n";
+  mydlg->theEdit->setText(""); */
 }
 
 void c_client::socketReadyRead()
@@ -49,24 +51,34 @@ void c_client::socketReadyRead()
 
 void c_client::socketConnected()
 {
-  mydlg->statusEdit->append("Connected to server\n");
+    mydlg->statusEdit->append("Michon: Connected to server\n");
 }
 
 void c_client::socketConnectionClosed()
 {
-  mydlg->statusEdit->append("Connection closed by the server\n");
+    mydlg->statusEdit->append("Michon: Connection reset by server\n");
 }
 
 void c_client::socketError(int e)
 {
   char text[64];
   
-  sprintf(text, "Error number %i occurred\n", e);	
+  switch (e)  {
+  case 0:
+      sprintf(text, "Michon socket error: Service unavailable on host\n");
+      break;
+  case 1:
+      sprintf(text, "Michon socket error: Host not reachable\n");
+      break;
+  default:
+      sprintf(text, "Michon socket error: %i\n", e);
+  }
+  
   mydlg->statusEdit->append(text);
 }
 
 void c_client::socketClosed()
 {
-  mydlg->statusEdit->append("Connection closed\n");
+    mydlg->statusEdit->append("Michon: Connection closed\n");
 }	
 
