@@ -44,6 +44,7 @@ void c_client::sendToServer(QString s)
 void c_client::socketReadyRead()
 {
     QString s;
+    char* nick;
     int i;
     
     while (socket->canReadLine())
@@ -64,9 +65,45 @@ void c_client::socketReadyRead()
 	    }
 	    if((s.ascii())[i])
 	    {
-		if(!strncmp(s.ascii()+i, "JOIN", 4))
+		if(!strncmp(s.ascii()+i+1, "JOIN", 4))
 		{
-		    mydlg->userslist->insertItem("blabla",-1);
+		    i=1;
+		    while(((s.ascii())[i])&&(s[i]!='!'))
+		    {
+			i++;
+		    }
+		    nick = (char *) malloc((i)*sizeof(char));
+		    i--;
+		    nick[i]=0;
+		    for(;i;i--)
+		    {
+			nick[i-1]=s.ascii()[i];
+		    }
+		    mydlg->userslist->insertItem(QString(nick),-1);
+		}
+		else
+		{
+		    if(!strncmp(s.ascii()+i+1, "PART", 4))
+		    {
+			i=1;
+			while(((s.ascii())[i])&&(s[i]!='!'))
+			{
+			    i++;
+			}
+			nick = (char *) malloc((i)*sizeof(char));
+			i--;
+			nick[i]=0;
+			for(;i;i--)
+			{
+			    nick[i-1]=s.ascii()[i];
+			}
+			for(i=0;i<mydlg->userslist->count();i++)
+			{
+			    if(!strcmp(mydlg->userslist->text(i).ascii(),nick))
+				break;
+			}
+			mydlg->userslist->removeItem(i);
+		    }
 		}
 	    }
 	}
