@@ -51,6 +51,36 @@ void MyDialog1::valSlot()
 	    {
 		((c_client *)michon)->sendToServer("QUIT " + QString(theEdit->text().ascii() + 6) + "\r\n");
 	    }
+	    else
+	    {
+		if (!strncmp(theEdit->text().ascii(), "/msg ", 5))
+		{
+		    
+		}
+		else
+		{
+		    if ()
+		    {
+		    
+		    }
+		    else
+		    {
+			if ()
+			{
+			    
+			}
+			else
+			{
+			
+			}
+			
+		    }
+		    
+		}    
+		
+	    }
+	}
+	
     }
     
     theEdit->setText("");
