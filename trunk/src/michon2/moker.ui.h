@@ -41,7 +41,13 @@ void MyDialog1::valSlot()
 	if (!strncmp(theEdit->text().ascii(), "/connect ", 9))	
 	{
 	    ConnectMichon(theEdit->text().right(theEdit->text().length() - 9), 6667);	    
-	}	
+	}
+	else
+	{
+	    if(!strncmp(theEdit->text().ascii(), "/quit ", 6))
+	    {
+		((c_client *)michon)->sendToServer("QUIT " + QString(theEdit->text().ascii() + 6) + "\r\n");
+	    }
     }
     
     theEdit->setText("");
