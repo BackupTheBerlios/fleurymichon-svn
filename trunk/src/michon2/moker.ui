@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>534</width>
+            <width>683</width>
             <height>371</height>
         </rect>
     </property>
@@ -163,7 +163,7 @@
             <rect>
                 <x>10</x>
                 <y>10</y>
-                <width>510</width>
+                <width>660</width>
                 <height>260</height>
             </rect>
         </property>
@@ -194,6 +194,24 @@
                 </property>
                 <property name="wordWrap">
                     <enum>WidgetWidth</enum>
+                </property>
+            </widget>
+            <widget class="QListBox">
+                <item>
+                    <property name="text">
+                        <string>New Item</string>
+                    </property>
+                </item>
+                <property name="name">
+                    <cstring>userslist</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>510</x>
+                        <y>10</y>
+                        <width>136</width>
+                        <height>201</height>
+                    </rect>
                 </property>
             </widget>
         </widget>

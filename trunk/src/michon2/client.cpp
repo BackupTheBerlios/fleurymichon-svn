@@ -44,6 +44,8 @@ void c_client::sendToServer(QString s)
 void c_client::socketReadyRead()
 {
     QString s;
+    int i;
+    
     while (socket->canReadLine())
     {
 	s=socket->readLine();
@@ -51,6 +53,22 @@ void c_client::socketReadyRead()
 	if(!strncmp(s, "PING", 4))
 	{
 	    this->sendToServer("PONG " + QString(s.ascii() + 5) + "\r\n");
+	}
+	else
+	{
+	    //va jusqu'au premier espace, pour detecter les commandes JOIN et PART
+	    i=0;
+	    while(((s.ascii())[i])&&(s[i]!=' '))
+	    {
+		i++;
+	    }
+	    if((s.ascii())[i])
+	    {
+		if(!strncmp(s.ascii()+i, "JOIN", 4))
+		{
+		    mydlg->userslist->insertItem("blabla",-1);
+		}
+	    }
 	}
     }	
 }	

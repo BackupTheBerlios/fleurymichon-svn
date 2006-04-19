@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'moker.ui'
 **
-** Created: Wed Apr 19 20:02:53 2006
+** Created: Wed Apr 19 20:54:34 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -15,6 +15,7 @@
 #include <qtabwidget.h>
 #include <qwidget.h>
 #include <qtextedit.h>
+#include <qlistbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qtooltip.h>
@@ -64,7 +65,7 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     ConnectButton->setGeometry( QRect( 430, 280, 90, 30 ) );
 
     tabWidget = new QTabWidget( this, "tabWidget" );
-    tabWidget->setGeometry( QRect( 10, 10, 510, 260 ) );
+    tabWidget->setGeometry( QRect( 10, 10, 660, 260 ) );
 
     Widget8 = new QWidget( tabWidget, "Widget8" );
 
@@ -72,6 +73,9 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     statusEdit->setEnabled( TRUE );
     statusEdit->setGeometry( QRect( 7, 7, 491, 210 ) );
     statusEdit->setWordWrap( QTextEdit::WidgetWidth );
+
+    userslist = new QListBox( Widget8, "userslist" );
+    userslist->setGeometry( QRect( 510, 10, 136, 201 ) );
     tabWidget->insertTab( Widget8, QString::fromLatin1("") );
 
     TabPage = new QWidget( tabWidget, "TabPage" );
@@ -107,7 +111,7 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     lineEditNick->setGeometry( QRect( 110, 10, 110, 28 ) );
     tabWidget->insertTab( TabPage, QString::fromLatin1("") );
     languageChange();
-    resize( QSize(534, 371).expandedTo(minimumSizeHint()) );
+    resize( QSize(683, 371).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
 
     // signals and slots connections
@@ -158,6 +162,8 @@ void MyDialog1::languageChange()
     ConnectButton->setText( tr( "&Connect" ) );
     ConnectButton->setAccel( QKeySequence( tr( "Alt+C" ) ) );
     statusEdit->setText( QString::null );
+    userslist->clear();
+    userslist->insertItem( tr( "New Item" ) );
     tabWidget->changeTab( Widget8, tr( "Status" ) );
     textLabelNick->setText( tr( "Nickname" ) );
     textLabelUser->setText( tr( "Username" ) );

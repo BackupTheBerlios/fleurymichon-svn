@@ -52,7 +52,7 @@ void MyDialog1::valSlot()
 	}
 	else
 	{
-	    if(!strncmp(theEdit->text().ascii(), "/quit ", 6))
+	    if(!strncmp(theEdit->text().ascii(), "/quit ", 5))
 	    {
 		((c_client *)michon)->sendToServer("QUIT :" + QString(theEdit->text().ascii() + 6) + "\r\n");
 		((c_client *)michon)->closeConnection();
