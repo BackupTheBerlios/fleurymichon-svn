@@ -43,9 +43,15 @@ void c_client::sendToServer(QString s)
 
 void c_client::socketReadyRead()
 {
-  while (socket->canReadLine())
+    QString s;
+    while (socket->canReadLine())
     {
-      mydlg->statusEdit->append(socket->readLine());
+	s=socket->readLine();
+	mydlg->statusEdit->append(s);
+	if(!strncmp(s, "PING", 4))
+	{
+	    this->sendToServer("PONG " + QString(s.ascii() + 5) + "\r\n");
+	}
     }	
 }	
 
