@@ -39,69 +39,75 @@ void MyDialog1::valSlot()
     
     cmd=decompcom(theEdit->text());
     
-    if (!strncmp(theEdit->text(), "/join ", 6))
+    if(!strncmp(theEdit->text(), "/", 1))
     {
-	OpenChannel(theEdit->text().ascii() + 6);
-	((c_client *)michon)->sendToServer("JOIN " + QString(theEdit->text().ascii() + 6) + "\r\n");
-    }
-    else
-    {
-	if (!strncmp(theEdit->text().ascii(), "/connect ", 9))	
+	if (!strncmp(theEdit->text(), "/join ", 6))
 	{
-	    ConnectMichon(theEdit->text().right(theEdit->text().length() - 9), 6667);	    
+	    OpenChannel(theEdit->text().ascii() + 6);
+	    ((c_client *)michon)->sendToServer("JOIN " + QString(theEdit->text().ascii() + 6) + "\r\n");
 	}
 	else
 	{
-	    if(!strncmp(theEdit->text().ascii(), "/quit ", 5))
+	    if (!strncmp(theEdit->text().ascii(), "/connect ", 9))		
 	    {
-		((c_client *)michon)->sendToServer("QUIT :" + QString(theEdit->text().ascii() + 6) + "\r\n");
-		((c_client *)michon)->closeConnection();
+		ConnectMichon(theEdit->text().right(theEdit->text().length() - 9), 6667);	    
 	    }
 	    else
 	    {
-		if(!strncmp(theEdit->text().ascii(), "/msg ", 5))
+		if(!strncmp(theEdit->text().ascii(), "/quit", 5))
 		{
-		    cmd = decompcom(theEdit->text());
-		    ((c_client *)michon)->sendToServer("PRIVMSG " + QString(cmd->args->arg)+ " " + 
-						       QString(cmd->args->next->arg) + "\r\n") ; 
-		    freecmd(cmd);
+		    ((c_client *)michon)->sendToServer("QUIT :" + QString(theEdit->text().ascii() + 6) + "\r\n");
+		    ((c_client *)michon)->closeConnection();
 		}
-
 		else
-		{	
-		    if(!strncmp(theEdit->text().ascii(), "/part ", 6))
+		{
+		    if(!strncmp(theEdit->text().ascii(), "/msg ", 5))
 		    {
-		      ((c_client *)michon)->sendToServer("PART " + QString(theEdit->text().ascii() + 6) + "\r\n");
+			cmd = decompcom(theEdit->text());
+			((c_client *)michon)->sendToServer("PRIVMSG " + QString(cmd->args->arg)+ " " + QString(cmd->args->next->arg) + "\r\n") ; 
+			freecmd(cmd);
 		    }
-		    else	
-		    {
 
-		      if (!strncmp(theEdit->text().ascii(), "/kick ", 6))
-			{ 
-			  s = theEdit->text().ascii();
-			  n = QString(s + 6).find(' ', 0);
-			  p = QString(s + 7 + n).find(' ', 0);
-			  ((c_client *)michon)->sendToServer("KICK " + QString(s + 6).left(n) + " " + QString(s + 7 + n).left(p) + " :" + QString(s + 8 + n + p) + "\r\n");		      
-			}
-		      else
+		    else
+		    {	
+			if(!strncmp(theEdit->text().ascii(), "/part ", 6))
 			{
-			  if (false)
-			    {
-			      
-			    }
-			  else
-			    {
-			      
-			    }
-			}
-			  
+			    ((c_client *)michon)->sendToServer("PART " + QString(theEdit->text().ascii() + 6) + "\r\n");
 		    }
+			else	
+			{
+
+			    if (!strncmp(theEdit->text().ascii(), "/kick ", 6))
+			    { 
+				s = theEdit->text().ascii();
+				n = QString(s + 6).find(' ', 0);
+				p = QString(s + 7 + n).find(' ', 0);
+				((c_client *)michon)->sendToServer("KICK " + QString(s + 6).left(n) + " " + QString(s + 7 + n).left(p) + " :" + QString(s + 8 + n + p) + "\r\n");		      
+			    }
+			    else
+			    {
+				if (false)
+				{
+			      
+				}
+				else
+				{
+			      
+				}
+			    }
+			    
+			}
 		    
-		}    
+		    }    
+		    
 
-
+		}
 	    }
 	}
+    }
+    else
+    {
+	//envoi d'un message
     }
     
     theEdit->setText("");
