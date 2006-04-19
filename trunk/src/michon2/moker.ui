@@ -392,19 +392,25 @@
         <receiver>MyDialog1</receiver>
         <slot>valSlot()</slot>
     </connection>
-    <connection>
-        <sender>ConnectButton</sender>
-        <signal>clicked()</signal>
-        <receiver>MyDialog1</receiver>
-        <slot>connectSlot()</slot>
-    </connection>
 </connections>
+<tabstops>
+    <tabstop>theEdit</tabstop>
+    <tabstop>ValButton</tabstop>
+    <tabstop>buttonHelp</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+    <tabstop>ConnectButton</tabstop>
+    <tabstop>tabWidget</tabstop>
+    <tabstop>statusEdit</tabstop>
+    <tabstop>lineEditUser</tabstop>
+    <tabstop>lineEditReal</tabstop>
+    <tabstop>lineEditPort</tabstop>
+    <tabstop>lineEditServer</tabstop>
+    <tabstop>lineEditNick</tabstop>
+</tabstops>
 <includes>
     <include location="local" impldecl="in implementation">moker.ui.h</include>
 </includes>
-<variables>
-    <variable>void *michon;</variable>
-</variables>
 <slots>
     <slot>undoSlot()</slot>
     <slot>tSlot()</slot>

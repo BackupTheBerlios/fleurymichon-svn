@@ -32,7 +32,9 @@ void MyDialog1::OpenChannel(QString s)
 
 void MyDialog1::valSlot()
 {    
-    struct arguments * cmd;
+    struct commande * cmd;
+    
+    cmd=decompcom(theEdit->text());
     
     if (!strncmp(theEdit->text(), "/join ", 6))
     {
@@ -49,38 +51,17 @@ void MyDialog1::valSlot()
 	{
 	    if(!strncmp(theEdit->text().ascii(), "/quit ", 6))
 	    {
-		((c_client *)michon)->sendToServer("QUIT " + QString(theEdit->text().ascii() + 6) + "\r\n");
+		((c_client *)michon)->sendToServer("QUIT :" + QString(theEdit->text().ascii() + 6) + "\r\n");
+		((c_client *)michon)->closeConnection();
 	    }
 	    else
 	    {
-		if (!strncmp(theEdit->text().ascii(), "/msg ", 5))
+		if(!strncmp(theEdit->text().ascii(), "/part ", 6))
 		{
-		    
+		    ((c_client *)michon)->sendToServer("QPART " + QString(theEdit->text().ascii() + 6) + "\r\n");
 		}
-		else
-		{
-		    if (!strncmp(theEdit->text().ascii(), "/kick ", 6))
-		    {
-		      
-		    }
-		    else
-		    {
-			if (false)
-			{
-			    
-			}
-			else
-			{
-			
-			}
-			
-		    }
-		    
-		}    
-		
 	    }
 	}
-	
     }
     
     theEdit->setText("");
