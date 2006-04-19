@@ -59,33 +59,46 @@ void MyDialog1::valSlot()
 	    }
 	    else
 	    {
-		if(!strncmp(theEdit->text().ascii(), "/part ", 6))
+		if(!strncmp(theEdit->text().ascii(), "/msg ", 5))
 		{
-		    ((c_client *)michon)->sendToServer("QPART " + QString(theEdit->text().ascii() + 6) + "\r\n");
+		    cmd = decompcom(theEdit->text());
+		    ((c_client *)michon)->sendToServer("PRIVMSG " + QString(cmd->args->arg)+ " " + 
+						       QString(cmd->args->next->arg) + "\r\n") ; 
+		    freecmd(cmd);
 		}
+
 		else
-		{
-		    if (!strncmp(theEdit->text().ascii(), "/kick ", 6))
-		    { 
-		      s = theEdit->text().ascii();
-		      n = QString(s + 6).find(' ', 0);
-		      p = QString(s + 7 + n).find(' ', 0);
-		      ((c_client *)michon)->sendToServer("KICK " + QString(s + 6).left(n) + " " + QString(s + 7 + n).left(p) + " :" + QString(s + 8 + n + p) + "\r\n");		      
-		    }
-		    else
+		{	
+		    if(!strncmp(theEdit->text().ascii(), "/part ", 6))
 		    {
-			if (false)
-			{
-			    
+		      ((c_client *)michon)->sendToServer("PART " + QString(theEdit->text().ascii() + 6) + "\r\n");
+		    }
+		    else	
+		    {
+
+		      if (!strncmp(theEdit->text().ascii(), "/kick ", 6))
+			{ 
+			  s = theEdit->text().ascii();
+			  n = QString(s + 6).find(' ', 0);
+			  p = QString(s + 7 + n).find(' ', 0);
+			  ((c_client *)michon)->sendToServer("KICK " + QString(s + 6).left(n) + " " + QString(s + 7 + n).left(p) + " :" + QString(s + 8 + n + p) + "\r\n");		      
 			}
-			else
+		      else
 			{
-			
+			  if (false)
+			    {
+			      
+			    }
+			  else
+			    {
+			      
+			    }
 			}
-			
+			  
 		    }
 		    
 		}    
+
 
 	    }
 	}
