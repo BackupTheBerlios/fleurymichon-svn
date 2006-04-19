@@ -10,6 +10,8 @@
 ** destructor.
 *****************************************************************************/
 
+#include "client.cpp"
+
 void MyDialog1::theSlot()
 {
     pushButton4->setText("fuck");
@@ -48,7 +50,7 @@ void MyDialog1::valSlot()
     }
     else
     {
-	if (!strcmp(theEdit->text().ascii(), "/connect ", 9))	
+	if (!strncmp(theEdit->text().ascii(), "/connect ", 9))	
 	{	
 	    c_client michon(theEdit->text().right(theEdit->text().length() - 9), 6667);
 	}	

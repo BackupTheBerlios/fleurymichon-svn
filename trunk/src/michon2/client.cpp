@@ -1,7 +1,16 @@
+#include "moker.h"
 #include <qsocket.h>
+#include <qtextedit.h>
+#include <qlineedit.h>
 
-class c_client : {
-public : {
+class c_client : public QObject
+{
+private :
+	
+    QSocket *socket;
+    MyDialog1 *mydlg;
+	
+public : 
     c_client(const QString &host, Q_UINT16 port)
     {
 	socket = new QSocket(this);
@@ -10,22 +19,22 @@ public : {
 	connect(socket, SIGNAL(readyRead()), SLOT(socketReadyRead()));
 	connect(socket, SIGNAL(error(int)), SLOT(socketError(int)));
 	
-	MyDialog1->statusEdit->append("Trying to connect to the server\n")
-	socket->connectedToHost(host, port);
+	mydlg->statusEdit->append("Trying to connect to the server\n");
+	socket->connectToHost(host, port);
     }
    
     ~c_client()
     {
 	
     }    
-}
-private slots : {
+
+private slots : 
     void closeConnection()
     {
 	socket->close();
 	if (socket->state() == QSocket::Closing)
 	{
-	    connect(socket, SIGNAL(delayedCloseFinished()), SLOT(socketClosed()))
+	  connect(socket, SIGNAL(delayedCloseFinished()), SLOT(socketClosed()));
 	}
 	else
 	{
@@ -37,26 +46,26 @@ private slots : {
     {
 	QTextStream os(socket);
 	
-	os << MyDialog1->theEdit->text() << "\n";
-	MyDialog1->theEdit->setText("");
+	os << mydlg->theEdit->text() << "\n";
+	mydlg->theEdit->setText("");
     }
 
     void socketReadyRead()
     {
         while (socket->canReadLine())
 	{
-	    MyDialog1->statusEdit->append(socket->readLine());
+	    mydlg->statusEdit->append(socket->readLine());
 	}	
     }	
 
     void socketConnected()
     {
-	MyDialog1->statusEdit->append("Connected to server\n");
+	mydlg->statusEdit->append("Connected to server\n");
     }
 
     void socketConnectionClosed()
     {
-	MyDialog1->statusEdit->append("Connection closed by the server\n");
+	mydlg->statusEdit->append("Connection closed by the server\n");
     }
 
     void socketError(int e)
@@ -64,19 +73,15 @@ private slots : {
 	char text[64];
 	
 	sprintf(text, "Error number %i occurred\n", e);	
-	MyDialog1->statusEdit->append(text);
+	mydlg->statusEdit->append(text);
     }
     
     void socketClosed()
     {
-	MyDialog1->statusEdit->append("Connection closed\n");
+	mydlg->statusEdit->append("Connection closed\n");
     }	
     
-}
+
     
-private :
-{	
-    QSocket *socket;
-}	
 };
 

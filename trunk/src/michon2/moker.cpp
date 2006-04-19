@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'moker.ui'
 **
-** Created: Tue Apr 18 16:56:40 2006
+** Created: Tue Apr 18 18:12:34 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -10,10 +10,10 @@
 #include "moker.h"
 
 #include <qvariant.h>
-#include <qpushbutton.h>
 #include <qtabwidget.h>
 #include <qwidget.h>
 #include <qtextedit.h>
+#include <qpushbutton.h>
 #include <qlineedit.h>
 #include <qlayout.h>
 #include <qtooltip.h>
@@ -33,25 +33,6 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     if ( !name )
 	setName( "MyDialog1" );
     setSizeGripEnabled( TRUE );
-
-    QWidget* privateLayoutWidget = new QWidget( this, "Layout1" );
-    privateLayoutWidget->setGeometry( QRect( 10, 310, 506, 40 ) );
-    Layout1 = new QHBoxLayout( privateLayoutWidget, 0, 6, "Layout1"); 
-
-    buttonHelp = new QPushButton( privateLayoutWidget, "buttonHelp" );
-    buttonHelp->setAutoDefault( TRUE );
-    Layout1->addWidget( buttonHelp );
-    Horizontal_Spacing2 = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-    Layout1->addItem( Horizontal_Spacing2 );
-
-    buttonOk = new QPushButton( privateLayoutWidget, "buttonOk" );
-    buttonOk->setAutoDefault( TRUE );
-    buttonOk->setDefault( TRUE );
-    Layout1->addWidget( buttonOk );
-
-    buttonCancel = new QPushButton( privateLayoutWidget, "buttonCancel" );
-    buttonCancel->setAutoDefault( TRUE );
-    Layout1->addWidget( buttonCancel );
 
     tabWidget = new QTabWidget( this, "tabWidget" );
     tabWidget->setGeometry( QRect( 11, 11, 506, 270 ) );
@@ -75,8 +56,27 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
 
     ValButton = new QPushButton( this, "ValButton" );
     ValButton->setGeometry( QRect( 350, 280, 70, 30 ) );
+
+    QWidget* privateLayoutWidget = new QWidget( this, "Layout1" );
+    privateLayoutWidget->setGeometry( QRect( 10, 320, 506, 40 ) );
+    Layout1 = new QHBoxLayout( privateLayoutWidget, 0, 6, "Layout1"); 
+
+    buttonHelp = new QPushButton( privateLayoutWidget, "buttonHelp" );
+    buttonHelp->setAutoDefault( TRUE );
+    Layout1->addWidget( buttonHelp );
+    Horizontal_Spacing2 = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    Layout1->addItem( Horizontal_Spacing2 );
+
+    buttonOk = new QPushButton( privateLayoutWidget, "buttonOk" );
+    buttonOk->setAutoDefault( TRUE );
+    buttonOk->setDefault( TRUE );
+    Layout1->addWidget( buttonOk );
+
+    buttonCancel = new QPushButton( privateLayoutWidget, "buttonCancel" );
+    buttonCancel->setAutoDefault( TRUE );
+    Layout1->addWidget( buttonCancel );
     languageChange();
-    resize( QSize(530, 366).expandedTo(minimumSizeHint()) );
+    resize( QSize(538, 383).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
 
     // signals and slots connections
@@ -104,17 +104,17 @@ MyDialog1::~MyDialog1()
 void MyDialog1::languageChange()
 {
     setCaption( tr( "MyDialog1" ) );
-    buttonHelp->setText( tr( "&Help" ) );
-    buttonHelp->setAccel( QKeySequence( tr( "F1" ) ) );
-    buttonOk->setText( tr( "&OK" ) );
-    buttonOk->setAccel( QKeySequence( QString::null ) );
-    buttonCancel->setText( tr( "&Cancel" ) );
-    buttonCancel->setAccel( QKeySequence( QString::null ) );
     statusEdit->setText( tr( "testttttttttt" ) );
     tabWidget->changeTab( Widget8, tr( "Status" ) );
     pushButton18->setText( tr( "No" ) );
     pushButton4->setText( tr( "Insulte" ) );
     ValButton->setText( tr( "&Send" ) );
     ValButton->setAccel( QKeySequence( tr( "Alt+S" ) ) );
+    buttonHelp->setText( tr( "&Help" ) );
+    buttonHelp->setAccel( QKeySequence( tr( "F1" ) ) );
+    buttonOk->setText( tr( "&OK" ) );
+    buttonOk->setAccel( QKeySequence( QString::null ) );
+    buttonCancel->setText( tr( "&Cancel" ) );
+    buttonCancel->setAccel( QKeySequence( QString::null ) );
 }
 
