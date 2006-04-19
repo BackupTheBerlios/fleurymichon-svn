@@ -11,6 +11,7 @@
 *****************************************************************************/
 
 #include "client.h"
+#include "decomparg.h"
 
 void MyDialog1::undoSlot()
 {
@@ -31,6 +32,8 @@ void MyDialog1::OpenChannel(QString s)
 
 void MyDialog1::valSlot()
 {    
+    struct arguments * cmd;
+    
     if (!strncmp(theEdit->text(), "/join ", 6))
     {
 	OpenChannel(theEdit->text().ascii() + 6);

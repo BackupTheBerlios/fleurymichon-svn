@@ -1,3 +1,5 @@
+#include "decomparg.h"
+
 struct commande * decompcom(char* s)
 {
  int i,j;
