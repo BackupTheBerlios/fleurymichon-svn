@@ -79,7 +79,7 @@ void c_client::socketReadyRead()
 		    {
 			nick[i-1]=s.ascii()[i];
 		    }
-		    if(strcmp(nick, (mydlg->textLabelNick->text()).ascii()))
+		    if(strncmp(nick, (mydlg->textLabelNick->text()).ascii(),3))
 			mydlg->userslist->insertItem(QString(nick),-1);
 		    free(nick);
 		}

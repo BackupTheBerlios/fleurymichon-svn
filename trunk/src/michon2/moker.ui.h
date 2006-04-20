@@ -43,6 +43,7 @@ void MyDialog1::valSlot()
     {
 	if (!strncmp(theEdit->text(), "/join ", 6))
 	{
+	    userslist->clear();
 	    OpenChannel(theEdit->text().ascii() + 6);
 	    ((c_client *)michon)->sendToServer("JOIN " + QString(theEdit->text().ascii() + 6) + "\r\n");
 	}
@@ -56,6 +57,7 @@ void MyDialog1::valSlot()
 	    {
 		if(!strncmp(theEdit->text().ascii(), "/quit", 5))
 		{
+		    userslist->clear();
 		    ((c_client *)michon)->sendToServer("QUIT :" + QString(theEdit->text().ascii() + 6) + "\r\n");
 		    ((c_client *)michon)->closeConnection();
 		}
@@ -72,6 +74,7 @@ void MyDialog1::valSlot()
 		    {	
 			if(!strncmp(theEdit->text().ascii(), "/part ", 6))
 			{
+			    userslist->clear();
 			    ((c_client *)michon)->sendToServer("PART " + QString(theEdit->text().ascii() + 6) + "\r\n");
 		    }
 			else	
