@@ -5,6 +5,7 @@
 #include <qtextedit.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
+#include <qlabel.h>
 #include <qlistbox.h>
 #include "moker.h"
 

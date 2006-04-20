@@ -45,7 +45,7 @@ void c_client::socketReadyRead()
 {
     QString s;
     char* nick;
-    int i,j;
+    int i,j,k;
     
     while (socket->canReadLine())
     {
@@ -79,7 +79,8 @@ void c_client::socketReadyRead()
 		    {
 			nick[i-1]=s.ascii()[i];
 		    }
-		    mydlg->userslist->insertItem(QString(nick),-1);
+		    if(strcmp(nick, (mydlg->textLabelNick->text()).ascii()))
+			mydlg->userslist->insertItem(QString(nick),-1);
 		    free(nick);
 		}
 		else
@@ -93,7 +94,7 @@ void c_client::socketReadyRead()
 			}
 			nick = (char *) malloc((i)*sizeof(char));
 			i--;
-			nick[i]=0;
+			nick[i]=0;			
 			for(;i;i--)
 			{
 			    nick[i-1]=s.ascii()[i];
@@ -105,24 +106,25 @@ void c_client::socketReadyRead()
 			}
 			mydlg->userslist->removeItem(i);
 			free(nick);
-		    }/*
+		    }
 		    else
 		    {
 			if(!strncmp(s.ascii()+i+1, "353", 3))
 			{
-			    i=1;
 			    while(((s.ascii())[i])&&(s[i]!=':'))
 			    {
 				i++;
 			    }
+			    i++;
 			    do
 			    {
-				j=++i;
-				while(((s.ascii())[i])&&(s[i]!=' ')&&(s[i]!='@'))
+				j=i;
+				while(((s.ascii())[i])&&(s[i]!=' ')&&(s[i]!='\r')&&(s[i]!='\n'))
 				{
 				    i++;
 				}			    
 				nick = (char *) malloc((i-j+1)*sizeof(char));
+				k=i;
 				nick[i-j]=0;
 				i--;
 				for(;i-j>=0;i--)
@@ -131,9 +133,10 @@ void c_client::socketReadyRead()
 				}
 				mydlg->userslist->insertItem(QString(nick),-1);
 				free(nick);
-			    } while(s.ascii()[i]!='\n');
+				i=k+1;
+			    } while((s[i]!='\n')&&(s[i]!='\r'));
 			}
-		    }*/
+		    }
 		}
 	    }
 	}
