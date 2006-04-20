@@ -1,4 +1,4 @@
-Le client n'avançant que très lentement, nous (c'est-à-dire Sergueï et Benoit) avons décidé de faire un tour du côté du client pour cette soutenance.
+Le client n'avançant que très lentement, nous (c'est-à-dire Sergueï et Benoit) avons décidé de faire un tour du côté du client pour cette soutenance, après avoir détaillé certains points du protocole IRC dans le code source du serveur. Le déséquilibre entre les développements respectifs du serveur Fleury et du client Michon nous incitent à contourner les charges prévues pour assurer la survie du projet.
 
 \section{Programmation Qt}
 
@@ -12,20 +12,20 @@ selon des modèles objets de cette nature, c'est la raison pour laquelle il nous 
 L'utilisation de Qt pour la réalisation d'une application graphique nécessite la connaissance des aspects objectifs du langage C++.
 
 \subsection{Mise en place de l'interface}
-Qt est une bibliothèque qui fournit un ensemble de classes permettant non seulement le développement d'interfaces graphiques facilement portables, mais également des outils pour le fonctionnement même de l'application comme des classes de communication réseau et de stockage de données. Pour la conception du client IRC Michon, nous avons élaboré une interface graphique se présentant sous la forme d'une boîte de dialogue unique, munie cependant d'un système de gestion dynamique d'onglets, ce qui nous permet de rassembler toutes les fenêtres de conversation dans un seul objet QTabWidget.
+Qt est une bibliothèque qui fournit un ensemble de classes permettant non seulement le développement d'interfaces graphiques facilement portables, mais également des outils pour le fonctionnement même de l'application comme des classes de communication réseau et de stockage de données. Pour la conception du client IRC Michon, nous avons élaboré une interface graphique se présentant sous la forme d'une boîte de dialogue unique, munie cependant d'un système de gestion dynamique d'onglets, ce qui nous permet de rassembler toutes les fenêtres de conversation dans un seul objet \emph{QTabWidget}.
 
 \subsection{Création de la classe \emph{c\_client}}
 
 La classe \emph{c\_client} dérive de la classe système \emph{QSocket}. En effet, le socket possède les informations nécessaire 
-à l'établissement d'une connection sur un serveur local ou distant. Cette classe se chargera d'établir un lien entre les signaux 
+à l'établissement d'une connexion sur un serveur local ou distant. Cette classe se chargera d'établir un lien entre les signaux 
 envoyés par le socket et les slots (fonctions) contenant les actions à effectuer lors de la réception d'un signal. 
 
-\subsubsection{Etablissement de la connection}
+\subsubsection{Etablissement de la connexion}
 
 Le constructeur prend en paramètres deux informations indispensables à une éventuelle liaison client-serveur : l'adresse de l'hôte 
-ainsi que son port d'écoute (par défaut, le port utilisé pour l'IRC est 6667). La connection est alors établie grâce à la fonction 
+ainsi que son port d'écoute (par défaut, le port utilisé pour l'IRC est 6667). La connexion est alors établie grâce à la fonction 
 \emph{connectToHost} de la classe \emph{QSocket}. Le socket se charge par la suite de nous envoyer un signal pour nous rapporter 
-l'état de la communication avec le serveur. Si la connection s'est bien déroulée, nous recevons un signal \emph{connected}
+l'état de la communication avec le serveur. Si la connexion s'est bien déroulée, nous recevons un signal \emph{connected}
 sinon un signal d'erreur associé à un entier, qui nous permettra alors de connaître la nature de l'erreur.
 
 \subsubsection{Communication avec le serveur}
@@ -34,8 +34,8 @@ L'envoi des messages au serveur se fait par l'intermédiaire du slot \emph{sendTo
 ligne d'édition de notre application vers ce flux. Le serveur répond alors au client et nous récupérons les informations grâce
 au slot \emph{socketReadyRead()} utilisant en boucle la fonction \emph{canReadLine()} de la classe \emph{QSocket}.
 
-\subsubsection{Fermeture de la connection}
-Lors de la réception d'un signal \emph{connectionClosed}, nous fermons la connection grâce à la fonction \emph{close()} de la
+\subsubsection{Fermeture de la connexion}
+Lors de la réception d'un signal \emph{connexionClosed}, nous fermons la connexion grâce à la fonction \emph{close()} de la
 classe \emph{QSocket}.
 
 \subsection{Autres classes}
@@ -72,7 +72,7 @@ fixées par la RFC correspondante au protocole IRC.
 
 \subsubsection{La commande \emph{connect}}
 
-C'est elle qui va établir une connection avec le serveur (par défaut \emph{localhost} sur le port 6667), en lui envoyant la combinaison de 
+C'est elle qui va établir une connexion avec le serveur (par défaut \emph{localhost} sur le port 6667), en lui envoyant la combinaison de 
 requêtes NICK, USER et PASS, dont les paramètres seront définis par l'utilisateur dans l'onglet \emph{Settings}.
 \\\\
 \textit{Syntaxe : /connect <adresse de l'hôte> (<port>)}
@@ -111,4 +111,4 @@ L'utilisateur se servira de la commande \emph{quit} s'il désire quitter le serve
 
 \subsection{Objectifs}
 
-Les commandes de base étant en partie implémentées, nous nous attacherons à les peaufiner pour la soutenance finale ainsi qu'à gérer les messages de retour générés par les commandes de base provenant du serveur et à les interpréter.
+Les commandes de base étant en partie implémentées, nous nous attacherons à les peaufiner pour la soutenance finale ainsi qu'à gérer les messages de retour générés par les commandes de base provenant du serveur et à les interpréter. Le client final permettra des traitements avec sélection directe dans la liste d'utilisateurs dans un menu contextuel dans la version finale du client.
