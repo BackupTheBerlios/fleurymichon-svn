@@ -66,4 +66,47 @@ les apparitions et disparitions d'autres utilisateurs et les événements relatifs
 
 \subsection{Implémentation des commandes de base}
 
+Comme expliquée dans les parties précédentes, le client se doit de communiquer avec le serveur pour pouvoir agir correctement. Il nous semblait nécessaire
+de s'intéresser à quelques commandes de bases et de les implémenter avec le plus grand soin. Il va s'en dire que nous implémentons ces commandes aux normes
+fixées par la RFC correspondante au protocole IRC.
+
+\subsubsection{La commande \emph{connect}}
+
+C'est elle qui va établir une connection avec le serveur (par défaut \emph{localhost} sur le port 6667), en lui envoyant la combinaison de 
+requêtes NICK, USER et PASS, dont les paramètres seront définis par l'utilisateur dans l'onglet \emph{Settings}.
+\\\\
+\textit{Syntaxe : /connect <adresse de l'hôte> (<port>)}
+
+\subsubsection{La commande \emph{join}}
+
+Lorsque l'utilisateur désira créer ou rejoindre un canal, il n'aura qu'à utiliser la commande \emph{join}, en lui spécifiant en argument le nom du canal 
+en question (précédé d'un dièse).
+\\\\
+\textit{Syntaxe : /join <canal>}
+
+\subsubsection{La commande \emph{msg}}
+
+La commande \emph{msg} sera utlisée lorsque l'on désirera entrer en communication avec un utilisateur en particulier ou un canal tout entier. 
+\\\\
+\textit{Syntaxe : /msg <nick ou canal> <texte à envoyer>}
+
+\subsubsection{La commande \emph{part}}
+
+L'utilisateur utilisera la commande \emph{part} lorsqu'il désirera quitter ou détruire un canal.
+\\\\
+\textit{Syntaxe : /part (<raison>)}
+
+\subsubsection{La commande \emph{kick}}
+
+Si le modérateur du canal n'est pas très enjoué par le comportement de certains utlisateurs, il n'aura qu'à effectuer une commande \emph{kick} pour l'éjecter
+violemment du dit-canal (à utiliser avec parcimonie sinon cela peut entraîner une forte dépendance voir la mort).
+\\\\
+\textit{Syntaxe : /kick <nick> (<raison>)}
+
+\subsubsection{La commande \emph{quit}}
+
+L'utilisateur se servira de la commande \emph{quit} s'il désire quitter le serveur courant.
+\\\\
+\textit{Syntaxe : /quit}
+
 \subsection{Objectifs}
