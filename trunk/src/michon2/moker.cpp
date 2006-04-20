@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'moker.ui'
 **
-** Created: Thu Apr 20 11:02:27 2006
+** Created: Thu Apr 20 11:04:34 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -38,11 +38,6 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
 
     theEdit = new QLineEdit( this, "theEdit" );
     theEdit->setGeometry( QRect( 10, 280, 330, 30 ) );
-
-    buttonOk = new QPushButton( this, "buttonOk" );
-    buttonOk->setGeometry( QRect( 550, 280, 110, 30 ) );
-    buttonOk->setAutoDefault( TRUE );
-    buttonOk->setDefault( TRUE );
 
     ConnectButton = new QPushButton( this, "ConnectButton" );
     ConnectButton->setGeometry( QRect( 450, 280, 100, 30 ) );
@@ -96,6 +91,11 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     lineEditNick = new QLineEdit( TabPage, "lineEditNick" );
     lineEditNick->setGeometry( QRect( 110, 10, 110, 28 ) );
     tabWidget->insertTab( TabPage, QString::fromLatin1("") );
+
+    buttonOk = new QPushButton( this, "buttonOk" );
+    buttonOk->setGeometry( QRect( 550, 280, 110, 30 ) );
+    buttonOk->setAutoDefault( TRUE );
+    buttonOk->setDefault( TRUE );
     languageChange();
     resize( QSize(683, 326).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
@@ -104,6 +104,7 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     connect( statusEdit, SIGNAL( textChanged() ), this, SLOT( undoSlot() ) );
     connect( ValButton, SIGNAL( clicked() ), this, SLOT( valSlot() ) );
     connect( ConnectButton, SIGNAL( clicked() ), this, SLOT( connectSlot() ) );
+    connect( buttonOk, SIGNAL( clicked() ), this, SLOT( accept() ) );
 
     // tab order
     setTabOrder( theEdit, ValButton );
@@ -132,15 +133,11 @@ MyDialog1::~MyDialog1()
 void MyDialog1::languageChange()
 {
     setCaption( tr( "Michon IRC Client" ) );
-    buttonOk->setText( tr( "E&xit" ) );
-    buttonOk->setAccel( QKeySequence( tr( "Alt+X" ) ) );
     ConnectButton->setText( tr( "&Connect" ) );
     ConnectButton->setAccel( QKeySequence( tr( "Alt+C" ) ) );
     ValButton->setText( tr( "&Send" ) );
     ValButton->setAccel( QKeySequence( tr( "Alt+S" ) ) );
     statusEdit->setText( QString::null );
-    userslist->clear();
-    userslist->insertItem( tr( "New Item" ) );
     tabWidget->changeTab( Widget8, tr( "Status" ) );
     textLabelNick->setText( tr( "Nickname" ) );
     textLabelUser->setText( tr( "Username" ) );
@@ -153,5 +150,7 @@ void MyDialog1::languageChange()
     lineEditServer->setText( tr( "localhost" ) );
     lineEditNick->setText( tr( "nickname" ) );
     tabWidget->changeTab( TabPage, tr( "Settings" ) );
+    buttonOk->setText( tr( "E&xit" ) );
+    buttonOk->setAccel( QKeySequence( tr( "Alt+X" ) ) );
 }
 
