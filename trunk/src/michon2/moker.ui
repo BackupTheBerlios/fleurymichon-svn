@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>683</width>
-            <height>371</height>
+            <height>326</height>
         </rect>
     </property>
     <property name="caption">
@@ -18,111 +18,6 @@
     <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
-    <widget class="QLayoutWidget">
-        <property name="name">
-            <cstring>Layout1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>320</y>
-                <width>506</width>
-                <height>40</height>
-            </rect>
-        </property>
-        <hbox>
-            <property name="name">
-                <cstring>unnamed</cstring>
-            </property>
-            <property name="margin">
-                <number>0</number>
-            </property>
-            <property name="spacing">
-                <number>6</number>
-            </property>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>buttonHelp</cstring>
-                </property>
-                <property name="text">
-                    <string>&amp;Help</string>
-                </property>
-                <property name="accel">
-                    <string>F1</string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <spacer>
-                <property name="name">
-                    <cstring>Horizontal Spacing2</cstring>
-                </property>
-                <property name="orientation">
-                    <enum>Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>20</width>
-                        <height>20</height>
-                    </size>
-                </property>
-            </spacer>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>buttonOk</cstring>
-                </property>
-                <property name="text">
-                    <string>&amp;OK</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QPushButton">
-                <property name="name">
-                    <cstring>buttonCancel</cstring>
-                </property>
-                <property name="text">
-                    <string>&amp;Cancel</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-            </widget>
-        </hbox>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>ValButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>350</x>
-                <y>280</y>
-                <width>80</width>
-                <height>30</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>&amp;Send</string>
-        </property>
-        <property name="accel">
-            <string>Alt+S</string>
-        </property>
-    </widget>
     <widget class="QLineEdit">
         <property name="name">
             <cstring>theEdit</cstring>
@@ -138,13 +33,38 @@
     </widget>
     <widget class="QPushButton">
         <property name="name">
+            <cstring>buttonOk</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>550</x>
+                <y>280</y>
+                <width>110</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>E&amp;xit</string>
+        </property>
+        <property name="accel">
+            <string>Alt+X</string>
+        </property>
+        <property name="autoDefault">
+            <bool>true</bool>
+        </property>
+        <property name="default">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
             <cstring>ConnectButton</cstring>
         </property>
         <property name="geometry">
             <rect>
-                <x>430</x>
+                <x>450</x>
                 <y>280</y>
-                <width>90</width>
+                <width>100</width>
                 <height>30</height>
             </rect>
         </property>
@@ -153,6 +73,25 @@
         </property>
         <property name="accel">
             <string>Alt+C</string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>ValButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>350</x>
+                <y>280</y>
+                <width>100</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>&amp;Send</string>
+        </property>
+        <property name="accel">
+            <string>Alt+S</string>
         </property>
     </widget>
     <widget class="QTabWidget">
@@ -210,7 +149,7 @@
                         <x>510</x>
                         <y>10</y>
                         <width>136</width>
-                        <height>201</height>
+                        <height>210</height>
                     </rect>
                 </property>
             </widget>
@@ -387,18 +326,6 @@
 </widget>
 <connections>
     <connection>
-        <sender>buttonOk</sender>
-        <signal>clicked()</signal>
-        <receiver>MyDialog1</receiver>
-        <slot>accept()</slot>
-    </connection>
-    <connection>
-        <sender>buttonCancel</sender>
-        <signal>clicked()</signal>
-        <receiver>MyDialog1</receiver>
-        <slot>reject()</slot>
-    </connection>
-    <connection>
         <sender>statusEdit</sender>
         <signal>textChanged()</signal>
         <receiver>MyDialog1</receiver>
@@ -420,9 +347,6 @@
 <tabstops>
     <tabstop>theEdit</tabstop>
     <tabstop>ValButton</tabstop>
-    <tabstop>buttonHelp</tabstop>
-    <tabstop>buttonOk</tabstop>
-    <tabstop>buttonCancel</tabstop>
     <tabstop>ConnectButton</tabstop>
     <tabstop>tabWidget</tabstop>
     <tabstop>statusEdit</tabstop>

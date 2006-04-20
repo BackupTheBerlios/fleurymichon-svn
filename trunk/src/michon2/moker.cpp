@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'moker.ui'
 **
-** Created: Thu Apr 20 10:44:48 2006
+** Created: Thu Apr 20 11:02:27 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -10,8 +10,8 @@
 #include "moker.h"
 
 #include <qvariant.h>
-#include <qpushbutton.h>
 #include <qlineedit.h>
+#include <qpushbutton.h>
 #include <qtabwidget.h>
 #include <qwidget.h>
 #include <qtextedit.h>
@@ -36,33 +36,19 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
 	setName( "MyDialog1" );
     setSizeGripEnabled( TRUE );
 
-    QWidget* privateLayoutWidget = new QWidget( this, "Layout1" );
-    privateLayoutWidget->setGeometry( QRect( 10, 320, 506, 40 ) );
-    Layout1 = new QHBoxLayout( privateLayoutWidget, 0, 6, "Layout1"); 
-
-    buttonHelp = new QPushButton( privateLayoutWidget, "buttonHelp" );
-    buttonHelp->setAutoDefault( TRUE );
-    Layout1->addWidget( buttonHelp );
-    Horizontal_Spacing2 = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-    Layout1->addItem( Horizontal_Spacing2 );
-
-    buttonOk = new QPushButton( privateLayoutWidget, "buttonOk" );
-    buttonOk->setAutoDefault( TRUE );
-    buttonOk->setDefault( TRUE );
-    Layout1->addWidget( buttonOk );
-
-    buttonCancel = new QPushButton( privateLayoutWidget, "buttonCancel" );
-    buttonCancel->setAutoDefault( TRUE );
-    Layout1->addWidget( buttonCancel );
-
-    ValButton = new QPushButton( this, "ValButton" );
-    ValButton->setGeometry( QRect( 350, 280, 80, 30 ) );
-
     theEdit = new QLineEdit( this, "theEdit" );
     theEdit->setGeometry( QRect( 10, 280, 330, 30 ) );
 
+    buttonOk = new QPushButton( this, "buttonOk" );
+    buttonOk->setGeometry( QRect( 550, 280, 110, 30 ) );
+    buttonOk->setAutoDefault( TRUE );
+    buttonOk->setDefault( TRUE );
+
     ConnectButton = new QPushButton( this, "ConnectButton" );
-    ConnectButton->setGeometry( QRect( 430, 280, 90, 30 ) );
+    ConnectButton->setGeometry( QRect( 450, 280, 100, 30 ) );
+
+    ValButton = new QPushButton( this, "ValButton" );
+    ValButton->setGeometry( QRect( 350, 280, 100, 30 ) );
 
     tabWidget = new QTabWidget( this, "tabWidget" );
     tabWidget->setGeometry( QRect( 10, 10, 660, 260 ) );
@@ -75,7 +61,7 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     statusEdit->setWordWrap( QTextEdit::WidgetWidth );
 
     userslist = new QListBox( Widget8, "userslist" );
-    userslist->setGeometry( QRect( 510, 10, 136, 201 ) );
+    userslist->setGeometry( QRect( 510, 10, 136, 210 ) );
     tabWidget->insertTab( Widget8, QString::fromLatin1("") );
 
     TabPage = new QWidget( tabWidget, "TabPage" );
@@ -111,22 +97,17 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     lineEditNick->setGeometry( QRect( 110, 10, 110, 28 ) );
     tabWidget->insertTab( TabPage, QString::fromLatin1("") );
     languageChange();
-    resize( QSize(683, 371).expandedTo(minimumSizeHint()) );
+    resize( QSize(683, 326).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
 
     // signals and slots connections
-    connect( buttonOk, SIGNAL( clicked() ), this, SLOT( accept() ) );
-    connect( buttonCancel, SIGNAL( clicked() ), this, SLOT( reject() ) );
     connect( statusEdit, SIGNAL( textChanged() ), this, SLOT( undoSlot() ) );
     connect( ValButton, SIGNAL( clicked() ), this, SLOT( valSlot() ) );
     connect( ConnectButton, SIGNAL( clicked() ), this, SLOT( connectSlot() ) );
 
     // tab order
     setTabOrder( theEdit, ValButton );
-    setTabOrder( ValButton, buttonHelp );
-    setTabOrder( buttonHelp, buttonOk );
-    setTabOrder( buttonOk, buttonCancel );
-    setTabOrder( buttonCancel, ConnectButton );
+    setTabOrder( ValButton, ConnectButton );
     setTabOrder( ConnectButton, tabWidget );
     setTabOrder( tabWidget, statusEdit );
     setTabOrder( statusEdit, lineEditUser );
@@ -151,16 +132,12 @@ MyDialog1::~MyDialog1()
 void MyDialog1::languageChange()
 {
     setCaption( tr( "Michon IRC Client" ) );
-    buttonHelp->setText( tr( "&Help" ) );
-    buttonHelp->setAccel( QKeySequence( tr( "F1" ) ) );
-    buttonOk->setText( tr( "&OK" ) );
-    buttonOk->setAccel( QKeySequence( QString::null ) );
-    buttonCancel->setText( tr( "&Cancel" ) );
-    buttonCancel->setAccel( QKeySequence( QString::null ) );
-    ValButton->setText( tr( "&Send" ) );
-    ValButton->setAccel( QKeySequence( tr( "Alt+S" ) ) );
+    buttonOk->setText( tr( "E&xit" ) );
+    buttonOk->setAccel( QKeySequence( tr( "Alt+X" ) ) );
     ConnectButton->setText( tr( "&Connect" ) );
     ConnectButton->setAccel( QKeySequence( tr( "Alt+C" ) ) );
+    ValButton->setText( tr( "&Send" ) );
+    ValButton->setAccel( QKeySequence( tr( "Alt+S" ) ) );
     statusEdit->setText( QString::null );
     userslist->clear();
     userslist->insertItem( tr( "New Item" ) );
