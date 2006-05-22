@@ -1,33 +1,3 @@
-\begin{figure}
-\centering
-\includegraphics[width=.8\linewidth]{fleury_ssh_ps_full.jpg}
-\caption{Fleury sous Linux}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=.8\linewidth]{fleury_cyg_ps.jpg}
-\caption{Fleury sous Cygwin}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=.8\linewidth]{fleury_cyg_session.jpg}
-\caption{Exemple de communication client/serveur}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=.8\linewidth]{fleury_cyg_log.jpg}
-\caption{Log d'éxécution}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=.8\linewidth]{fleury_mirc.jpg}
-\caption{Connexion à un serveur Fleury depuis un client IRC populaire}
-\end{figure}
-
 \section{Implémentation du daemon}
 
 Pour que l'application serveur puisse fonctionner convenablement, elle doit gagner son indépendance par rapport à la console depuis laquelle elle est appelée, devenant ainsi un daemon, c'est-à-dire une application résidant en mémoire et qui s'éxécute invisiblement en tâche de fond. Pour ce faire, nous avons utilisé principalement les fonctions \textit{fork()} et \textit{setsid()} afin d'isoler le processus du serveur Fleury de la console depuis laquelle il a été éxécuté. Ainsi, l'instance de Fleury nouvellement créée est détachée de la console, ce qui permet à l'utilisateur d'en reprendre le contrôle pendant que le serveur tourne en background. Donc le processus de l'application serveur se duplique et le processus originel quitte, ce qui donne un nouveau processus sans père, qui ne risque plus d'influencer le shell, qui en était le processus père auparavant. \\
