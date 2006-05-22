@@ -1,0 +1,84 @@
+\documentclass[12pt,a4paper,frenchb]{report}
+
+\usepackage[french]{babel}
+\usepackage{a4}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage[official]{eurosym}
+\usepackage{graphicx}
+
+%\title{English presentation}
+%\author{\emph{Les TouTouYouTou}}
+%\date{\today}
+
+\begin{document}
+
+%\maketitle
+
+\begin{minipage}{\textwidth}
+\flushright{
+\textbf{\Huge{\bsc{English presentation}}}
+\rule[+1.5ex]{\textwidth}{4pt} \\
+\emph{\Large{English presentation}}
+}
+\end{minipage}
+\begin{figure}[b]
+\begin{center}
+\large{
+Sergueï \bsc{Milechine} \\
+Benoit \bsc{Menet} \\
+Lionel \bsc{Herbin} \\
+Nicolas \bsc{Vernot} \\
+}
+\end{center}
+\flushleft{
+\emph{Les TouTouYouTou}
+\rule[+1.5ex]{\textwidth}{2pt}
+}
+\end{figure}
+
+\newpage
+
+\chapter*{Introduction}
+
+\input{intro.tex}
+
+\newpage
+
+\tableofcontents
+
+\pagestyle{fancy}
+\lhead{\scriptsize{\textbf{English presentation} \\ \bsc{English presentation}}}
+\rhead{\scriptsize{\bsc{Info-Spé} \\ \bsc{Epita}}}
+\headheight 18pt
+
+\newpage
+
+\chapter{Group text}
+
+\newpage
+
+\input{group.tex}
+
+\newpage
+
+\chapter{Scene transcription}
+
+\newpage
+
+\input{scene.tex}
+
+\chapter{Film review}
+
+\newpage
+
+\input{review.tex}
+
+\newpage
+
+\chapter*{Conclusion}
+
+\input{ccl.tex}
+
+\end{document}
