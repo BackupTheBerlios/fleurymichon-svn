@@ -1,66 +1,53 @@
-\section{Implémentation du daemon}
+\section{The meeting}
 
-Pour que l'application serveur puisse fonctionner convenablement, elle doit gagner son indépendance par rapport à la console depuis laquelle elle est appelée, devenant ainsi un daemon, c'est-à-dire une application résidant en mémoire et qui s'éxécute invisiblement en tâche de fond. Pour ce faire, nous avons utilisé principalement les fonctions \textit{fork()} et \textit{setsid()} afin d'isoler le processus du serveur Fleury de la console depuis laquelle il a été éxécuté. Ainsi, l'instance de Fleury nouvellement créée est détachée de la console, ce qui permet à l'utilisateur d'en reprendre le contrôle pendant que le serveur tourne en background. Donc le processus de l'application serveur se duplique et le processus originel quitte, ce qui donne un nouveau processus sans père, qui ne risque plus d'influencer le shell, qui en était le processus père auparavant. \\
-Sous Linux, contrairement à \textbf{bash} et les autres commandes éxécutées par \textbf{bash}, Fleury est un processus indépendant de la console (\textbf{?} au lieu de \textbf{pts/0}). \textit{Voir Fig 2.1} \\
-Sous Cygwin, c'est pareil. \textit{Voir Fig 2.2}
+\subsection{The approach of Zimmermann}
 
-\section{Sockets et protocole TCP}
+Firstly the scene takes place in a middle class residential block dark street of Hamburg meanwhile it seemed to happen in the morning because we can see the 
+sun shining in the background.
+The street is not crowded, there is only a woman with a dog and a white car is parked on the left side of the pavement, so it would be easy for Raoul Minot
+to catch Zimmermann when he comes besides him. This man does not walk very fast and he seems to be blasé\footnote{According to Hachette \& Oxford dictonary, 
+\textbf{blasé}, \textbf{-e} \textit{adj} blasé.} and not motivated.
 
-Lorsqu'on évoque la notion de programmation réseau, on ne peut passer outre le concept de socket. Un socket est la combinaison d'un port et d'une adresse IP permettant 
-de déterminer de manière unique une application éxécutée sur une machine. La communication via socket est souvent comparée à une communication humaine et on peut distinguer
-deux modes :
-\begin{itemize}
-\item le mode \emph{connecté} (semblable à une communication téléphonique) utilisant le protocole TCP;
-\item le mode \emph{non-connecté} (semblable à une communication par courrier) utilisant le protocole UDP.
-\end{itemize}
+\subsection{The trap}
 
-Comme dans le cas de l'ouverture d'un fichier, la communication par socket utilise un descripteur pour désigner la connection sur laquelle on envoie ou reçoit les 
-données. Ainsi la première opération à effectuer consiste à appeler une fonction créant un socket et retournant un descripteur (un entier) identifiant de manière unique 
-la connection. Ainsi ce descripteur est passé en paramètres des fonctions permettant d'envoyer ou recevoir des informations à travers le socket.
-Pour ce faire, nous avons fait appel aux fonctions et aux structure présentes dans la librairie standard \emph{sys/socket.h}. De plus, l'échange d'informations par le biais de sockets peut se faire à l'aide de simples fonctions de formatages de chaînes de caractères haut niveau comme \textit{fscanf()}, \textit{fprintf()}, \textit{fgets()} \ldots
+Suddenly, the spectator sees a man coming from a darker perpendicular street where graffitis are tagged on the wall in the corner, he was waiting for 
+Zimmermann. He is Raoul Minot and he has been told by Tom Ripley that the man he is going to follow is suffering from a leukemia and may be used to assist 
+him for a hit man job. He is a middle aged man and is wearing a brown coat, black pants and shoes and a white scarf. Zimmermann doesn't notice his presence 
+and keeps walking toward his art workshop because Minot stays behind.
 
-\section{Multi-threading}
+\subsection{The first contact}
 
-Pour plus de souplesse dans l'application serveur, nous avons fait appel au multi-threading. Un thread est un processus léger, ou encore une tâche qui a un rôle bien précis. L'avantage des threads est qu'on peut en éxécuter plusieurs qui fonctionneront en parallèle et qui auront accès aux mêmes données. Ainsi, une fois le serveur initialisé, l'application comporte un thread d'écoute, qui attend les connexions des clients et qui est chargé de générer un nouveau thread de traitement pour chaque client qui se connecte au serveur. Nous avons employé la bibliothèque de threads POSIX pour l'implémentation de ce sytème de traitement, ainsi le serveur peut fonctionner dans des environnements Linux et Cygwin mais Windows n'est pas exclu pour autant puisqu'un portage de cette bibliothèque pour ce système est disponible. \\
-Les identifiants des threads apparaissent entre crochets dans le log d'éxécution \textit{Voir Fig 2.4}
+Arrived to the door of Zimmermann's shop, Raoul starts speaking with him with confidence, he appears very sure of himself and tries to win Zimmermann's trust, 
+whose look does mainly show uncertainty, surprise and also a little touch of fear. Minot does not know what language to speak with him so he first introduces 
+himself in German, the local language, and says his name is Raoul Duplat, which is not his real name. Then he asks him if he speaks French but Zimmermann 
+doesn't understand so he continues the conversation in English. After that, he tries to impress him saying that Zimmermann does not know him but he knows 
+Zimmermann very well as he says. He convinces him to keep the shop closed and to take the subway in order to talk about a business\footnote{A bad business
+\ldots}.
 
-\section{Messages serveur}
 
-Les serveurs et les clients s'envoient chacun des messages qui peuvent ou non générer une réponse. Chaque message IRC peut contenir jusqu'à trois parties : le 
-préfixe (optionnel), la commande, et les paramètre de la commande (il peut y en avoir jusqu'à 15). Le préfixe, la commande, et tous les paramètres sont séparés 
-par un (ou plusieurs) espace.
+\section{The compulsory proposal in the subway}
 
-Pour cette première soutenance, nous avons commencé par implémenter les commandes de base, c'est-à-dire celles qui permettent l'établissement de la connection (PASS, NICK, USER, QUIT, \ldots)
-ainsi que les commandes d'opérations sur les canaux (JOIN, MODE, \ldots).
+\subsection{Minot's false honesty}		
 
-\subsection{La commande PASS}
+Minot explains very briefly his aim to Zimmermann : he needs to eliminate one or two people, then he says "my cards are on the table" as if he was playing a 
+poker game. Zimmermann who is firstly surprised smiles and asks if it is a joke. Seeing that Minot is keeping his seriousness, Zimmermann's smile disappears 
+to express a feeling of fear, he becomes very suspicious. He feels menaced so tries to lead the conversation, asking how Minot did find his name.
 
-La commande PASS intervient au début de l'établissement d'une connexion entre un client et le serveur et sert à définir le mot de passe du client qui se connecte. Ce mot de passe sera utilisé plus tard, après l'implémentation de l'authentification dans le module de robots de gestion d'utilisateurs et de canaux.
+\subsection{Money as argument}
 
-\subsection{La commande NICK}
+Minot doesn't even answer to that question and suggests a 250,000 marks reward for the mission he told him about, adding that the job is "safe and easy". 
+Zimmermann does not understand why Minot wants to hire him as a gun man and thinks it is a mistake, that he is not the right man. Then Minot has to draw 
+more personal arguments in order to convince him.
 
-La commande NICK intervient également au début de la connexion et sert à définir le pseudonyme du client, qui sera utilisé pour dialoguer avec les autres clients. Elle peut également être utilisé par le client pendant une conversation pour changer de pseudonyme.
+\subsection{Health as argument}
 
-\subsection{La commande USER}
+He seems to be aware of Zimmermann's sickness and says he does not have a long time to live. To shake him harder, he tells him about his family : especially 
+he knows that Zimmermann has got a wife and a son, so money is again a way of pressure. Therefore Minot tries to make Zimmermann think that he has to 
+accomplish the job for his family. He pretends that Zimmermann's physicist is wrong and that his disease is much serious than he thinks.
 
-La commande USER est utilisée par le client pour définir son login et son nom réel. Elle n'est utilisée que durant l'établissement de la connexion.
+\section{The exit}
 
-\subsection{Les commandes PING/PONG}
+Exhausted by this heavy conversation, Zimmermann doesn't want to trust Minot's affirmations but that one keeps insisting on the interest of money. Indeed, 
+it would allow him to drop his shop and to take profit from his last days on Earth. Finally, Zimmermann leaves the subway but Minot has won his battle : he 
+succeeded in spreading doubt within his mind.
 
-La commande PING peut être utilisée indifféremment par les clients et serveurs pour vérifier l'état de la connexion avec n'importe quel autre client ou serveur cible, celui-ci devant répondre par un message PONG dans un délai dit de \og timeout \fg, avant d'être considéré comme déconnecté. Un message PING peut être envoyé à tous les clients par un serveur à intervalles réguliers pour fermer toutes les connexions fantômes, c'est-à-dire celles qui sont devenues inactives.
-
-\subsection{La commande JOIN}
-
-La commande JOIN est utilisée par un client pour rejoindre un canal dont il spécifiera le nom en paramètre. Le serveur envoie alors la commande JOIN avec le nom du nouveau venu à tous ceux qui sont présents sur le canal pour signaler son entrée. Le client est donc apte à dialoguer avec les autres sur ce canal. Heureusement, un client peut se connecter à plusieurs canaux en même temps.
-
-\subsection{La commande PART}
-
-La commande PART est utilisée par un client pour quitter un canal de discussion, cette commande sera alors broadcastée à tous les autres utilisateurs de ce canal.
-
-\subsection{La commande QUIT}
-
-La commande QUIT est utilisée par un client pour fermer la connexion avec le serveur. Le client peut passer en paramètre un éventuel message de départ. \\
-\\
-\textit{Exemple de communication: Voir Fig 2.3} \\
-\\
-\textit{Connexion à un serveur Fleury depuis mIRC: Voir fig 2.5}
