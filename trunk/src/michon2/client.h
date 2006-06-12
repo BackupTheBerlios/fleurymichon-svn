@@ -7,7 +7,7 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qlistbox.h>
-#include <qhbox.h>
+#include "qhhbox.h"
 #include "moker.h"
 
 class c_client : public QObject

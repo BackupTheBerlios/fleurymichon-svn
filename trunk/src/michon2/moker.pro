@@ -4,11 +4,13 @@ LANGUAGE	= C++
 CONFIG	+= qt warn_on release
 
 HEADERS	+= client.h \
-	decomparg.h
+	decomparg.h \
+	qhhbox.h
 
 SOURCES	+= main.cpp \
 	client.cpp \
-	decomparg.cpp
+	decomparg.cpp \
+	qhhbox.cpp
 
 FORMS	= moker.ui
 
