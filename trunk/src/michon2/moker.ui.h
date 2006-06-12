@@ -26,7 +26,13 @@ void MyDialog1::tSlot()
 void MyDialog1::OpenChannel(QString s)
 {
     QString *stext = new QString("text");
-    tabWidget->addTab(new QTextEdit(NULL, QString((s + *stext)).ascii()), s);
+    QHBox *hb = new QHBox();
+    tabWidget->addTab(hb, s);
+    QTextEdit *te = new QTextEdit(hb, QString((s + *stext)).ascii());
+    QListBox *lb = new QListBox(hb, 0, 0);
+    hb->setStretchFactor(te, 4);
+    hb->setStretchFactor(lb, 1);
+    lb->insertItem("fuck");
     //connect(SIGNAL(textChanged(), MyDialog1, SLOT());
 }
 

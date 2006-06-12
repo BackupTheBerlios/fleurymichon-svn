@@ -1,7 +1,7 @@
 /****************************************************************************
 ** MyDialog1 meta object code from reading C++ file 'moker.h'
 **
-** Created: Thu Apr 20 11:04:38 2006
+** Created: Mon Jun 12 16:12:45 2006
 **      by: The Qt MOC ($Id: qt/moc_yacc.cpp   3.3.4   edited Jan 21 18:14 $)
 **
 ** WARNING! All changes made in this file will be lost!
