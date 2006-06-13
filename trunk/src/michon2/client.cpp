@@ -117,7 +117,7 @@ void c_client::socketReadyRead()
 		
 			if (rc)
 			{
-			    for (i = 0; (i < rc->lb->count()) && strcmp(rc->lb->text(i).ascii(),nick); i++)
+			    for (i = 0; (i < rc->lb->count()) && strcmp(rc->lb->text(i).ascii(),nick) && strcmp(rc->lb->text(i).ascii(), ("@" + QString(nick)).ascii()); i++)
 			    {
 			    }
 			    if (i < rc->lb->count())
@@ -190,7 +190,7 @@ void c_client::socketReadyRead()
 				while (rc)
 				{	
 				    i = 0;
-				    while ((i < rc->lb->count()) && (!strcmp(rc->lb->text(i).ascii(), nick)))
+				    while ((i < rc->lb->count()) && (strcmp(rc->lb->text(i).ascii(), nick)) && strcmp(rc->lb->text(i).ascii(), ("@" + QString(nick)).ascii()) )
 				    {
 					i++;
 				    }	
