@@ -116,19 +116,6 @@
             <attribute name="title">
                 <string>Status</string>
             </attribute>
-            <widget class="QListBox">
-                <property name="name">
-                    <cstring>userslist</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>510</x>
-                        <y>10</y>
-                        <width>136</width>
-                        <height>210</height>
-                    </rect>
-                </property>
-            </widget>
             <widget class="QTextEdit">
                 <property name="name">
                     <cstring>statusEdit</cstring>
@@ -140,7 +127,7 @@
                     <rect>
                         <x>7</x>
                         <y>7</y>
-                        <width>491</width>
+                        <width>640</width>
                         <height>210</height>
                     </rect>
                 </property>

@@ -269,7 +269,7 @@ void c_client::socketError(int e)
   
   mydlg->statusEdit->append(text);
   
-   mydlg->ConnectButton->setEnabled(true);  
+  mydlg->ConnectButton->setEnabled(true);  
 }
 
 void c_client::socketClosed()
