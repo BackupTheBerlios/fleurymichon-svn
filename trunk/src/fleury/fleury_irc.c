@@ -3,6 +3,7 @@
 void fleury_irc_process(struct s_cl *pcl)
 {
   t_list ltemp;
+  t_list ltemp2;
   struct s_ch *pchan;
   struct s_cl *pcli;
   struct s_ch_user user;
@@ -179,9 +180,28 @@ void fleury_irc_process(struct s_cl *pcl)
 				  while (ltemp)
 				    {
 				      pch = (struct s_user_ch *)&(ltemp->elt);
+				      pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, pcl->name);
+				      ltemp2 = pch->pch->list_users;
+				      while (ltemp2)
+					{
+					  pu = (struct s_ch_user *)&(ltemp2->elt);
+					  if (pu->pcl->tid != pcl->tid)
+					    {
+					      fprintf(pu->pcl->out, ":%s!~%s@%s QUIT :%s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
+					      
+#ifdef FLEURY_DEBUG
+					      fprintf(dbgout, "Fleury: [%lu;%lu] QUIT Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
+#endif			    
+					    }
+					  ltemp2 = ltemp2->next;
+					}
+
 				      /* a completer, ne gerer chaque destinataire qu'une fois */
 				      ltemp = ltemp->next;
 				    }
+				  
+				  fleury_conf.list_cl = list_del_long(fleury_conf.list_cl, test_streq_cl, pcl->nick);
+
 				  fleury_socket_disconnect(pcl);
 #ifdef FLEURY_DEBUG
 				  fprintf(dbgout, "Fleury: [%lu] QUIT (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
