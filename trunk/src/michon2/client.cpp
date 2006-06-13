@@ -181,7 +181,7 @@ void c_client::socketReadyRead()
 					nick[i-1]=s.ascii()[i];
 				    }		    
 				      		    
-				    mydlg->statusEdit->setText(mydlg->statusEdit->text() + QString(nick) + ": " + QString(s.ascii()+s.find(':',1) + 2) + "\r\n");
+				    mydlg->statusEdit->setText(mydlg->statusEdit->text() + QString(nick) + ": " + QString(s.ascii()+s.find(':',1) + 1));
 				    
 				    free(nick);
 				}
