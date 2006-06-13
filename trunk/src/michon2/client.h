@@ -17,6 +17,7 @@ class c_client : public QObject
 public : 
   c_client(const QString &host, Q_UINT16 port, MyDialog1 *mdlg);
  ~c_client();
+ QPtrList<QRefChan> *lchan;
 
 public slots: 
   void closeConnection();

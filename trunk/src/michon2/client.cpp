@@ -46,6 +46,8 @@ void c_client::socketReadyRead()
     QString s;
     char* nick;
     int i,j,k;
+    QRefChan *rc;
+    QString *st;
     
     while (socket->canReadLine())
     {
@@ -114,6 +116,15 @@ void c_client::socketReadyRead()
 		    {
 			if(!strncmp(s.ascii()+i+1, "353", 3))
 			{
+			    while(((s.ascii())[i])&&(s[i]!='#'))
+			    {
+				i++;
+			    }
+			    
+			    st = new QString(s.mid(i, s.find(' ', i) - i));
+			    rc = findchan(st, lchan);
+			    mydlg->statusEdit->append(*st);
+			    
 			    while(((s.ascii())[i])&&(s[i]!=':'))
 			    {
 				i++;
@@ -134,7 +145,11 @@ void c_client::socketReadyRead()
 				{
 				    nick[i-j]=s.ascii()[i];
 				}
-				mydlg->userslist->insertItem(QString(nick),-1);
+				// mydlg->userslist->insertItem(QString(nick),-1);
+				if (rc)
+				{
+				    rc->lb->insertItem((QString(nick)),-1);
+				}
 				free(nick);
 				i=k+1;
 			    } while((s[i] != '\n') && (s[i] != '\r'));

@@ -31,15 +31,14 @@ void MyDialog1::OpenChannel(QString s)
     QListBox *lb = new QListBox(hb, 0, 0);   
     
     QRefChan *rc = new QRefChan();
-    rc->setItems(te, lb, &s);    
-    lchan->append(rc);
+    rc->setItems(te, lb, new QString(s));
+    ((c_client *)michon)->lchan->append(rc);
     
     
     hb->setStretchFactor(te, 4);
     hb->setStretchFactor(lb, 1);  
     hb->setItems(te, lb);
     tabWidget->addTab(hb, s);  
-    hb->lb->insertItem("fuck");
     //connect(SIGNAL(textChanged(), MyDialog1, SLOT());
 }
 
@@ -142,6 +141,6 @@ void MyDialog1::ConnectMichon( QString s, unsigned int p )
     ((c_client *)michon)->sendToServer("USER " + lineEditUser->text() + " 0 " + s + " :" + lineEditReal->text() + "\r\n");
     ConnectButton->setEnabled(false);
     
-    lchan = new QPtrList<QRefChan>;
+    ((c_client *)michon)->lchan = new QPtrList<QRefChan>;
     
 }
