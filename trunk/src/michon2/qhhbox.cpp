@@ -1,6 +1,6 @@
 #include "qhhbox.h"
 
-QHHBox::QHHBox(QWidget * parent, const char * name, WFlags f)
+QHHBox::QHHBox()
 {
     
 }

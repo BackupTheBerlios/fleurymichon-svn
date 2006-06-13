@@ -10,7 +10,7 @@ class QHHBox : public QHBox
 {
   Q_OBJECT
 public : 
-    QHHBox(QWidget * parent = 0, const char * name = 0, WFlags f = 0);
+    QHHBox();
   ~QHHBox();
   void setItems(QTextEdit *nte = NULL, QListBox *nlb = NULL);
 

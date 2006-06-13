@@ -26,7 +26,7 @@ void MyDialog1::tSlot()
 void MyDialog1::OpenChannel(QString s)
 {
     QString *stext = new QString("text");
-    QHHBox *hb = new QHHBox(NULL, 0, 0);        
+    QHHBox *hb = new QHHBox();        
     QTextEdit *te = new QTextEdit(hb, QString((s + *stext)).ascii());
     QListBox *lb = new QListBox(hb, 0, 0);   
     
