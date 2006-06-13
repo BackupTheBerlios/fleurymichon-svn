@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'moker.ui'
 **
-** Created: Mon Jun 12 16:53:24 2006
+** Created: Tue Jun 13 15:31:53 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -42,6 +42,15 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     ConnectButton = new QPushButton( this, "ConnectButton" );
     ConnectButton->setGeometry( QRect( 450, 280, 100, 30 ) );
 
+    buttonOk = new QPushButton( this, "buttonOk" );
+    buttonOk->setGeometry( QRect( 550, 280, 110, 30 ) );
+    buttonOk->setAutoDefault( FALSE );
+    buttonOk->setDefault( FALSE );
+
+    ValButton = new QPushButton( this, "ValButton" );
+    ValButton->setGeometry( QRect( 350, 280, 100, 30 ) );
+    ValButton->setDefault( TRUE );
+
     tabWidget = new QTabWidget( this, "tabWidget" );
     tabWidget->setGeometry( QRect( 10, 10, 660, 260 ) );
 
@@ -57,9 +66,6 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     tabWidget->insertTab( Widget8, QString::fromLatin1("") );
 
     TabPage = new QWidget( tabWidget, "TabPage" );
-
-    textLabelNick = new QLabel( TabPage, "textLabelNick" );
-    textLabelNick->setGeometry( QRect( 20, 10, 91, 30 ) );
 
     textLabelUser = new QLabel( TabPage, "textLabelUser" );
     textLabelUser->setGeometry( QRect( 20, 50, 91, 30 ) );
@@ -85,18 +91,12 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     lineEditServer = new QLineEdit( TabPage, "lineEditServer" );
     lineEditServer->setGeometry( QRect( 352, 8, 131, 31 ) );
 
+    textLabelNick = new QLabel( TabPage, "textLabelNick" );
+    textLabelNick->setGeometry( QRect( 20, 10, 91, 30 ) );
+
     lineEditNick = new QLineEdit( TabPage, "lineEditNick" );
     lineEditNick->setGeometry( QRect( 110, 10, 110, 28 ) );
     tabWidget->insertTab( TabPage, QString::fromLatin1("") );
-
-    buttonOk = new QPushButton( this, "buttonOk" );
-    buttonOk->setGeometry( QRect( 550, 280, 110, 30 ) );
-    buttonOk->setAutoDefault( FALSE );
-    buttonOk->setDefault( FALSE );
-
-    ValButton = new QPushButton( this, "ValButton" );
-    ValButton->setGeometry( QRect( 350, 280, 100, 30 ) );
-    ValButton->setDefault( TRUE );
     languageChange();
     resize( QSize(683, 326).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
@@ -136,9 +136,12 @@ void MyDialog1::languageChange()
     setCaption( tr( "Michon IRC Client" ) );
     ConnectButton->setText( tr( "&Connect" ) );
     ConnectButton->setAccel( QKeySequence( tr( "Alt+C" ) ) );
+    buttonOk->setText( tr( "E&xit" ) );
+    buttonOk->setAccel( QKeySequence( tr( "Alt+X" ) ) );
+    ValButton->setText( tr( "&Send" ) );
+    ValButton->setAccel( QKeySequence( tr( "Alt+S" ) ) );
     statusEdit->setText( QString::null );
     tabWidget->changeTab( Widget8, tr( "Status" ) );
-    textLabelNick->setText( tr( "Nickname" ) );
     textLabelUser->setText( tr( "Username" ) );
     textLabelReal->setText( tr( "Real name" ) );
     lineEditUser->setText( tr( "username" ) );
@@ -147,11 +150,8 @@ void MyDialog1::languageChange()
     textLabel3->setText( tr( "Port" ) );
     lineEditPort->setText( tr( "6667" ) );
     lineEditServer->setText( tr( "localhost" ) );
+    textLabelNick->setText( tr( "Nickname" ) );
     lineEditNick->setText( tr( "nickname" ) );
     tabWidget->changeTab( TabPage, tr( "Settings" ) );
-    buttonOk->setText( tr( "E&xit" ) );
-    buttonOk->setAccel( QKeySequence( tr( "Alt+X" ) ) );
-    ValButton->setText( tr( "&Send" ) );
-    ValButton->setAccel( QKeySequence( tr( "Alt+S" ) ) );
 }
 

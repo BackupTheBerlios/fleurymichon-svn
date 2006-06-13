@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'moker.ui'
 **
-** Created: Mon Jun 12 16:12:36 2006
+** Created: Tue Jun 13 15:30:43 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -36,12 +36,13 @@ public:
 
     QLineEdit* theEdit;
     QPushButton* ConnectButton;
+    QPushButton* buttonOk;
+    QPushButton* ValButton;
     QTabWidget* tabWidget;
     QWidget* Widget8;
     QListBox* userslist;
     QTextEdit* statusEdit;
     QWidget* TabPage;
-    QLabel* textLabelNick;
     QLabel* textLabelUser;
     QLabel* textLabelReal;
     QLineEdit* lineEditUser;
@@ -50,9 +51,8 @@ public:
     QLabel* textLabel3;
     QLineEdit* lineEditPort;
     QLineEdit* lineEditServer;
+    QLabel* textLabelNick;
     QLineEdit* lineEditNick;
-    QPushButton* buttonOk;
-    QPushButton* ValButton;
 
 public slots:
     virtual void undoSlot();

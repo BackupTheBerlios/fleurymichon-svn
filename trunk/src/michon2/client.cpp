@@ -76,11 +76,13 @@ void c_client::socketReadyRead()
 		    nick = (char *) malloc((i)*sizeof(char));
 		    i--;
 		    nick[i]=0;
+		    k = i;
+		    
 		    for(;i;i--)
 		    {
 			nick[i-1]=s.ascii()[i];
 		    }
-		    if(strncmp(nick, (mydlg->textLabelNick->text()).ascii(),3))
+		    if(strncmp(nick, (mydlg->lineEditNick->text()).ascii(), k) &&  strncmp(nick, (mydlg->textLabelNick->text()).ascii(),3))
 			mydlg->userslist->insertItem(QString(nick),-1);
 		    free(nick);
 		}
@@ -135,9 +137,36 @@ void c_client::socketReadyRead()
 				mydlg->userslist->insertItem(QString(nick),-1);
 				free(nick);
 				i=k+1;
-			    } while((s[i]!='\n')&&(s[i]!='\r'));
+			    } while((s[i] != '\n') && (s[i] != '\r'));
 			}
-		    }
+			else
+			{
+			    if(!strncmp(s.ascii()+i+1, "QUIT", 4))
+			    {
+				i=1;
+				while(((s.ascii())[i]) && (s[i] != '!'))
+				{
+				    i++;
+				}	
+				nick = (char *) malloc((i)*sizeof(char));
+				i--;
+				nick[i]=0;			
+				for ( ; i ; i--)
+				{
+				    nick[i-1]=s.ascii()[i];
+				}
+				for (i = 0 ; i < mydlg->userslist->count() ; i++)
+				{
+				    if(!strcmp(mydlg->userslist->text(i).ascii(), nick))
+					break;
+				}	
+				mydlg->userslist->removeItem(i);
+				free(nick);	
+			    }
+			    
+			}
+		    } 
+		    
 		}
 	    }
 	}
