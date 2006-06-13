@@ -85,8 +85,14 @@ void c_client::socketReadyRead()
 		    {
 			nick[i-1]=s.ascii()[i];
 		    }
-		    if(strncmp(nick, (mydlg->lineEditNick->text()).ascii(), k) &&  strncmp(nick, (mydlg->textLabelNick->text()).ascii(),3))
-			mydlg->userslist->insertItem(QString(nick),-1);
+		    
+		    st = new QString(s.mid(s.find(':', 1) + 1, s.find('\r') - s.find(':',1) - 1));
+		    rc = findchan(st, lchan);
+		    
+		    if (rc && strncmp(nick, (mydlg->lineEditNick->text()).ascii(), k))
+		    {
+			rc->lb->insertItem(QString(nick),-1);
+		    }
 		    free(nick);
 		}
 		else
@@ -105,12 +111,20 @@ void c_client::socketReadyRead()
 			{
 			    nick[i-1]=s.ascii()[i];
 			}
-			for(i=0;i<mydlg->userslist->count();i++)
+			
+			st = new QString(s.mid(s.find('#', 1), s.find('\r') - s.find('#',1)));
+			rc = findchan(st, lchan);
+		
+			if (rc)
 			{
-			    if(!strcmp(mydlg->userslist->text(i).ascii(),nick))
-				break;
+			    for (i = 0; (i < rc->lb->count()) && strcmp(rc->lb->text(i).ascii(),nick); i++)
+			    {
+			    }
+			    if (i < rc->lb->count())
+			    {
+				rc->lb->removeItem(i);
+			    }
 			}
-			mydlg->userslist->removeItem(i);
 			free(nick);
 		    }
 		    else
@@ -124,7 +138,6 @@ void c_client::socketReadyRead()
 			    
 			    st = new QString(s.mid(i, s.find(' ', i) - i));
 			    rc = findchan(st, lchan);
-			    mydlg->statusEdit->append(*st);
 			    
 			    while(((s.ascii())[i])&&(s[i]!=':'))
 			    {
@@ -207,8 +220,14 @@ void c_client::socketReadyRead()
 				    {
 					nick[i-1]=s.ascii()[i];
 				    }		    
-				      		    
-				    mydlg->statusEdit->setText(mydlg->statusEdit->text() + QString(nick) + ": " + QString(s.ascii()+s.find(':',1) + 1));
+				    
+				    st = new QString(s.mid(s.find('#'),s.find(':',1)-s.find('#')-1));
+				    rc = findchan(st, lchan);
+				    
+				    if (rc)
+				    {
+					rc->te->setText(rc->te->text() + QString(nick) + ": " + QString(s.ascii()+s.find(':',1) + 1));
+				    }
 				    
 				    free(nick);
 				}
@@ -249,6 +268,8 @@ void c_client::socketError(int e)
   }
   
   mydlg->statusEdit->append(text);
+  
+   mydlg->ConnectButton->setEnabled(true);  
 }
 
 void c_client::socketClosed()
