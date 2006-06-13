@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'moker.ui'
 **
-** Created: Tue Jun 13 18:52:17 2006
+** Created: Tue Jun 13 19:24:24 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -62,7 +62,7 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     statusEdit = new QTextEdit( Widget8, "statusEdit" );
     statusEdit->setEnabled( TRUE );
     statusEdit->setGeometry( QRect( 7, 7, 491, 210 ) );
-    statusEdit->setWordWrap( QTextEdit::WidgetWidth );
+    statusEdit->setWordWrap( QTextEdit::NoWrap );
     tabWidget->insertTab( Widget8, QString::fromLatin1("") );
 
     TabPage = new QWidget( tabWidget, "TabPage" );

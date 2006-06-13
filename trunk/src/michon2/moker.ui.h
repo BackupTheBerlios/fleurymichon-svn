@@ -79,7 +79,8 @@ void MyDialog1::valSlot()
 		    if(!strncmp(theEdit->text().ascii(), "/msg ", 5))
 		    {
 			cmd = decompcom(theEdit->text());
-			((c_client *)michon)->sendToServer("PRIVMSG " + QString(cmd->args->arg)+ " " + QString(cmd->args->next->arg) + "\r\n") ; 
+			
+			((c_client *)michon)->sendToServer("PRIVMSG " + QString(cmd->args->arg)+ " :" + QString(cmd->args->next->arg) + "\r\n") ; 
 			freecmd(cmd);
 		    }
 
