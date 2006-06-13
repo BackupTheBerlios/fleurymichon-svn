@@ -9,6 +9,7 @@
 #include <qlistbox.h>
 #include "qhhbox.h"
 #include "moker.h"
+#include "listchan.h"
 
 class c_client : public QObject
 {
@@ -29,6 +30,7 @@ public slots:
 private :
     QSocket *socket;
     MyDialog1 *mydlg;
+    
 };
 
 #endif

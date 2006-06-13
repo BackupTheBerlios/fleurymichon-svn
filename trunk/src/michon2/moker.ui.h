@@ -26,9 +26,15 @@ void MyDialog1::tSlot()
 void MyDialog1::OpenChannel(QString s)
 {
     QString *stext = new QString("text");
-    QHHBox *hb = new QHHBox(NULL, 0, 0);    
+    QHHBox *hb = new QHHBox(NULL, 0, 0);        
     QTextEdit *te = new QTextEdit(hb, QString((s + *stext)).ascii());
-    QListBox *lb = new QListBox(hb, 0, 0);
+    QListBox *lb = new QListBox(hb, 0, 0);   
+    
+    QRefChan *rc = new QRefChan();
+    rc->setItems(te, lb, &s);    
+    lchan->append(rc);
+    
+    
     hb->setStretchFactor(te, 4);
     hb->setStretchFactor(lb, 1);  
     hb->setItems(te, lb);
@@ -58,7 +64,7 @@ void MyDialog1::valSlot()
 	{
 	    if (!strncmp(theEdit->text().ascii(), "/connect ", 9))		
 	    {
-		ConnectMichon(theEdit->text().right(theEdit->text().length() - 9), 6667);	    
+		ConnectMichon(theEdit->text().right(theEdit->text().length() - 9), 6667);	
 	    }
 	    else
 	    {
@@ -134,4 +140,7 @@ void MyDialog1::ConnectMichon( QString s, unsigned int p )
     ((c_client *)michon)->sendToServer("NICK " + lineEditNick->text() + "\r\n");
     ((c_client *)michon)->sendToServer("USER " + lineEditUser->text() + " 0 " + s + " :" + lineEditReal->text() + "\r\n");
     ConnectButton->setEnabled(false);
+    
+    lchan = new QPtrList<QRefChan>;
+    
 }

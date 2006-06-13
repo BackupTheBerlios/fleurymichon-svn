@@ -361,9 +361,12 @@
     <tabstop>lineEditNick</tabstop>
 </tabstops>
 <includes>
+    <include location="global" impldecl="in declaration">qptrlist.h</include>
+    <include location="local" impldecl="in declaration">qrefchan.h</include>
     <include location="local" impldecl="in implementation">moker.ui.h</include>
 </includes>
 <variables>
+    <variable access="public">QPtrList&lt;QRefChan&gt; *lchan;</variable>
     <variable>void *michon;</variable>
 </variables>
 <slots>

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'moker.ui'
 **
-** Created: Tue Jun 13 15:30:43 2006
+** Created: Tue Jun 13 18:42:35 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -12,6 +12,8 @@
 
 #include <qvariant.h>
 #include <qdialog.h>
+#include <qptrlist.h>
+#include "qrefchan.h"
 
 class QVBoxLayout;
 class QHBoxLayout;
@@ -53,6 +55,8 @@ public:
     QLineEdit* lineEditServer;
     QLabel* textLabelNick;
     QLineEdit* lineEditNick;
+
+    QPtrList<QRefChan> *lchan;
 
 public slots:
     virtual void undoSlot();

@@ -5,12 +5,16 @@ CONFIG	+= qt warn_on release
 
 HEADERS	+= client.h \
 	decomparg.h \
-	qhhbox.h
+	qhhbox.h \
+	qrefchan.h \
+	listchan.h
 
 SOURCES	+= main.cpp \
 	client.cpp \
 	decomparg.cpp \
-	qhhbox.cpp
+	qhhbox.cpp \
+	qrefchan.cpp \
+	listchan.cpp
 
 FORMS	= moker.ui
 
