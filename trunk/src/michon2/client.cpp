@@ -53,6 +53,7 @@ void c_client::socketReadyRead()
 	mydlg->statusEdit->append(s);
 	if(!strncmp(s, "PING", 4))
 	{
+	    mydlg->statusEdit->append("-> PONG");
 	    this->sendToServer("PONG " + QString(s.ascii() + 5) + "\r\n");
 	}
 	else

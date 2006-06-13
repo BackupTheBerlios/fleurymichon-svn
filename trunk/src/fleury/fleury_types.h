@@ -33,6 +33,7 @@ struct s_cl
 {
   pthread_t tid;
   pthread_mutex_t lock;
+  int pinged;
   int connected;
   int logged;
   int ibuf;

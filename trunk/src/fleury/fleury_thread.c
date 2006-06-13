@@ -20,6 +20,7 @@ void fleury_thread_init(int fd)
   *(cl.pingstr) = 0;
   cl.pingtime = 0;
   cl.ibuf = 0;
+  cl.pinged = 0;
   cl.logged = 0;
   cl.connected = 1;
   cl.mode.i = 0;

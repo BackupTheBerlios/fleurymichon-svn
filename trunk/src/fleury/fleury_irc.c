@@ -25,14 +25,24 @@ void fleury_irc_process(struct s_cl *pcl)
   pcl->buffer[0] = 0;
   fleury_irc_cmd[0] = 0;
 
-  if (pcl->logged && pcl->pingtime && ((time(NULL) - pcl->pingtime) > fleury_conf.pto))
+  if (pcl->pinged)
     {
-      /* ping timeout here */
-      fprintf(pcl->out, "Ping timeout\r\n");
-      fleury_socket_disconnect(pcl);
+      if (pcl->logged && pcl->pingtime && ((time(NULL) - pcl->pingtime) > fleury_conf.pto))
+	{
+	  /* ping timeout here */
+	  fprintf(pcl->out, "Ping timeout\r\n");
+	  fleury_socket_disconnect(pcl);
 #ifdef FLEURY_DEBUG
-      fprintf(dbgout, "Fleury: [%lu] Ping timeout\n", (unsigned long)(pcl->tid));
+	  fprintf(dbgout, "Fleury: [%lu] Ping timeout\n", (unsigned long)(pcl->tid));
 #endif
+	}
+    }
+  else
+    {
+      if (pcl->logged && pcl->pingtime && ((time(NULL) - pcl->pingtime) > fleury_conf.pto))
+	{
+	  fleury_irc_ping(pcl, fleury_conf.hostname);
+	} 
     }
 
   retval = 0;
@@ -154,7 +164,8 @@ void fleury_irc_process(struct s_cl *pcl)
 			      if (!strcmp(fleury_irc_param, pcl->pingstr) || (*fleury_irc_param == ':' && !strcmp(fleury_irc_param + 1, pcl->pingstr)))
 				{
 				  *(pcl->pingstr) = 0;
-				  pcl->pingtime = 0;
+				  pcl->pingtime = time(NULL);
+				  pcl->pinged = 0;
 				}
 #ifdef FLEURY_DEBUG
 			      fprintf(dbgout, "Fleury: [%lu] PONG (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
@@ -764,6 +775,7 @@ void fleury_irc_ping(struct s_cl *pcl, char *s)
 {
   fprintf(pcl->out, "PING :%s\r\n", s);
   strcpy(pcl->pingstr, s);
+  pcl->pinged = 1;
   pcl->pingtime = time(NULL);
 }
 
