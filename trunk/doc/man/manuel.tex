@@ -1,0 +1,104 @@
+\documentclass[12pt,a4paper,frenchb]{report}
+
+\usepackage[french]{babel}
+\usepackage{a4}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage[official]{eurosym}
+\usepackage{graphicx}
+
+%\title{FleuryMichon}
+%\author{\emph{Les TouTouYouTou}}
+
+\begin{document}
+
+%\maketitle
+
+\begin{minipage}{\textwidth}
+\flushright{
+\textbf{\Huge{\bsc{FleuryMichon}}}
+\rule[+1.5ex]{\textwidth}{4pt} \\
+\emph{\Large{Manuel d'utilisation de Fleury et Michon}}
+}
+\end{minipage}
+\begin{figure}[b]
+\begin{center}
+\large{
+Sergueï \bsc{Milechine} \\
+Benoit \bsc{Menet} \\
+Lionel \bsc{Herbin} \\
+Nicolas \bsc{Vernot} \\
+}
+\end{center}
+\flushleft{
+\emph{Les TouTouYouTou}
+\rule[+1.5ex]{\textwidth}{2pt}
+}
+\end{figure}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\chapter{Le serveur Fleury}
+
+\section{installation}
+
+\section{utilisation}
+
+
+\chapter{Le client Michon}
+
+Michon est un client irc fait selon les normes IRC fixees par la RFC. Ainsi donc il ne devrait poser aucun problemes a communiquer avec tous serveurs irc que 'on pourra trouver faits a cette norme. Les paragraphes suivants vous permettront de vous familiariser avec l'utilisation de ce client.
+
+\section{installation}
+
+
+\section{utilisation}
+
+Afin d'utiliser irc, l'utilisateur du client doit faire savoir ce qu'il souhaite faire a travers de commandes comprehensibles par le serveur et le client. Les commandes utilisables en question sont enumerees par la suite afin d'indiquer ce qui vous est disponible et comment utiliser le client.
+
+\subsubsection{La commande \emph{connect}}
+
+C'est elle qui va établir une connexion avec le serveur (par défaut \emph{localhost} sur le port 6667), en lui envoyant la combinaison de 
+requêtes NICK, USER et PASS, dont les paramètres seront définis par l'utilisateur dans l'onglet \emph{Settings}.
+\\\\
+\textit{Syntaxe : /connect <adresse de l'hôte> (<port>)}
+
+\subsubsection{La commande \emph{join}}
+
+Lorsque l'utilisateur désira créer ou rejoindre un canal, il n'aura qu'à utiliser la commande \emph{join}, en lui spécifiant en argument le nom du canal 
+en question (précédé d'un dièse).
+\\\\
+\textit{Syntaxe : /join <canal>}
+
+\subsubsection{La commande \emph{msg}}
+
+La commande \emph{msg} sera utlisée lorsque l'on désirera entrer en communication avec un utilisateur en particulier ou un canal tout entier. 
+\\\\
+\textit{Syntaxe : /msg <nick ou canal> <texte à envoyer>}
+
+\subsubsection{La commande \emph{part}}
+
+L'utilisateur utilisera la commande \emph{part} lorsqu'il désirera quitter ou détruire un canal.
+\\\\
+\textit{Syntaxe : /part (<raison>)}
+
+\subsubsection{La commande \emph{kick}}
+
+Si le modérateur du canal n'est pas très enjoué par le comportement de certains utlisateurs, il n'aura qu'à effectuer une commande \emph{kick} pour l'éjecter
+violemment du dit-canal (à utiliser avec parcimonie sinon cela peut entraîner une forte dépendance voir la mort).
+\\\\
+\textit{Syntaxe : /kick <nick> (<raison>)}
+
+\subsubsection{La commande \emph{quit}}
+
+L'utilisateur se servira de la commande \emph{quit} s'il désire quitter le serveur courant.
+\\\\
+\textit{Syntaxe : /quit}
+
+
+\end{document}
