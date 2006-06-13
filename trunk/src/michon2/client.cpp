@@ -46,6 +46,7 @@ void c_client::socketReadyRead()
     QString s;
     char* nick;
     int i,j,k;
+    QPtrList<QRefChan> *cl;
     QRefChan *rc;
     QString *st;
     
@@ -156,26 +157,37 @@ void c_client::socketReadyRead()
 			}
 			else
 			{
-			    if(!strncmp(s.ascii()+i+1, "QUIT", 4))
+			    if(!strncmp(s.ascii() + i + 1, "QUIT", 4))
 			    {
-				i=1;
+				i = 1;
 				while(((s.ascii())[i]) && (s[i] != '!'))
 				{
 				    i++;
 				}	
-				nick = (char *) malloc((i)*sizeof(char));
+				nick = (char *) malloc((i) * sizeof(char));
 				i--;
-				nick[i]=0;			
+				nick[i] = 0;			
 				for ( ; i ; i--)
 				{
-				    nick[i-1]=s.ascii()[i];
+				    nick[i-1] = s.ascii()[i];
 				}
-				for (i = 0 ; i < mydlg->userslist->count() ; i++)
-				{
-				    if(!strcmp(mydlg->userslist->text(i).ascii(), nick))
-					break;
-				}	
-				mydlg->userslist->removeItem(i);
+				
+				cl = lchan;
+				rc = cl->first();				
+				while (rc)
+				{	
+				    i = 0;
+				    while ((i < rc->lb->count()) && (!strcmp(rc->lb->text(i).ascii(), nick)))
+				    {
+					i++;
+				    }	
+				    if (i < rc->lb->count()) 
+				    {
+					rc->lb->removeItem(i);
+				    }
+				    rc = cl->next();
+				}
+				
 				free(nick);	
 			    }
 			    else
