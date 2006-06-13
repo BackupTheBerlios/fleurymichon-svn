@@ -163,8 +163,30 @@ void c_client::socketReadyRead()
 				mydlg->userslist->removeItem(i);
 				free(nick);	
 			    }
-			    
-			}
+			    else
+			    {	
+				if(!strncmp(s.ascii()+i+1, "PRIVMSG", 7))
+				{
+				    j = i;
+				    i = 1;
+				    while(((s.ascii())[i]) && (s[i] != '!'))
+				    {	
+					i++;	
+				    }	
+				    nick = (char *) malloc((i)*sizeof(char));
+				    i--;
+				    nick[i - 1]=0;			
+				    for ( ; i ; i--)
+				    {
+					nick[i-1]=s.ascii()[i];
+				    }		    
+				      		    
+				    mydlg->statusEdit->setText(mydlg->statusEdit->text() + QString(nick) + ": " + QString(s.ascii()+s.find(':',1) + 2) + "\r\n");
+				    
+				    free(nick);
+				}
+			    }    
+			}	
 		    } 
 		    
 		}
