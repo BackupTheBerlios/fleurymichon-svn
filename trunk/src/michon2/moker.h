@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'moker.ui'
 **
-** Created: Tue Jun 13 18:42:35 2006
+** Created: Tue Jun 13 18:49:13 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!

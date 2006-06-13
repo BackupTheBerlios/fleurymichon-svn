@@ -148,7 +148,7 @@
                     <string></string>
                 </property>
                 <property name="wordWrap">
-                    <enum>WidgetWidth</enum>
+                    <enum>NoWrap</enum>
                 </property>
             </widget>
         </widget>
