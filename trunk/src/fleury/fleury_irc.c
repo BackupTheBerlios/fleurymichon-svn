@@ -187,11 +187,23 @@ void fleury_irc_process(struct s_cl *pcl)
 					  pu = (struct s_ch_user *)&(ltemp2->elt);
 					  if (pu->pcl->tid != pcl->tid)
 					    {
-					      fprintf(pu->pcl->out, ":%s!~%s@%s QUIT :%s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
+					      if (*fleury_irc_param == ':')
+						{
+						  fprintf(pu->pcl->out, ":%s!~%s@%s QUIT %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
 					      
 #ifdef FLEURY_DEBUG
-					      fprintf(dbgout, "Fleury: [%lu;%lu] QUIT Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
-#endif			    
+						  fprintf(dbgout, "Fleury: [%lu;%lu] QUIT Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
+#endif
+						}
+					      else
+						{
+						  fprintf(pu->pcl->out, ":%s!~%s@%s QUIT :%s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
+					      
+#ifdef FLEURY_DEBUG
+						  fprintf(dbgout, "Fleury: [%lu;%lu] QUIT Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
+#endif
+
+						}
 					    }
 					  ltemp2 = ltemp2->next;
 					}
