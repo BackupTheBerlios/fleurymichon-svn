@@ -180,7 +180,7 @@ void fleury_irc_process(struct s_cl *pcl)
 				  while (ltemp)
 				    {
 				      pch = (struct s_user_ch *)&(ltemp->elt);
-				      pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, pcl->name);
+				      pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, pcl->nick);
 				      ltemp2 = pch->pch->list_users;
 				      while (ltemp2)
 					{
@@ -209,7 +209,9 @@ void fleury_irc_process(struct s_cl *pcl)
 					}
 
 				      /* a completer, ne gerer chaque destinataire qu'une fois */
+				      ltemp2 = ltemp;
 				      ltemp = ltemp->next;
+				      free(ltemp2);
 				    }
 				  
 				  fleury_conf.list_cl = list_del_long(fleury_conf.list_cl, test_streq_cl, pcl->nick);
