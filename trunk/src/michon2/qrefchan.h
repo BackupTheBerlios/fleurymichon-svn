@@ -12,11 +12,12 @@ class QRefChan : public QObject
 public : 
     QRefChan();
   ~QRefChan();
-  void setItems(QTextEdit *nte = NULL, QListBox *nlb = NULL, QString *nid = NULL);
+  void setItems(QTextEdit *nte = NULL, QListBox *nlb = NULL, QString *nid = NULL, QWidget *npt = NULL);
 
   QTextEdit *te;
   QListBox *lb;
   QString *id;
+  QWidget *pt;
 
 };
 
