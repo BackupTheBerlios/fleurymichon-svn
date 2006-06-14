@@ -45,6 +45,7 @@ void MyDialog1::valSlot()
     QRefChan *rc;     
     struct commande * cmd;
     const char *s;
+    int i;    
     int n;
     int p;
     
@@ -69,6 +70,14 @@ void MyDialog1::valSlot()
 		{
 		    ((c_client *)michon)->sendToServer("QUIT :" + QString(theEdit->text().ascii() + 6) + "\r\n");
 		    ((c_client *)michon)->closeConnection();
+		     
+		    for (i = ((c_client *)michon)->lchan->count() - 1; i >= 0; i--)
+		    {
+			tabWidget->removePage(((c_client *)michon)->lchan->at(i)->pt);	
+			((c_client *)michon)->lchan->remove(i);
+		    }
+    
+		    dellist(((c_client *)michon)->lchan);
 		}
 		else
 		{

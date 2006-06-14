@@ -23,6 +23,17 @@ void delchan(QString *name, QPtrList<QRefChan> *cl)
 	if (!strcmp(*((cl->at(i))->id), *name))
 	{
 	    cl->remove(i);
+	    break;
 	}
+    }
+}
+
+void dellist(QPtrList<QRefChan> *cl)
+{
+    int i;
+    
+    for (i = cl->count() - 1; i >= 0; i--)
+    {
+	cl->remove(i);
     }
 }
