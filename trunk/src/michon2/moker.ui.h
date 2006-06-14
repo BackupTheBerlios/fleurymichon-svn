@@ -90,6 +90,12 @@ void MyDialog1::valSlot()
 			p = strlen(s);
 			
 			((c_client *)michon)->sendToServer("PRIVMSG " + QString(s + 5).left(n)+ " :" + QString(s + 6 + n).left(p)+ "\r\n"); 
+			
+			rc = findchan(new QString(QString(s + 5).left(n)), ((c_client *)michon)->lchan);
+			if (rc)
+			{
+			    rc->te->append(lineEditNick->text() + ": " + QString(s + 6 + n).left(p) + "\n");
+			}
 		    }
 
 		    else
