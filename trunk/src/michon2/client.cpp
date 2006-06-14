@@ -126,9 +126,9 @@ void c_client::socketReadyRead()
 			    {
 			    }
 			    if (i < rc->lb->count())
-			    {
+			    {				
 				rc->lb->removeItem(i);
-			    }
+				rc->te->append(QString(nick) + " has left " + *st + "\n");				    }
 			}
 			free(nick);
 		    }
