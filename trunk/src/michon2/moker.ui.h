@@ -78,6 +78,7 @@ void MyDialog1::valSlot()
 		    }
     
 		    dellist(((c_client *)michon)->lchan);
+		    ConnectButton->setEnabled(true);
 		}
 		else
 		{

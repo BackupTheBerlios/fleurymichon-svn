@@ -89,10 +89,15 @@ void c_client::socketReadyRead()
 		    st = new QString(s.mid(s.find(':', 1) + 1, s.find('\r') - s.find(':',1) - 1));
 		    rc = findchan(st, lchan);
 		    
-		    if (rc && strncmp(nick, (mydlg->lineEditNick->text()).ascii(), k))
+		    if (rc)
 		    {
-			rc->lb->insertItem(QString(nick),-1);
+			if (strncmp(nick, (mydlg->lineEditNick->text()).ascii(), k))
+			{
+			    rc->lb->insertItem(QString(nick),-1);
+			}
+			rc->te->append(QString(nick) + " has joined " + *st + "\n");
 		    }
+		    
 		    free(nick);
 		}
 		else
