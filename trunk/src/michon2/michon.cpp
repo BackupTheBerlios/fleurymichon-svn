@@ -1,26 +1,25 @@
 /****************************************************************************
-** Form implementation generated from reading ui file 'moker.ui'
+** Form implementation generated from reading ui file 'michon.ui'
 **
-** Created: Wed Jun 14 03:42:07 2006
+** Created: Wed Jun 14 05:14:11 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
 
-#include "moker.h"
+#include "michon.h"
 
 #include <qvariant.h>
 #include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qtabwidget.h>
 #include <qwidget.h>
-#include <qlistbox.h>
 #include <qtextedit.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
-#include "moker.ui.h"
+#include "michon.ui.h"
 
 /*
  *  Constructs a MyDialog1 as a child of 'parent', with the
@@ -39,9 +38,6 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     theEdit = new QLineEdit( this, "theEdit" );
     theEdit->setGeometry( QRect( 10, 280, 330, 30 ) );
 
-    ConnectButton = new QPushButton( this, "ConnectButton" );
-    ConnectButton->setGeometry( QRect( 450, 280, 100, 30 ) );
-
     buttonOk = new QPushButton( this, "buttonOk" );
     buttonOk->setGeometry( QRect( 550, 280, 110, 30 ) );
     buttonOk->setAutoDefault( FALSE );
@@ -56,12 +52,9 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
 
     Widget8 = new QWidget( tabWidget, "Widget8" );
 
-    userslist = new QListBox( Widget8, "userslist" );
-    userslist->setGeometry( QRect( 510, 10, 136, 210 ) );
-
     statusEdit = new QTextEdit( Widget8, "statusEdit" );
     statusEdit->setEnabled( TRUE );
-    statusEdit->setGeometry( QRect( 7, 7, 491, 210 ) );
+    statusEdit->setGeometry( QRect( 7, 7, 640, 210 ) );
     statusEdit->setWordWrap( QTextEdit::NoWrap );
     tabWidget->insertTab( Widget8, QString::fromLatin1("") );
 
@@ -97,6 +90,9 @@ MyDialog1::MyDialog1( QWidget* parent, const char* name, bool modal, WFlags fl )
     lineEditNick = new QLineEdit( TabPage, "lineEditNick" );
     lineEditNick->setGeometry( QRect( 110, 10, 110, 28 ) );
     tabWidget->insertTab( TabPage, QString::fromLatin1("") );
+
+    ConnectButton = new QPushButton( this, "ConnectButton" );
+    ConnectButton->setGeometry( QRect( 450, 280, 100, 30 ) );
     languageChange();
     resize( QSize(683, 326).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
@@ -134,8 +130,6 @@ MyDialog1::~MyDialog1()
 void MyDialog1::languageChange()
 {
     setCaption( tr( "Michon IRC Client" ) );
-    ConnectButton->setText( tr( "&Connect" ) );
-    ConnectButton->setAccel( QKeySequence( tr( "Alt+C" ) ) );
     buttonOk->setText( tr( "E&xit" ) );
     buttonOk->setAccel( QKeySequence( tr( "Alt+X" ) ) );
     ValButton->setText( tr( "&Send" ) );
@@ -153,5 +147,7 @@ void MyDialog1::languageChange()
     textLabelNick->setText( tr( "Nickname" ) );
     lineEditNick->setText( tr( "nickname" ) );
     tabWidget->changeTab( TabPage, tr( "Settings" ) );
+    ConnectButton->setText( tr( "&Connect" ) );
+    ConnectButton->setAccel( QKeySequence( tr( "Alt+C" ) ) );
 }
 

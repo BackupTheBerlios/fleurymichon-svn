@@ -1,5 +1,5 @@
 #include <qapplication.h>
-#include "moker.h"
+#include "michon.h"
 
 int main( int argc, char ** argv )
 {

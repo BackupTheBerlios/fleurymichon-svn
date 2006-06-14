@@ -1,7 +1,7 @@
 /****************************************************************************
-** Form interface generated from reading ui file 'moker.ui'
+** Form interface generated from reading ui file 'michon.ui'
 **
-** Created: Wed Jun 14 03:34:54 2006
+** Created: Wed Jun 14 05:14:02 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.4   edited Nov 24 2003 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,8 +23,6 @@ class QLineEdit;
 class QPushButton;
 class QTabWidget;
 class QWidget;
-class QListBox;
-class QListBoxItem;
 class QTextEdit;
 class QLabel;
 
@@ -37,12 +35,10 @@ public:
     ~MyDialog1();
 
     QLineEdit* theEdit;
-    QPushButton* ConnectButton;
     QPushButton* buttonOk;
     QPushButton* ValButton;
     QTabWidget* tabWidget;
     QWidget* Widget8;
-    QListBox* userslist;
     QTextEdit* statusEdit;
     QWidget* TabPage;
     QLabel* textLabelUser;
@@ -55,6 +51,7 @@ public:
     QLineEdit* lineEditServer;
     QLabel* textLabelNick;
     QLineEdit* lineEditNick;
+    QPushButton* ConnectButton;
 
     QPtrList<QRefChan> *lchan;
 

@@ -8,7 +8,7 @@
 #include <qlabel.h>
 #include <qlistbox.h>
 #include "qhhbox.h"
-#include "moker.h"
+#include "michon.h"
 #include "listchan.h"
 
 class c_client : public QObject
