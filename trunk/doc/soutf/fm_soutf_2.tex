@@ -1,7 +1,7 @@
-\section{Am\'{e}lioration du serveur}
+\section{Vers un serveur plus stable}
 
+Des modifications ont ete apportees au serveur afin d'en renforcer la stabilite. En particulier, l'envoi periodique de requetes PING aux utilisateurs permet de verifier l'etat de la connexion et par consequent d'eliminer les connexions fantomes. En outre, le traitement des listes d'utilisateurs et de canaux a ete corrige car des entrees n'etaient pas correctement mises a jour lors des actions d'entree et de sortie d'utilisateurs sur les canaux.
 
-\section{Vers un client stable}
+\section{Vers un client fonctionnel}
 
-
-
+L'interface de la version du client de la troisieme soutenance ne presentait qu'un seul onglet interactif mais desormais, les onglets sont geres dynamiquement pour chaque nouveau canal auquel l'utilisateur accede. Ainsi, l'application s'adapte au nombre de canaux frequentes par l'utilisateur : lorsqu'il rejoint un canal, un onglet est ajoute a la fenetre et a l'inverse, lorsqu'il quitte un canal, l'onglet correspondant disparait aussitot. Par consequent, les conversations sont bien separees et les listes d'utilisateurs sont disjointes. Par ailleurs, le client Michon est maintenant capable d'interpreter toutes les notifications de base du serveur necessaires a l'etablissement d'echanges simples.
