@@ -35,7 +35,8 @@ void MyDialog1::OpenChannel(QString s)
     hb->setStretchFactor(te, 4);
     hb->setStretchFactor(lb, 1);  
     hb->setItems(te, lb);
-    tabWidget->addTab(hb, s);  
+    tabWidget->addTab(hb, s);
+    tabWidget->setCurrentPage(tabWidget->count() - 1);
     rc->setItems(te, lb, new QString(s), tabWidget->page(tabWidget->count() - 1));
     //connect(SIGNAL(textChanged(), MyDialog1, SLOT());
 }
@@ -144,7 +145,15 @@ void MyDialog1::valSlot()
     else
     {
 	//envoi d'un message
-	
+	if ((rc = findchanfrompage(tabWidget->currentPage(), ((c_client *)michon)->lchan)))
+	{
+	    ((c_client *)michon)->sendToServer("PRIVMSG " + *(rc->id) + " :" + theEdit->text() + "\r\n"); 	    
+	    rc->te->append(lineEditNick->text() + ": " + theEdit->text() + "\n");			   
+	}
+	else
+	{
+	    
+	}	
     }
     
     theEdit->setText("");

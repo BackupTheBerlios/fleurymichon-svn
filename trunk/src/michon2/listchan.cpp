@@ -14,6 +14,20 @@ QRefChan * findchan(QString *name, QPtrList<QRefChan> *cl)
     return rc;    
 }
 
+QRefChan * findchanfrompage(QWidget *pt, QPtrList<QRefChan> *cl)
+{
+    QRefChan *rc;
+    
+    rc = cl->first();
+    
+    while (rc && (pt != rc->pt))
+    {	
+	rc = cl->next();
+    }
+    
+    return rc;    
+}
+
 void delchan(QString *name, QPtrList<QRefChan> *cl)
 {
     unsigned int i;
