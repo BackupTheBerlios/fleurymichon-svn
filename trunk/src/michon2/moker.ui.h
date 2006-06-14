@@ -44,7 +44,7 @@ void MyDialog1::valSlot()
 {    
     QRefChan *rc;     
     struct commande * cmd;
-    const char *s;
+    const char *s;    
     int i;    
     int n;
     int p;
@@ -84,10 +84,12 @@ void MyDialog1::valSlot()
 		{
 		    if(!strncmp(theEdit->text().ascii(), "/msg ", 5))
 		    {
-			cmd = decompcom(theEdit->text());
+			s = theEdit->text().ascii();
 			
-			((c_client *)michon)->sendToServer("PRIVMSG " + QString(cmd->args->arg)+ " :" + QString(cmd->args->next->arg) + "\r\n") ; 
-			freecmd(cmd);
+			n = QString(s + 5).find(' ', 0);
+			p = strlen(s);
+			
+			((c_client *)michon)->sendToServer("PRIVMSG " + QString(s + 5).left(n)+ " :" + QString(s + 6 + n).left(p)+ "\r\n"); 
 		    }
 
 		    else
