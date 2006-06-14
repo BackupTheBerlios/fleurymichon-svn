@@ -47,8 +47,28 @@ Nicolas \bsc{Vernot} \\
 
 \section{Installation}
 
+Pour installer Fleury il suffit d'entrer les commandes suivantes :
+\\\\
+Pour creer un nouveau repertoire : \\
+\verb+mkdir fleury+ \\\\
+Pour deplacer la tarball dans le repertoire : \\
+\verb+mv fleury-1.0.tgz fleury+ \\\\
+Pour entrer dans le repertoire : \\
+\verb+cd fleury+ \\\\
+Pour extraire la tarball : \\
+\verb+tar -xzvf fleury-1.0.tgz+ \\\\
+Pour compiler sous Linux et systemes d'exploitation compatibles : \\
+\verb+./makefleury.sh+ \\\\
+Pour compiler sous Cygwin : \\
+\verb+./cygfleury.sh+ \\\\
+Pour executer Fleury : \\
+\verb+./fleury+ \\\\
+Pour quitter Fleury : \\
+\verb+killall -s 3 fleury+
+
 \section{Utilisation}
 
+Une fois en cours de fonctionnement, le serveur IRC tourne en tant que daemon en arriere-plan.
 
 \chapter{Le client Michon}
 
@@ -93,7 +113,7 @@ en question (précédé d'un dièse).
 
 \subsubsection{La commande \emph{msg}}
 
-La commande \emph{msg} sera utlisée lorsque l'on désirera entrer en communication avec un utilisateur en particulier ou un canal tout entier. 
+La commande \emph{msg} sera utlisée lorsque l'on désirera entrer en communication avec un utilisateur en particulier ou un canal tout entier. De plus, lorsque l'onglet selectionne est un canal, la validation d'un texte ne commencant pas par un slash en fera l'envoi vers le canal actif.
 \\\\
 \textit{Syntaxe : /msg <nick ou canal> <texte à envoyer>}
 
@@ -101,20 +121,20 @@ La commande \emph{msg} sera utlisée lorsque l'on désirera entrer en communicatio
 
 L'utilisateur utilisera la commande \emph{part} lorsqu'il désirera quitter ou détruire un canal.
 \\\\
-\textit{Syntaxe : /part (<raison>)}
+\textit{Syntaxe : /part <canal>}
 
 \subsubsection{La commande \emph{kick}}
 
 Si le modérateur du canal n'est pas très enjoué par le comportement de certains utlisateurs, il n'aura qu'à effectuer une commande \emph{kick} pour l'éjecter
 violemment du dit-canal (à utiliser avec parcimonie sinon cela peut entraîner une forte dépendance voir la mort).
 \\\\
-\textit{Syntaxe : /kick <nick> (<raison>)}
+\textit{Syntaxe : /kick <canal> <nick> (<raison>)}
 
 \subsubsection{La commande \emph{quit}}
 
 L'utilisateur se servira de la commande \emph{quit} s'il désire quitter le serveur courant.
 \\\\
-\textit{Syntaxe : /quit}
+\textit{Syntaxe : /quit <raison>}
 
 
 \end{document}
