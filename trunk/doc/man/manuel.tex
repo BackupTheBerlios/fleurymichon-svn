@@ -45,21 +45,37 @@ Nicolas \bsc{Vernot} \\
 
 \chapter{Le serveur Fleury}
 
-\section{installation}
+\section{Installation}
 
-\section{utilisation}
+\section{Utilisation}
 
 
 \chapter{Le client Michon}
 
-Michon est un client irc fait selon les normes IRC fixees par la RFC. Ainsi donc il ne devrait poser aucun problemes a communiquer avec tous serveurs irc que 'on pourra trouver faits a cette norme. Les paragraphes suivants vous permettront de vous familiariser avec l'utilisation de ce client.
+Michon est un client IRC fait selon les normes IRC fixees par la RFC. Ainsi donc il ne devrait poser aucun problemes a communiquer avec tous serveurs irc que l'on pourra trouver faits a cette norme. Les paragraphes suivants vous permettront de vous familiariser avec l'utilisation de ce client.
 
-\section{installation}
+\section{Installation}
 
+L'installation du client Michon est exclusivement realisee apres compilation depuis les fichiers sources du programme, disponibles en format compresse dans une tarball. Cependant la compilation depend des bibliotheques de developpement standard et Qt 3.
+\\\\
+Pour installer Michon il suffit d'entrer les commandes suivantes :
+\\\\
+Pour creer un nouveau repertoire : \\
+\verb+mkdir michon+ \\\\
+Pour deplacer la tarball dans le repertoire : \\
+\verb+mv michon-1.0.tgz michon+ \\\\
+Pour entrer dans le repertoire : \\
+\verb+cd michon+ \\\\
+Pour extraire la tarball : \\
+\verb+tar -xzvf michon-1.0.tgz+ \\\\
+Pour compiler : \\
+\verb+qmake && make+ \\\\
+Pour executer Michon : \\
+\verb+./michon+
 
-\section{utilisation}
+\section{Utilisation}
 
-Afin d'utiliser irc, l'utilisateur du client doit faire savoir ce qu'il souhaite faire a travers de commandes comprehensibles par le serveur et le client. Les commandes utilisables en question sont enumerees par la suite afin d'indiquer ce qui vous est disponible et comment utiliser le client.
+Afin d'utiliser IRC, l'utilisateur du client doit faire savoir ce qu'il souhaite faire a travers des commandes comprehensibles par le serveur et le client. Les commandes utilisables en question sont enumerees par la suite afin d'indiquer ce qui vous est disponible et comment utiliser le client.
 
 \subsubsection{La commande \emph{connect}}
 
