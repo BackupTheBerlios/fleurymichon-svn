@@ -1,3 +1,79 @@
-\section{Repository}
+\section{Programmation Qt}
 
-\section{Site web}
+\subsection{C++ et langage objet}
+
+\subsection{Mise en place de l'interface}
+
+\subsection{Création de la classe \emph{c\_client}}
+
+La classe \emph{c\_client} dérive de la classe système \emph{QSocket}. En effet, le socket possède les informations nécessaire à l'établissement d'une connexion sur un serveur local ou distant. Cette classe se chargera d'établir un lien entre les signaux envoyés par le socket et les slots (fonctions) contenant les actions à effectuer lors de la réception d'un signal. 
+
+\subsubsection{Etablissement de la connexion}
+
+Le constructeur prend en paramètres deux informations indispensables à une éventuelle liaison client-serveur : l'adresse de l'hôte ainsi que son port d'écoute (par défaut, le port utilisé pour l'IRC est 6667). La connexion est alors établie grâce à la fonction \emph{connectToHost} de la classe \emph{QSocket}. Le socket se charge par la suite de nous envoyer un signal pour nous rapporter l'état de la communication avec le serveur. Si la connexion s'est bien déroulée, nous recevons un signal \emph{connected} sinon un signal d'erreur associé à un entier, qui nous permettra alors de connaître la nature de l'erreur.
+
+\subsubsection{Communication avec le serveur}
+
+L'envoi des messages au serveur se fait par l'intermédiaire du slot \emph{sendToServer()} chargé de la création d'un flux \emph{QTextStream} à partir du socket. Pour faire parvenir les informations jusqu'au serveur, nous redigeons le texte contenu dans la ligne d'édition de notre application vers ce flux. Le serveur répond alors au client et nous récupérons les informations grâce au slot \emph{socketReadyRead()} utilisant en boucle la fonction \emph{canReadLine()} de la classe \emph{QSocket}. 
+
+\subsubsection{Fermeture de la connexion}
+
+Lors de la réception d'un signal \emph{connexionClosed}, nous fermons la connexion grâce à la fonction \emph{close()} de la classe \emph{QSocket}. 
+
+\subsection{Autres classes}
+
+\subsubsection{La classe \emph{QTabWidget}}
+
+Les composants appartenant à la classe \emph{QTabWidget} sont très pratiques puisqu'ils permettent de superposer plusieurs pages, contenant chacune des composants spécifiques, sur une même surface graphique. Cela évite par exemple l'invasion hostile du bureau de l'utilisateur par une myriade incontrolable et frénétiquement clignotante de fenêtres de conversation.
+
+\subsubsection{La classe \emph{QPushButton}}
+
+La classe \emph{QPushButton} est aussi très utile, elle permet de construire des boutons qui permettent à l'utilisateur d'ordonner des actions à l'application, chaque bouton correspond à une fonction bien particulière : valider une commande, se connecter, envoyer un message, quitter l'application\ldots 
+
+\subsubsection{La classe \emph{QLineEdit}}
+
+Les composants appartenant à la classe \emph{QLineEdit} aspirent également à des utilisations très bénéfiques permettant à l'utilisateur d'entrer des données au clavier, comme par exemple des paramètres, un message à envoyer\ldots
+
+\subsubsection{La classe \emph{QTextEdit}}
+
+La classe \emph{QTextEdit}, quant à elle, nous sert principalement pour l'affichage, pour mémoriser les conversations, les évenements concernant les apparitions et disparitions d'autres utilisateurs et les événements relatifs à la connexion réseau.
+
+\section{Implémentation des commandes de base}
+
+Comme expliquée dans les parties précédentes, le client se doit de communiquer avec le serveur pour pouvoir agir correctement.  Il nous semblait nécessaire de s'intéresser à quelques commandes de bases et de les implémenter avec le plus grand soin. Il va s'en dire que nous implémentons ces commandes aux normes fixées par la RFC correspondante au protocole IRC. 
+
+\subsection{La commande \emph{connect}}
+
+C'est elle qui va établir une connexion avec le serveur (par défaut \emph{localhost} sur le port 6667), en lui envoyant la combinaison de requêtes NICK, USER et PASS, dont les paramètres seront définis par l'utilisateur dans l'onglet \emph{Settings}. 
+\\\\
+\textit{Syntaxe : /connect <adresse de l'hôte> (<port>)}
+
+\subsection{La commande \emph{join}}
+
+Lorsque l'utilisateur désira créer ou rejoindre un canal, il n'aura qu'à utiliser la commande \emph{join}, en lui spécifiant en argument le nom du canal en question (précédé d'un dièse).
+\\\\
+\textit{Syntaxe : /join <canal>}
+
+\subsection{La commande \emph{msg}}
+
+La commande \emph{msg} sera utlisée lorsque l'on désirera entrer en communication avec un utilisateur en particulier ou un canal tout entier. 
+\\\\
+\textit{Syntaxe : /msg <nick ou canal> <texte à envoyer>}
+
+\subsection{La commande \emph{part}}
+
+L'utilisateur utilisera la commande \emph{part} lorsqu'il désirera quitter ou détruire un canal.
+\\\\
+\textit{Syntaxe : /part (<raison>)}
+
+\subsection{La commande \emph{kick}}
+
+Si le modérateur du canal n'est pas très enjoué par le comportement de certains utlisateurs, il n'aura qu'à effectuer une commande \emph{kick} pour l'éjecter violemment du dit-canal (à utiliser avec parcimonie sinon cela peut entraîner une forte dépendance voir la mort).
+\\\\
+\textit{Syntaxe : /kick <nick> (<raison>)}
+
+\subsection{La commande \emph{quit}}
+
+L'utilisateur se servira de la commande \emph{quit} s'il désire quitter le serveur courant.
+\\\\
+\textit{Syntaxe : /quit}

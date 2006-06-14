@@ -1,12 +1,10 @@
-\section{Serveur \bsc{Fleury}}
-
-\subsection{Impl\'{e}mentation du daemon}
+\section{Impl\'{e}mentation du daemon}
 
 Pour que l'application serveur puisse fonctionner convenablement, elle doit gagner son indépendance par rapport à la console depuis laquelle elle est appelée, devenant ainsi un daemon, c'est-à-dire une application résidant en mémoire et qui s'éxécute invisiblement en tâche de fond. Pour ce faire, nous avons utilisé principalement les fonctions \emph{fork()} et \emph{setsid()} afin d'isoler le processus du serveur Fleury de la console depuis laquelle il a été éxécuté. Ainsi, l'instance de Fleury nouvellement créée est détachée de la console, ce qui permet à l'utilisateur d'en reprendre le contrôle pendant que le serveur tourne en background. Donc le processus de l'application serveur se duplique et le processus originel quitte, ce qui donne un nouveau processus sans père, qui ne risque plus d'influencer le shell, qui en était le processus père auparavant. 
 \\
 Sous Linux, contrairement à \textbf{bash} et les autres commandes éxécutées par \textbf{bash}, Fleury est un processus indépendant de la console (\textbf{?} au lieu de \textbf{pts/0}).
 
-\subsection{Sockets et protocole TCP}
+\section{Sockets et protocole TCP}
 
 Lorsqu'on évoque la notion de programmation réseau, on ne peut passer outre le concept de socket. Un socket est la combinaison d'un port et d'une adresse IP permettant de déterminer de manière unique une application éxécutée sur une machine. La communication via socket est souvent comparée à une communication humaine et on peut distinguer deux modes : 
 \begin{itemize}
@@ -16,34 +14,94 @@ Lorsqu'on évoque la notion de programmation réseau, on ne peut passer outre le c
 
 Comme dans le cas de l'ouverture d'un fichier, la communication par socket utilise un descripteur pour désigner la connection sur laquelle on envoie ou reçoit les données. Ainsi la première opération à effectuer consiste à appeler une fonction créant un socket et retournant un descripteur (un entier) identifiant de manière unique la connection. Ainsi ce descripteur est passé en paramètres des fonctions permettant d'envoyer ou recevoir des informations à travers le socket. Pour ce faire, nous avons fait appel aux fonctions et aux structure présentes dans la librairie standard \emph{sys/socket.h}. De plus, l'échange d'informations par le biais de sockets peut se faire à l'aide de simples fonctions de formatages de chaînes de caractères haut niveau comme \textit{fscanf()}, \textit{fprintf()}, \textit{fgets()} \ldots
 
-\subsection{Multi-threading}
+\section{Multi-threading}
 
 Pour plus de souplesse dans l'application serveur, nous avons fait appel au multi-threading. Un thread est un processus léger, ou encore une tâche qui a un rôle bien précis. L'avantage des threads est qu'on peut en éxécuter plusieurs qui fonctionneront en parallèle et qui auront accès aux mêmes données. Ainsi, une fois le serveur initialisé, l'application comporte un thread d'écoute, qui attend les connexions des clients et qui est chargé de générer un nouveau thread de traitement pour chaque client qui se connecte au serveur. Nous avons employé la bibliothèque de threads POSIX pour l'implémentation de ce sytème de traitement, ainsi le serveur peut fonctionner dans des environnements Linux et Cygwin mais Windows n'est pas exclu pour autant puisqu'un portage de cette bibliothèque pour ce système est disponible. Les identifiants des threads apparaissent entre crochets dans le log d'éxécution.
 
-\subsection{Commandes disponibles}
+\section{Commandes disponibles}
 
-\subsection{Gestion des modes}
+\subsection{La commande PASS}
 
-\subsubsection{Les modes des utilisateurs}
+La commande PASS intervient au début de l'établissement d'une connexion entre un  client et le serveur et sert à définir le mot de passe du client qui se connecte. Ce mot de passe sera utilisé plus tard, après l'implémentation de l'authentification dans le module de robots de gestion d'utilisateurs et de canaux.
+
+\subsection{La commande NICK}
+
+La commande NICK intervient également au début de la connexion et sert à définir le pseudonyme du client, qui sera utilisé pour dialoguer avec les autres clients. Elle peut également être utilisé par le client pendant une conversation pour changer de pseudonyme. 
+
+\subsection{La commande USER}
+
+La commande USER est utilisée par le client pour définir son login et son nom réel. Elle n'est utilisée que durant l'établissement de la connexion. 
+
+\subsection{Les commandes PING/PONG}
+
+La commande PING peut être utilisée indifféremment par les clients et serveurs pour vérifier l'état de la connexion avec n'importe quel autre client ou serveur cible, celui-ci devant répondre par un message PONG dans un délai dit de \og timeout \fg, avant d'être considéré comme déconnecté. Un message PING peut être envoyé à tous les clients par un serveur à intervalles réguliers pour fermer toutes les connexions fantômes, c'est-à-dire celles qui sont devenues inactives.
+
+\subsection{La commande JOIN}
+
+La commande JOIN est utilisée par un client pour rejoindre un canal dont il spécifiera le nom en paramètre. Le serveur envoie alors la commande JOIN avec le nom du nouveau venu à tous ceux qui sont présents sur le canal pour signaler son entrée. Le client est donc apte à dialoguer avec les autres sur ce canal. Heureusement, un client peut se connecter à plusieurs canaux en même temps.
+
+\subsection{La commande PART}
+
+La commande PART est utilisée par un client pour quitter un canal de discussion, cette commande sera alors broadcastée à tous les autres utilisateurs de ce canal.
+
+\subsection{La commande QUIT}
+
+La commande QUIT est utilisée par un client pour fermer la connexion avec le serveur. Le client peut passer en paramètre un éventuel message de départ.
+
+\subsection{La commande PRIVMSG}
+
+La commande PRIVMSG est utilisée lorsque un utilisateur désire s'adresser à un ou plusieurs utilisateurs du réseaux, mais également à un ou plusieurs canaux.
+
+\subsection{La commande LIST}
+
+La commande LIST est utilisée pour récupérer la liste des canaux visibles sur le serveur. Pour chaque canal, on reçoit plusieurs informations : le nom du canal, le nombre d'utilisateurs présents et le sujet de discussion relatif au canal.
+
+\subsection{La commande TOPIC}
+
+La commande TOPIC permet de récupérer ou de modifier le sujet de discussion d'un canal, il s'agit d'une phrase qui sert à définir l'intérêt du canal. En mode lecture, on reçoit également le pseudonyme de l'auteur du topic actuel ainsi que la date à laquelle il a été établi.
+
+\subsection{La commande KICK}
+
+La commande KICK est employée pour exclure un utilisateur d'un canal. On peut spécifier un motif d'expulsion pour justifier l'utilisation de la commande. Elle se révèle très pratique pour sanctionner le flood ou les propos calomnieux.
+
+\subsection{La commande NAMES}
+
+La commande NAMES sert à récupérer la liste des utilisateurs d'un canal, ainsi que leur mode sur ce canal, c'est-à-dire s'ils ont des privilèges \textit{opérateur} ou \textit{voice}.
+
+\subsection{La commande WHO}
+
+La commande WHO sert à afficher des informations détaillées sur un utilisateur en particulier ou bien sur tous les utilisateurs d'un canal.
+
+\subsection{La commande MODE}
+
+La commande MODE sert à consulter et définir les modes des canaux et des utilisateurs.
+
+\section{Gestion des modes}
+
+\subsection{Les modes des utilisateurs}
 
 Les modes des utilisateurs permettent de les caractériser dans certains traitements de messages. Ainsi le mode +i active l'invisibilité pour certaines commandes de recherche d'utilisateurs. le mode +o global identifie les IRCops (les administrateurs du serveur) et ne peut être modifié par l'utilisateur, il est défini par le serveur à la suite d'une authentification réussie avec la commande OPER. Un utilisateur avec le mode +w (wallop) activé recevra les messages de notification de l'état du réseau.
 
-\subsubsection{Les modes des canaux}
+\subsection{Les modes des canaux}
 
 Les modes des canaux permettent principalement de définir des restrictions. Le mode +t permet de restreindre la modification du topic aux opérateurs du canal. Le mode +n désactive les messages externes, c'est-à-dire ceux émanant d'utilisateurs étrangers au canal. Le mode +m restreint la parole aux \textit{opérateurs} et \textit{voices}. Le mode +l définit le nombre maximal d'utilisateurs sur un canal. Le mode +k permet de définir un mot de passe pour le canal. Le mode +s rend le canal secret. Le mode +i le rend accessible sur invitation uniquement.
 
-\subsubsection{Les modes des utilisateurs sur les canaux}
+\subsection{Les modes des utilisateurs sur les canaux}
 
 Le mode +b permet d'ajouter un masque de bannissement à la liste du canal pour interdire l'accès aux utilisateurs filtrés par ce masque. Les modes +o et +v permettent d'accorder des privilèges aux utilisateurs.
 
-\subsection{Gestion des erreurs}
+\section{Gestion des erreurs}
 
 La RFC 1459 définit un certain nombres de messages d'erreurs permettant ainsi au serveur de gérer ces dernières de manière ordonné et efficace. Chaque réponse est présentée avec son numéro, son nom, et sa chaîne de réponse (en anglais). Par exemple, si un message est envoyé à un utilisateur inexistant, la réponse d'erreur sera : 401 ERR\_NOSUCHNICK "<pseudonyme> :No such nick/channel".
 
-\subsection{Optimisations}
+\section{Optimisations}
 
 Certaines sections du code du serveur nécessitent des traitements de listes particulièrement délicats. Nous avions utilisé des définitions de fonctions imbriquées dans d'autres. Nous savons que ce n'est pas du langage C mais cela compilait magiquement avec GCC. Cependant, consciencieux comme nous sommes, nous avons pris le soin d'éliminer la vingtaine de fonctions imbriquées que nous utilisions en ajoutant simplement quelques paramètres à nos fonctions de traitement.
 
-\section{Client \bsc{Michon}}
+
+
+
+
+
 
 
