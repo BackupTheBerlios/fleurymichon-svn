@@ -33,6 +33,42 @@ void fleury_irc_process(struct s_cl *pcl)
 	  /* ping timeout here */
 	  fprintf(pcl->out, "Ping timeout\r\n");
 	  fleury_socket_disconnect(pcl);
+	  ltemp = pcl->list_chans;
+	  while (ltemp)
+	    {
+	      pch = (struct s_user_ch *)&(ltemp->elt);
+	      pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, pcl->nick);
+
+	      if (!list_length(pch->pch->list_users))
+		{
+		  pch->pch->list_users = list_del_long(fleury_conf.list_ch, test_streq_ch, pch->pch->name);
+		}
+	      else
+		{
+		  ltemp2 = pch->pch->list_users;
+		  while (ltemp2)
+		    {
+		      pu = (struct s_ch_user *)&(ltemp2->elt);
+		      if (pu->pcl->tid != pcl->tid)
+			{
+			  fprintf(pu->pcl->out, ":%s!~%s@%s QUIT :Ping timeout\r\n", pcl->nick, pcl->user, pcl->host);
+			  
+#ifdef FLEURY_DEBUG
+			  fprintf(dbgout, "Fleury: [%lu;%lu] QUIT Broadcast (Ping timeout)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid));
+#endif
+			}
+		      ltemp2 = ltemp2->next;
+		    }
+		}
+	      
+	      /* a completer, ne gerer chaque destinataire qu'une fois */
+	      ltemp2 = ltemp;
+	      ltemp = ltemp->next;
+	      free(ltemp2);
+	    }
+	  
+	  fleury_conf.list_cl = list_del_long(fleury_conf.list_cl, test_streq_cl, pcl->nick);
+	  
 #ifdef FLEURY_DEBUG
 	  fprintf(dbgout, "Fleury: [%lu] Ping timeout\n", (unsigned long)(pcl->tid));
 #endif
@@ -181,41 +217,47 @@ void fleury_irc_process(struct s_cl *pcl)
 				    {
 				      pch = (struct s_user_ch *)&(ltemp->elt);
 				      pch->pch->list_users = list_del_long(pch->pch->list_users, test_streq_cl_user, pcl->nick);
-				      ltemp2 = pch->pch->list_users;
-				      while (ltemp2)
+				      if (!list_length(pch->pch->list_users))
 					{
-					  pu = (struct s_ch_user *)&(ltemp2->elt);
-					  if (pu->pcl->tid != pcl->tid)
+					  fleury_conf.list_ch = list_del_long(fleury_conf.list_ch, test_streq_ch, pch->pch->name);
+					}
+				      else
+					{
+					  ltemp2 = pch->pch->list_users;
+					  while (ltemp2)
 					    {
-					      if (*fleury_irc_param == ':')
+					      pu = (struct s_ch_user *)&(ltemp2->elt);
+					      if (pu->pcl->tid != pcl->tid)
 						{
-						  fprintf(pu->pcl->out, ":%s!~%s@%s QUIT %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
-					      
+						  if (*fleury_irc_param == ':')
+						    {
+						      fprintf(pu->pcl->out, ":%s!~%s@%s QUIT %s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
+						      
 #ifdef FLEURY_DEBUG
-						  fprintf(dbgout, "Fleury: [%lu;%lu] QUIT Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
+						      fprintf(dbgout, "Fleury: [%lu;%lu] QUIT Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
 #endif
+						    }
 						}
 					      else
 						{
 						  fprintf(pu->pcl->out, ":%s!~%s@%s QUIT :%s\r\n", pcl->nick, pcl->user, pcl->host, fleury_irc_param);
-					      
+						  
 #ifdef FLEURY_DEBUG
 						  fprintf(dbgout, "Fleury: [%lu;%lu] QUIT Broadcast (%s)\n", (unsigned long)(pcl->tid), (unsigned long)(pu->pcl->tid), fleury_irc_param);
 #endif
-
+						
 						}
+					      ltemp2 = ltemp2->next;
 					    }
-					  ltemp2 = ltemp2->next;
 					}
-
+				    
 				      /* a completer, ne gerer chaque destinataire qu'une fois */
 				      ltemp2 = ltemp;
 				      ltemp = ltemp->next;
 				      free(ltemp2);
 				    }
-				  
 				  fleury_conf.list_cl = list_del_long(fleury_conf.list_cl, test_streq_cl, pcl->nick);
-
+				  
 				  fleury_socket_disconnect(pcl);
 #ifdef FLEURY_DEBUG
 				  fprintf(dbgout, "Fleury: [%lu] QUIT (%s)\n", (unsigned long)(pcl->tid), fleury_irc_param);
