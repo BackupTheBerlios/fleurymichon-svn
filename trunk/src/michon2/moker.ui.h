@@ -25,25 +25,24 @@ void MyDialog1::tSlot()
 
 void MyDialog1::OpenChannel(QString s)
 {
-    QString *stext = new QString("text");
     QHHBox *hb = new QHHBox();        
-    QTextEdit *te = new QTextEdit(hb, QString((s + *stext)).ascii());
-    QListBox *lb = new QListBox(hb, 0, 0);   
+    QTextEdit *te = new QTextEdit(hb);
+    QListBox *lb = new QListBox(hb);
     
     QRefChan *rc = new QRefChan();
-    rc->setItems(te, lb, new QString(s));
     ((c_client *)michon)->lchan->append(rc);
-    
     
     hb->setStretchFactor(te, 4);
     hb->setStretchFactor(lb, 1);  
     hb->setItems(te, lb);
     tabWidget->addTab(hb, s);  
+    rc->setItems(te, lb, new QString(s), tabWidget->page(tabWidget->count() - 1));
     //connect(SIGNAL(textChanged(), MyDialog1, SLOT());
 }
 
 void MyDialog1::valSlot()
 {    
+    QRefChan *rc;     
     struct commande * cmd;
     const char *s;
     int n;
@@ -55,7 +54,6 @@ void MyDialog1::valSlot()
     {
 	if (!strncmp(theEdit->text(), "/join ", 6))
 	{
-	    userslist->clear();
 	    OpenChannel(theEdit->text().ascii() + 6);
 	    ((c_client *)michon)->sendToServer("JOIN " + QString(theEdit->text().ascii() + 6) + "\r\n");
 	}
@@ -69,7 +67,6 @@ void MyDialog1::valSlot()
 	    {
 		if(!strncmp(theEdit->text().ascii(), "/quit", 5))
 		{
-		    userslist->clear();
 		    ((c_client *)michon)->sendToServer("QUIT :" + QString(theEdit->text().ascii() + 6) + "\r\n");
 		    ((c_client *)michon)->closeConnection();
 		}
@@ -87,9 +84,14 @@ void MyDialog1::valSlot()
 		    {	
 			if(!strncmp(theEdit->text().ascii(), "/part ", 6))
 			{
-			    userslist->clear();
 			    ((c_client *)michon)->sendToServer("PART " + QString(theEdit->text().ascii() + 6) + "\r\n");
-		    }
+			    rc = findchan(new QString(theEdit->text().ascii() + 6), ((c_client *)michon)->lchan);
+			    if (rc)
+			    {
+				tabWidget->removePage(rc->pt);
+				delchan(new QString(theEdit->text().ascii() + 6), ((c_client *)michon)->lchan);
+			    }			    
+			}
 			else	
 			{
 
@@ -124,6 +126,7 @@ void MyDialog1::valSlot()
     else
     {
 	//envoi d'un message
+	
     }
     
     theEdit->setText("");
