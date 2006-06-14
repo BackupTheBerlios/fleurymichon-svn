@@ -91,7 +91,7 @@ void c_client::socketReadyRead()
 		    
 		    if (rc)
 		    {
-			if (strncmp(nick, (mydlg->lineEditNick->text()).ascii(), k))
+			if (strcmp(nick, (mydlg->lineEditNick->text()).ascii()))
 			{
 			    rc->lb->insertItem(QString(nick),-1);
 			}
@@ -201,6 +201,7 @@ void c_client::socketReadyRead()
 				    }	
 				    if (i < rc->lb->count()) 
 				    {
+					rc->te->append(QString(nick) + " has disconnected (" + s.mid(s.find(':', 1) + 1, s.find('\r') - s.find(':',1) - 1) + ")" + "\r\n");
 					rc->lb->removeItem(i);
 				    }
 				    rc = cl->next();
